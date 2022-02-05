@@ -15,9 +15,17 @@ MonoBehaviour:
   _hingeDist: 0.25
   _hingeAngularDrag: 200
   _partMass: 1
-  _angleRange: 10
+  _angleRange: 25
   _partDescs:
   - prefab: {fileID: 4457711379558403026, guid: e33712fab6bc9854aacaeff9e94c58a6, type: 3}
     count: 1
   - prefab: {fileID: -1223508938271819481, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
     count: 3
+  _invicibleTimeOnCollision: 1
+  _giftDescs:
+  - type:
+      val: 1
+    count: 0
+  - type:
+      val: 0
+    count: 0

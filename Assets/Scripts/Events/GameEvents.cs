@@ -24,6 +24,11 @@ public interface IGameScoreHandler
     void OnGameScoreChange(GameScoreEventData eventData);
 }
 
+public interface IWagonCollisionHandler
+{
+    void OnWagonCollide(WagonCollisionEventData eventData);
+}
+
 public class LevelStageEventData : GameEventData
 {
     public float speedMultiplier;
@@ -48,6 +53,14 @@ public class GameScoreEventData : GameEventData
         this.targetScore = targetScore;
     }
 }
+public class WagonCollisionEventData : GameEventData
+{
+    public int partCount;
+    public WagonCollisionEventData(int partCount)
+    {
+        this.partCount = partCount;
+    }
+}
 
 public struct InterfaceMethodPair
 {
@@ -61,6 +74,7 @@ public static class EventStub
     {
         new InterfaceMethodPair { type = typeof(ITestEvent), methodName = "OnEvent" },
         new InterfaceMethodPair { type = typeof(ILevelStageHandler), methodName = "OnGameStageEnter" },
-        new InterfaceMethodPair { type = typeof(IGameScoreHandler), methodName = "OnGameScoreChange" }
+        new InterfaceMethodPair { type = typeof(IGameScoreHandler), methodName = "OnGameScoreChange" },
+        new InterfaceMethodPair { type = typeof(IWagonCollisionHandler), methodName = "OnWagonCollide" }
     };
 }

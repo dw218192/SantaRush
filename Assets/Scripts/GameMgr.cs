@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameMgr : MonoBehaviour
+public class GameMgr : MonoBehaviour, IWagonCollisionHandler
 {
     public enum GameState
     {
@@ -198,5 +198,11 @@ public class GameMgr : MonoBehaviour
     {
         State = GameState.OVER;
         SceneManager.LoadScene(GameConsts.k_MainSceneIndex);
+    }
+
+    public void OnWagonCollide(WagonCollisionEventData eventData)
+    {
+        if (eventData.partCount == 1)
+            FailGame();
     }
 }

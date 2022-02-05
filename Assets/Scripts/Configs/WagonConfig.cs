@@ -4,12 +4,56 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
+
 [Serializable]
 public struct WagonPartDesc
 {
     [AllowNesting]
     [Label("车厢种类")]
     public WagonPart prefab;
+
+    [AllowNesting]
+    [Label("数量")]
+    public uint count;
+}
+
+
+public class GiftTypeDropdownAttribute : PropertyAttribute
+{
+    public string label;
+    public GiftTypeDropdownAttribute(string label)
+    {
+        this.label = label;
+    }
+}
+
+[Serializable]
+public class GiftType : IComparable<GiftType>
+{
+    public static readonly GiftType INVALID = new GiftType(-1);
+    public static readonly GiftType GREEN = new GiftType(0);
+    public static readonly GiftType BLUE = new GiftType(1);
+    public static readonly GiftType RED = new GiftType(2);
+    public static readonly GiftType PURPLE = new GiftType(3);
+    public static readonly GiftType ORANGE = new GiftType(4);
+
+    public int val;
+    GiftType(int val)
+    {
+        this.val = val;
+    }
+
+    public int CompareTo(GiftType other)
+    {
+        return val.CompareTo(other.val);
+    }
+}
+
+[Serializable]
+public class GiftDesc
+{
+    [GiftTypeDropdown("礼物种类")]
+    public GiftType type;
 
     [AllowNesting]
     [Label("数量")]
@@ -26,7 +70,7 @@ public class WagonConfig : ScriptableObject
     float _hingeDist = 1f;
     
     [SerializeField]
-    [Range(0, 50)]
+    [Range(0, 500)]
     [Label("摆动阻力")]
     float _hingeAngularDrag = 5f;
     
@@ -46,9 +90,21 @@ public class WagonConfig : ScriptableObject
     [Label("车厢组件")]
     WagonPartDesc[] _partDescs = null;
 
+    [Header("游戏参数")]
+    [SerializeField]
+    [Range(0, 50)]
+    [Label("碰撞后无敌时间")]
+    float _invicibleTimeOnCollision = 3;
+
+    [SerializeField]
+    [ReorderableList]
+    [Label("初始礼物")]
+    GiftDesc[] _giftDescs = null;
+
     public float HingeDist { get => _hingeDist; }
     public float HingeAngularDrag { get => _hingeAngularDrag; }
     public float PartMass { get => _partMass; }
     public float AngleRange { get => _angleRange; }
     public WagonPartDesc[] PartDescs { get => _partDescs; }
+    public float InvicibleTimeOnCollision { get => _invicibleTimeOnCollision; }
 }

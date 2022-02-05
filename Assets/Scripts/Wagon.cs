@@ -6,13 +6,16 @@ using System;
 public class Wagon : MonoBehaviour
 {
     [SerializeField] WagonConfig _config = null;
+
+
+    // runtime
     Rigidbody2D _rgBody = null;
     List<WagonPart> _parts = new List<WagonPart>();
     Transform _partParent = null;
-
     Vector2 _velocity;
     float _smoothTime;
     Vector2? _targetPos = null;
+    bool _isInvincible = false;
 
     public void SetTarget(Vector2 pos, float speed)
     {
@@ -32,7 +35,8 @@ public class Wagon : MonoBehaviour
     {
         WagonPart last = _parts.Count > 0 ? _parts[_parts.Count - 1] : null;
         WagonPart new_part = Instantiate(prefab, _partParent);
-        
+        new_part.parent = this;
+
         Vector2 local_pos;
 
         if (last != null)
@@ -74,15 +78,64 @@ public class Wagon : MonoBehaviour
         _parts.Add(new_part);
     }
 
-    /*
-    private void OnValidate()
+    // remove a wagon part from the right
+    public bool RemoveEnd()
     {
-        if (_hingeDist < 0)
-            _hingeDist = -_hingeDist;
-        if (_angleRange < 0)
-            _angleRange = -_angleRange;
+        if (_parts.Count == 1 || _isInvincible)
+            return false;
+
+        WagonPart last = _parts[_parts.Count - 1];
+        WagonPart new_last = _parts.Count >= 2 ? _parts[_parts.Count - 2] : null;
+
+        // make the last part do a free fall
+        Rigidbody2D rigidbody = last.RigidBody;
+        rigidbody.gravityScale = 1;
+        last.HingeJoint.enabled = false;
+        last.gameObject.AddComponent<OutOfViewDestroyer>();
+
+        _parts.RemoveAt(_parts.Count - 1);
+
+        if(new_last != null)
+            new_last.HingeJoint.connectedBody = _rgBody;
+
+        TurnInvincible();
+        return true;
     }
-    */
+
+    public int PartCount()
+    {
+        return _parts.Count;
+    }
+
+    void TurnInvincible()
+    {
+        if (_isInvincible)
+            return;
+
+        IEnumerator _routine()
+        {
+            _isInvincible = true;
+
+            foreach (WagonPart part in _parts)
+            {
+                Color col = part.Renderer.color;
+                col.a *= 0.5f;
+                part.Renderer.color = col;
+            }
+
+            yield return new WaitForSeconds(_config.InvicibleTimeOnCollision);
+
+            foreach (WagonPart part in _parts)
+            {
+                Color col = part.Renderer.color;
+                col.a *= 2f;
+                part.Renderer.color = col;
+            }
+            _isInvincible = false;
+        }
+
+        StartCoroutine(_routine());
+    }
 
     private void Awake()
     {
@@ -130,6 +183,5 @@ public class Wagon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(HingeJoint2D), typeof(SpriteRenderer))]
+[RequireComponent(typeof(HingeJoint2D), typeof(SpriteRenderer), typeof(Hurtbox))]
 public class WagonPart : MonoBehaviour
 {
     HingeJoint2D _hingeJoint = null;
@@ -27,15 +27,30 @@ public class WagonPart : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public SpriteRenderer Renderer
     {
-        
+        get
+        {
+            if (_rend == null) _rend = GetComponent<SpriteRenderer>();
+            return _rend;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    Collider2D _collider = null;
+    public Collider2D Collider
     {
-        
+        get
+        {
+            if (_collider == null) _collider = GetComponent<Collider2D>();
+            return _collider;
+        }
+    }
+
+    public Wagon parent { get; set; }
+
+    public void OnWagonCollision()
+    {
+        if(parent.RemoveEnd())
+            GameConsts.eventManager.InvokeEvent(typeof(IWagonCollisionHandler), new WagonCollisionEventData(parent.PartCount()));
     }
 }
