@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     Spawner _giftSpawner = null;
     Wagon _wagon = null;
     Vector2 _prevMousePos = Vector2.zero;
+    
 
     private void OnEnable()
     {
@@ -83,18 +84,23 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 pos = Mouse.current.position.ReadValue();
 
-            float percentage = Mathf.Abs(pos.y - _prevMousePos.y) / Screen.height;
-            if (percentage > _tolerance)
+            float percentY = Mathf.Abs(pos.y - _prevMousePos.y) / Screen.height;
+            float percentX = Mathf.Abs(pos.x - _prevMousePos.x) / Screen.width;
+            float percent = Mathf.Max(percentX, percentY);
+            if (percent > _tolerance)
             {
-                float speed = _speed * (1 + percentage);
-
-                Vector2 viewSize = new Vector2(_cam.orthographicSize * _cam.aspect, _cam.orthographicSize);
-                Vector2 viewMin = _cam.transform.InverseTransformPoint(-viewSize);
-                Vector2 viewMax = _cam.transform.InverseTransformPoint(viewSize);
-
+                float speed = _speed * (1 + percent);
                 Vector2 worldDelta = _cam.ScreenToWorldPoint(pos) - _cam.ScreenToWorldPoint(_prevMousePos);
+                
+                //bounds calculation
+                Vector2 viewSize = new Vector2(_cam.orthographicSize * _cam.aspect, _cam.orthographicSize);
+                Vector2 offset =  (Vector2)_wagon.transform.position - _wagon.WagonCenter;
+                Vector2 viewMin = (Vector2)_cam.transform.TransformPoint(-viewSize) + _wagon.WagonSize / 2 + offset;
+                Vector2 viewMax = (Vector2)_cam.transform.TransformPoint(viewSize) - _wagon.WagonSize / 2 + offset;
+                
+                // set target for the wagon
                 Vector2 target = new Vector2(
-                    Mathf.Clamp(_wagon.transform.position.x, viewMin.x, viewMax.x),
+                    Mathf.Clamp(_wagon.transform.position.x + worldDelta.x, viewMin.x, viewMax.x),
                     Mathf.Clamp(_wagon.transform.position.y + worldDelta.y, viewMin.y, viewMax.y));
                 
                 _wagon.SetTarget(target, speed);
@@ -107,4 +113,11 @@ public class PlayerController : MonoBehaviour
         Debug.Log("terminating drag");
     }
 
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        if(UnityEditor.EditorApplication.isPlaying)
+            Gizmos.DrawCube(_wagon.WagonCenter, _wagon.WagonSize);
+    }
+#endif
 }

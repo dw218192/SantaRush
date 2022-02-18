@@ -7,7 +7,6 @@ public class Wagon : MonoBehaviour
 {
     [SerializeField] WagonConfig _config = null;
 
-
     // runtime
     Rigidbody2D _rgBody = null;
     List<WagonPart> _parts = new List<WagonPart>();
@@ -16,6 +15,18 @@ public class Wagon : MonoBehaviour
     float _smoothTime;
     Vector2? _targetPos = null;
     bool _isInvincible = false;
+    Bounds _wagonBounds; // aggregate bounds of the entire wagon
+    public Vector2 WagonSize { get => _wagonBounds.size; }
+    public Vector2 WagonCenter 
+    { 
+        get
+        {
+            Vector2 center = Vector2.zero;
+            foreach (WagonPart part in _parts)
+                center += (Vector2)part.transform.position;
+            return center / _parts.Count;
+        }
+    }
 
     public void SetTarget(Vector2 pos, float speed)
     {
@@ -57,6 +68,7 @@ public class Wagon : MonoBehaviour
 
         new_part.transform.localPosition = local_pos;
 
+        // configure joints
         Rigidbody2D rigidbody = new_part.RigidBody;
         rigidbody.gravityScale = 0;
         rigidbody.angularDrag = _config.HingeAngularDrag;
@@ -75,6 +87,7 @@ public class Wagon : MonoBehaviour
         if(last != null)
             last.HingeJoint.connectedBody = new_part.RigidBody;
         new_part.HingeJoint.connectedBody = _rgBody;
+
         _parts.Add(new_part);
     }
 
@@ -84,27 +97,39 @@ public class Wagon : MonoBehaviour
         if (_parts.Count == 1 || _isInvincible)
             return false;
 
+        TurnInvincible();
+        
         WagonPart last = _parts[_parts.Count - 1];
         WagonPart new_last = _parts.Count >= 2 ? _parts[_parts.Count - 2] : null;
 
         // make the last part do a free fall
         Rigidbody2D rigidbody = last.RigidBody;
         rigidbody.gravityScale = 1;
+        rigidbody.velocity = Vector2.zero;
         last.HingeJoint.enabled = false;
         last.gameObject.AddComponent<OutOfViewDestroyer>();
 
         _parts.RemoveAt(_parts.Count - 1);
 
-        if(new_last != null)
+        if (new_last != null)
             new_last.HingeJoint.connectedBody = _rgBody;
+        
+        RecalculateBounds();
 
-        TurnInvincible();
         return true;
     }
 
     public int PartCount()
     {
         return _parts.Count;
+    }
+
+    void RecalculateBounds()
+    {
+        if(_parts.Count >= 1)
+            _wagonBounds = _parts[0].Renderer.bounds;
+        for(int i=1; i<_parts.Count; ++i)
+            _wagonBounds.Encapsulate(_parts[i].Renderer.bounds);
     }
 
     void TurnInvincible()
@@ -150,6 +175,7 @@ public class Wagon : MonoBehaviour
             for (int i = 0; i < desc.count; ++i)
                 AddPart(desc.prefab);
         }
+        RecalculateBounds();
     }
 
     // Start is called before the first frame update

@@ -161,7 +161,10 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
         _curTarget = _targetPool != null ? _targetPool.GetNextTarget() : null;
 
         GiftTargetScore = 0;
-        GiftTime += _curTarget.duration;
+        if (float.MaxValue - _curTarget.duration <= GiftTime)
+            GiftTime = float.MaxValue;
+        else
+            GiftTime += _curTarget.duration;
     }
 
     public void AddScore(int delta)

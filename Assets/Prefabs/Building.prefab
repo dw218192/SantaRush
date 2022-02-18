@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 1859395204169693706}
   - component: {fileID: 8160537773093576890}
   - component: {fileID: 1170236299024517560}
-  - component: {fileID: 5409032520936815444}
   - component: {fileID: 74080272320253582}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,18 +110,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.32}
   m_EdgeRadius: 0
---- !u!114 &5409032520936815444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4256866076824997607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61220c4064e6204409b03fcfef591fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &74080272320253582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8305156065648628359}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,9 +166,8 @@ GameObject:
   - component: {fileID: 4890768263584232383}
   - component: {fileID: 5630386754231253319}
   - component: {fileID: 6460357902485443089}
-  - component: {fileID: 2088215797370370538}
   - component: {fileID: 135315010929267341}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Chute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,18 +266,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32000002, y: 0.32}
   m_EdgeRadius: 0
---- !u!114 &2088215797370370538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4924219761462947644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61220c4064e6204409b03fcfef591fcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &135315010929267341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +290,7 @@ GameObject:
   - component: {fileID: 4878257488434956306}
   - component: {fileID: 5281773244499770609}
   - component: {fileID: 8418706355364527397}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GiftTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}

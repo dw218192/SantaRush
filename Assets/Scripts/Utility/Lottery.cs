@@ -9,13 +9,17 @@ public interface ILotteryItem
 
 public class Lottery
 {
-    List<(int, ILotteryItem)> _prefix = new List<(int, ILotteryItem)>(); // array of pairs in the format of ( weight prefix sum, index )
+    // array of pairs in the format of ( weight prefix sum, index )
+    List<(int, ILotteryItem)> _prefix = new List<(int, ILotteryItem)>(); 
     Random _rand = new Random();
 
     public Lottery(IEnumerable<ILotteryItem> items)
     {
         foreach(ILotteryItem item in items)
         {
+            if (item.GetWeight() == 0)
+                continue;
+            
             if (_prefix.Count == 0)
                 _prefix.Add((item.GetWeight(), item));
             else

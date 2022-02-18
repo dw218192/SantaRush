@@ -50,7 +50,6 @@ public class DebugMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     private void FixedUpdate()
@@ -74,8 +73,14 @@ public class DebugMgr : MonoBehaviour
                 GameObject.Find("Wagon").GetComponent<Wagon>().AddPart(wagonPartPrefab);
         }
 
-        r.x += butWidth + 10;
+        r.y += butDist;
+
         str = GUI.TextField(r, str);
+        r.x += butWidth + 10;
+        if (GUI.Button(r, "Set Time Scale"))
+        {
+            Time.timeScale = float.Parse(str);
+        }
         r.x -= butWidth + 10;
 
         r.y += butDist;

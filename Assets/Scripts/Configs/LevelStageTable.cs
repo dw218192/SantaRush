@@ -30,13 +30,13 @@ public class LevelStageTable : ScriptableObject
         [SerializeField]
         [AllowNesting]
         [Tooltip("初始的速度倍率，例子：1.2的意思就是1.2倍初始速度")]
-        [Label("初始倍率")]
+        [Label("初始速度")]
         float _initialMultiplier;
 
         [SerializeField]
         [AllowNesting]
         [Tooltip("最终的速度倍率，例子：1.2的意思就是1.2倍初始速度")]
-        [Label("最终倍率")]
+        [Label("最终速度")]
         float _finalMultiplier;
 
         public int numIntervals { get => _numIntervals; }

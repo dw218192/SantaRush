@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8a5cce114c7314c952c7df6bfefa9b, type: 3}
+  m_Name: BuildingPool
+  m_EditorClassIdentifier: 
+  _items:
+  - _prefab: {fileID: 4722187912583381770, guid: 88c1e5617b7e565459292b5af25727c3, type: 3}
+    _weight: 3
+  - _prefab: {fileID: 6196996516382739304, guid: 03b98c070850ba24f8a011a8d9a49938, type: 3}
+    _weight: 3
+  - _prefab: {fileID: 1919707084307212482, guid: c884adbe2c45f134c8153414cb2cf728, type: 3}
+    _weight: 1
+  - _prefab: {fileID: 5060872440857100180, guid: 33cc50ac48843064b94da456c4e45802, type: 3}
+    _weight: 2
+  - _prefab: {fileID: 6551090715359897932, guid: 5fa4afc807e57194fbb12581cdf64135, type: 3}
+    _weight: 1

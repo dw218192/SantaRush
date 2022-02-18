@@ -22,10 +22,4 @@ MonoBehaviour:
   - prefab: {fileID: -1223508938271819481, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
     count: 3
   _invicibleTimeOnCollision: 1
-  _giftDescs:
-  - type:
-      val: 1
-    count: 0
-  - type:
-      val: 0
-    count: 0
+  _giftDescs: []
