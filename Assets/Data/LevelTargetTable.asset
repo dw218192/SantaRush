@@ -13,15 +13,30 @@ MonoBehaviour:
   m_Name: LevelTargetTable
   m_EditorClassIdentifier: 
   _items:
-  - _giftNum: 5
-    _duration: 20
-    _weight: 2
   - _giftNum: 2
-    _duration: 10
-    _weight: 2
-  - _giftNum: 1
     _duration: 5
-    _weight: 2
+    _weight: 8
+  - _giftNum: 4
+    _duration: 13
+    _weight: 8
+  - _giftNum: 6
+    _duration: 18
+    _weight: 8
   - _giftNum: 10
-    _duration: 20
-    _weight: 1
+    _duration: 30
+    _weight: 5
+  - _giftNum: 14
+    _duration: 40
+    _weight: 5
+  - _giftNum: 18
+    _duration: 50
+    _weight: 5
+  - _giftNum: 24
+    _duration: 69
+    _weight: 3
+  - _giftNum: 30
+    _duration: 84
+    _weight: 3
+  - _giftNum: 36
+    _duration: 99
+    _weight: 3

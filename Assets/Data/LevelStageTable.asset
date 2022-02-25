@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: LevelStageTable
   m_EditorClassIdentifier: 
   _speedChangeStat:
-    _numIntervals: 10
-    _intervalLength: 45
+    _numIntervals: 25
+    _intervalLength: 1
     _intervalStartTime: 0
-    _initialMultiplier: 1
-    _finalMultiplier: 7
+    _initialMultiplier: 1.8
+    _finalMultiplier: 3.4
