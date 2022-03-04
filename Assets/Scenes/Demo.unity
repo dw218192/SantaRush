@@ -524,6 +524,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1425318299813110178, guid: d74bbb9b791f37045a4355da57a61630, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3435288566168367599, guid: d74bbb9b791f37045a4355da57a61630, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
@@ -675,7 +679,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 858281690}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdbf923043fceb24b87d9d18a598b7e7, type: 3}
   m_Name: 

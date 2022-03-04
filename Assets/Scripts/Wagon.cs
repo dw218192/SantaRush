@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(PlayerController))]
 public class Wagon : MonoBehaviour
 {
     [SerializeField] WagonConfig _config = null;
@@ -12,8 +13,10 @@ public class Wagon : MonoBehaviour
     List<WagonPart> _parts = new List<WagonPart>();
     Transform _partParent = null;
     Vector2 _velocity;
-    float _smoothTime;
-    Vector2? _targetPos = null;
+    PlayerController _ctrl;
+/*    float _smoothTime;
+    Vector2? _targetPos = null;*/
+
     bool _isInvincible = false;
     Bounds _wagonBounds; // aggregate bounds of the entire wagon
     public Vector2 WagonSize { get => _wagonBounds.size; }
@@ -23,7 +26,7 @@ public class Wagon : MonoBehaviour
         {
             Vector2 center = Vector2.zero;
             foreach (WagonPart part in _parts)
-                center += (Vector2)part.transform.position;
+                center += new Vector2(part.transform.position.x, transform.position.y);
             return center / _parts.Count;
         }
     }
@@ -38,7 +41,7 @@ public class Wagon : MonoBehaviour
 
     public void UnsetTarget()
     {
-        _targetPos = null;
+        // _targetPos = null;
     }
 
     // add a wagon part to the right (append)
@@ -130,6 +133,8 @@ public class Wagon : MonoBehaviour
             _wagonBounds = _parts[0].Renderer.bounds;
         for(int i=1; i<_parts.Count; ++i)
             _wagonBounds.Encapsulate(_parts[i].Renderer.bounds);
+
+        _ctrl.UpdateWagonBounds();
     }
 
     void TurnInvincible()
@@ -167,7 +172,7 @@ public class Wagon : MonoBehaviour
         _partParent = new GameObject("parts").transform;
         _partParent.parent = transform;
         _partParent.localPosition = new Vector2(-_config.HingeDist, 0);
-
+        _ctrl = GetComponent<PlayerController>();
         _rgBody = gameObject.AddComponent<Rigidbody2D>();
 
         foreach (WagonPartDesc desc in _config.PartDescs)
@@ -175,6 +180,7 @@ public class Wagon : MonoBehaviour
             for (int i = 0; i < desc.count; ++i)
                 AddPart(desc.prefab);
         }
+
         RecalculateBounds();
     }
 
@@ -199,11 +205,11 @@ public class Wagon : MonoBehaviour
             _parts[i].RigidBody.AddForce(horizontalForce * _parts[i].RigidBody.mass);
         }
 
-        if(_targetPos != null)
+/*        if(_targetPos != null)
         {
             _rgBody.MovePosition(Vector2.SmoothDamp(transform.position, _targetPos.Value, ref _velocity, _smoothTime));
             Debug.DrawLine(_targetPos.Value, _targetPos.Value + Vector2.up, Color.red);
-        }
+        }*/
     }
 
     // Update is called once per frame

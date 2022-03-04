@@ -18,7 +18,28 @@ public class PlayerController : MonoBehaviour
     Spawner _giftSpawner = null;
     Wagon _wagon = null;
     Vector2 _prevMousePos = Vector2.zero;
-    
+
+    Vector2[] _wagonMoveBounds = new Vector2[2];
+
+    Wagon Wagon 
+    { 
+        get {
+            if (!_wagon)
+                _wagon = GetComponent<Wagon>();
+            return _wagon;
+        }
+        set => _wagon = value; 
+    }
+    Camera Cam
+    {
+        get
+        {
+            if (!_cam)
+                _cam = Camera.main;
+            return _cam;
+        }
+        set => _cam = value;
+    }
 
     private void OnEnable()
     {
@@ -40,9 +61,15 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _cam = Camera.main;
-        _wagon = GetComponent<Wagon>();
         _giftSpawner = GetComponent<Spawner>();
+    }
+
+    public void UpdateWagonBounds()
+    {
+        Vector2 viewSize = new Vector2(Cam.orthographicSize * Cam.aspect, Cam.orthographicSize);
+        Vector2 offset = (Vector2)Wagon.transform.position - Wagon.WagonCenter;
+        _wagonMoveBounds[0] = (Vector2)Cam.transform.TransformPoint(-viewSize) + Wagon.WagonSize / 2 + offset;
+        _wagonMoveBounds[1] = (Vector2)Cam.transform.TransformPoint(viewSize) - Wagon.WagonSize / 2 + offset;
     }
 
     // Start is called before the first frame update
@@ -92,16 +119,10 @@ public class PlayerController : MonoBehaviour
                 float speed = _speed * (1 + percent);
                 Vector2 worldDelta = _cam.ScreenToWorldPoint(pos) - _cam.ScreenToWorldPoint(_prevMousePos);
                 
-                //bounds calculation
-                Vector2 viewSize = new Vector2(_cam.orthographicSize * _cam.aspect, _cam.orthographicSize);
-                Vector2 offset =  (Vector2)_wagon.transform.position - _wagon.WagonCenter;
-                Vector2 viewMin = (Vector2)_cam.transform.TransformPoint(-viewSize) + _wagon.WagonSize / 2 + offset;
-                Vector2 viewMax = (Vector2)_cam.transform.TransformPoint(viewSize) - _wagon.WagonSize / 2 + offset;
-                
                 // set target for the wagon
                 Vector2 target = new Vector2(
-                    Mathf.Clamp(_wagon.transform.position.x + worldDelta.x, viewMin.x, viewMax.x),
-                    Mathf.Clamp(_wagon.transform.position.y + worldDelta.y, viewMin.y, viewMax.y));
+                    Mathf.Clamp(_wagon.transform.position.x + worldDelta.x, _wagonMoveBounds[0].x, _wagonMoveBounds[1].x),
+                    Mathf.Clamp(_wagon.transform.position.y + worldDelta.y, _wagonMoveBounds[0].y, _wagonMoveBounds[1].y));
                 
                 _wagon.SetTarget(target, speed);
             }
@@ -114,10 +135,19 @@ public class PlayerController : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
-        if(UnityEditor.EditorApplication.isPlaying)
+        if (UnityEditor.EditorApplication.isPlaying)
+        {
             Gizmos.DrawCube(_wagon.WagonCenter, _wagon.WagonSize);
+            Vector2 viewSize = new Vector2(_cam.orthographicSize * _cam.aspect, _cam.orthographicSize);
+            Vector2 offset = (Vector2)_wagon.transform.position - _wagon.WagonCenter;
+            Vector2 viewMin = (Vector2)_cam.transform.TransformPoint(-viewSize) + _wagon.WagonSize / 2 + offset;
+            Vector2 viewMax = (Vector2)_cam.transform.TransformPoint(viewSize) - _wagon.WagonSize / 2 + offset;
+
+            Gizmos.DrawSphere(viewMin, 0.1f);
+            Gizmos.DrawSphere(viewMax, 0.1f);
+        }
     }
 #endif
 }

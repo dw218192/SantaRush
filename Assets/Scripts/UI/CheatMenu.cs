@@ -6,11 +6,14 @@ using System.Reflection;
 
 public class CheatMenu : MonoBehaviour
 {
+#if UNITY_EDITOR
     [SerializeField] Text _timeScaleText;
     [SerializeField] Scrollbar _timeScaleScroll;
 
     [SerializeField] Button _infObjectiveButton;
     [SerializeField] Button _resetButton;
+    [SerializeField] Button _hideMenuButton;
+    [SerializeField] GameObject[] _hideItems;
 
     [SerializeField] LevelTargetPool _debugTargetPool;
 
@@ -19,18 +22,25 @@ public class CheatMenu : MonoBehaviour
     MethodInfo _targetChangeMeth;
 
     object _savedTargetPool = null;
+    bool _hidden = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        void ConfigBtn(Button but, string txt, UnityEngine.Events.UnityAction callback)
+        {
+            if(callback != null)
+                but.onClick.AddListener(callback);
+            but.GetComponentInChildren<Text>().text = txt;
+        }
+
         _timeScaleText.text = "时间速度";
         _timeScaleScroll.onValueChanged.AddListener(SetTimeScale);
         _timeScaleScroll.value = Time.timeScale;
 
-        _infObjectiveButton.GetComponentInChildren<Text>().text = "使用调试任务表";
-        _infObjectiveButton.onClick.AddListener(SetInfObjective);
-        _resetButton.GetComponentInChildren<Text>().text = "恢复(有bug)";
-        _resetButton.onClick.AddListener(Reset);
+        ConfigBtn(_infObjectiveButton, "使用调试任务表", SetInfObjective);
+        ConfigBtn(_resetButton, "恢复(有bug)", Reset);
+        ConfigBtn(_hideMenuButton, "X", ToggleHide);
 
         _targetPoolMember = typeof(GameMgr).GetField("_targetPool", BindingFlags.Instance | BindingFlags.NonPublic);
         _targetChangeMeth = typeof(GameMgr).GetMethod("GiftTargetChange", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -40,6 +50,13 @@ public class CheatMenu : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void ToggleHide()
+    {
+        _hidden = !_hidden;
+        foreach (var item in _hideItems)
+            item.SetActive(!_hidden);
     }
 
     void SetTimeScale(float scale)
@@ -64,4 +81,5 @@ public class CheatMenu : MonoBehaviour
             _targetPoolMember.SetValue(GameConsts.gameManager, _savedTargetPool);
         }
     }
+#endif
 }

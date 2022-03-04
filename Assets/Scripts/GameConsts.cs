@@ -8,4 +8,6 @@ public static class GameConsts
     public static GameMgr gameManager = null;
     public static EventMgr eventManager = null;
     public static UIMgr uiMgr = null;
+
+    public static DebugMgr debugMgr = null;
 }
