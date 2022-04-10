@@ -4,41 +4,56 @@ using UnityEngine;
 
 public class Scroller : MonoBehaviour, ILevelStageHandler
 {
-    [SerializeField] float _speed = 0;
+    [SerializeField] float _initSpeed = 0;
     [SerializeField] bool _usePhysics = false;
     Rigidbody2D _rb;
 
-    bool _valid;
-    float _initSpeed;
-    public float speed 
-    { 
-        get 
-        { 
-            return _speed; 
-        } 
-        set 
-        { 
-            _speed = value; 
-            _valid = !Mathf.Approximately(_speed, 0);
-            if(_usePhysics)
-                _rb.velocity = Vector2.right * _speed;
-        } 
+    Rigidbody2D Rb
+    {
+        get
+        {
+            if (_usePhysics)
+            {
+                _rb = gameObject.GetComponent<Rigidbody2D>();
+                if (_rb == null)
+                    _rb = gameObject.AddComponent<Rigidbody2D>();
+            }
+            return _rb;
+        }
+    }
+
+    bool _valid = true;
+    float _multiplier = 1;
+
+    public float BaseSpeed
+    {
+        get
+        {
+            return _initSpeed;
+        }
+        set
+        {
+            _initSpeed = value;
+
+            _valid = !Mathf.Approximately(_initSpeed, 0);
+            _multiplier = GameConsts.gameManager.TileSpeedMultiplier;
+
+            if (_valid)
+            {
+                if (_usePhysics)
+                    Rb.velocity = Vector2.right * _initSpeed * _multiplier;
+            }
+        }
     }
 
     private void Awake()
     {
-        if(_usePhysics)
-        {
-            _rb = gameObject.GetComponent<Rigidbody2D>();
-            if(_rb == null)
-                _rb = gameObject.AddComponent<Rigidbody2D>();
-        }
+
     }
 
     void Start()
     {
-        _initSpeed = _speed;
-        speed = _speed;
+        BaseSpeed = _initSpeed;
     }
 
     // Update is called once per frame
@@ -48,13 +63,16 @@ public class Scroller : MonoBehaviour, ILevelStageHandler
 
         if (!_usePhysics)
         {
-            Vector2 move = Vector2.right * speed * Time.deltaTime;
+            Vector2 move = Vector2.right * _initSpeed * _multiplier * Time.deltaTime;
             transform.Translate(move);
         }
     }
 
     public void OnGameStageEnter(LevelStageEventData eventData)
     {
-        speed = _initSpeed * eventData.speedMultiplier;
+        _multiplier = eventData.speedMultiplier;
+
+        if (_usePhysics)
+            Rb.velocity = Vector2.right * _initSpeed * _multiplier;
     }
 }

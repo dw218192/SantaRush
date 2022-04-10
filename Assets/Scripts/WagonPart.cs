@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(HingeJoint2D), typeof(SpriteRenderer), typeof(Hurtbox))]
 public class WagonPart : MonoBehaviour
@@ -46,11 +47,22 @@ public class WagonPart : MonoBehaviour
         }
     }
 
-    public Wagon parent { get; set; }
-
-    public void OnWagonCollision()
+    Hurtbox _hurtBox = null;
+    public Hurtbox Hurtbox
     {
-        if(parent.RemoveEnd())
-            GameConsts.eventManager.InvokeEvent(typeof(IWagonCollisionHandler), new WagonCollisionEventData(parent.PartCount()));
+        get
+        {
+            if (_hurtBox == null) _hurtBox = GetComponent<Hurtbox>();
+            return _hurtBox;
+        }
+    }
+    UnityEvent<Hitbox> _uevent = null;
+    public UnityEvent<Hitbox> OnPartHurt
+    {
+        get
+        {
+            if (_uevent == null) _uevent = GetComponent<Hurtbox>().onHit;
+            return _uevent;
+        }
     }
 }

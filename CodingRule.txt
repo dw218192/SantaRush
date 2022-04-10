@@ -1,0 +1,4 @@
+1. all global variables in GameConst should be registered after Awake()
+2. GameEvent should be invoked/broadcasted after Awake()
+3. AddComponent()
+	if the component to be added implements a game event, use AddComponentEx()`

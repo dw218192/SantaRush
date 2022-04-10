@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0515954f15e1aa2458080d4d2388a276, type: 3}
+  m_Name: WagonConfig
+  m_EditorClassIdentifier: 
+  _hingeDist: 0.25
+  _hingeAngularDrag: 200
+  _partMass: 1
+  _angleRange: 25
+  _partDescs:
+  - prefab: {fileID: 4457711379558403026, guid: e33712fab6bc9854aacaeff9e94c58a6, type: 3}
+    count: 1
+  - prefab: {fileID: -1223508938271819481, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
+    count: 3
+  _invicibleTimeOnCollision: 1
+  _giftDescs: []
+  _tolerance: 0.1
+  _moveUp:
+    m_Name: Move Up
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 3238f68b-6f49-4329-8058-7f812b97173a
+    m_Processors: 
+    m_Interactions: Press
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 587f770a-c7c6-4aca-8cbe-98faba5d29dd
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Up
+      m_Flags: 0
+  _deployGift:
+    m_Name: Deploy Gift
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: e5b805e1-66ec-4560-8dc6-31c45bb40690
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: c63c40eb-9db9-47ea-9019-91411991b83b
+      m_Path: <Mouse>/rightButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Deploy Gift
+      m_Flags: 0
+  _switchGift:
+    m_Name: Switch Gift
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 5da1c7f8-6d30-4039-9543-1152653c2d31
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+  _speed: 1
+  _deplpyCooldown: 1

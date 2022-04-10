@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 
+
 [CustomPropertyDrawer(typeof(GiftTypeDropdownAttribute))]
 public class GiftTypeDrawer : PropertyDrawer
 {
@@ -31,5 +32,55 @@ public class GiftTypeDrawer : PropertyDrawer
         {
             prop.intValue = _idx;
         }
+    }
+}
+
+
+[CustomPropertyDrawer(typeof(NPCHeightAttribute))]
+public class NPCHeightDrawer : PropertyDrawer
+{
+    readonly float kFieldHeight = EditorGUIUtility.singleLineHeight;
+    const float kFieldPadding = 1;
+    const int numFields = 3;
+
+    SpriteRenderer _rend;
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        return numFields * kFieldHeight;
+    }
+
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        Rect r = position;
+        r.height = kFieldHeight;
+
+        NPCHeightAttribute npcHeightAttrib = attribute as NPCHeightAttribute;
+        SerializedProperty prop = property.FindPropertyRelative("val");
+
+        EditorGUI.LabelField(r, npcHeightAttrib.label);
+        ++ EditorGUI.indentLevel;
+        
+        {
+            r.y += kFieldHeight + kFieldPadding;
+            EditorGUI.BeginChangeCheck();
+            {
+                _rend = (SpriteRenderer)EditorGUI.ObjectField(r, "拖入物体计算高度", _rend, typeof(SpriteRenderer), false);
+            }
+            if (EditorGUI.EndChangeCheck())
+            {
+                prop.floatValue = _rend.bounds.size.y;
+            }
+            
+            r.y += kFieldHeight + kFieldPadding;
+            EditorGUI.BeginDisabledGroup(true);
+            {
+                EditorGUI.FloatField(r, "当前高度", prop.floatValue);
+            }
+            EditorGUI.EndDisabledGroup();
+        }
+        
+        --EditorGUI.indentLevel;
+
+        property.serializedObject.ApplyModifiedProperties();
     }
 }

@@ -29,6 +29,9 @@ public class Lottery
 
     public ILotteryItem NextItem()
     {
+        if (_prefix.Count == 0)
+            return null;
+
         int minVal = _prefix[0].Item1, maxVal = _prefix[_prefix.Count - 1].Item1;
         int randVal = _rand.Next(minVal, maxVal);
 

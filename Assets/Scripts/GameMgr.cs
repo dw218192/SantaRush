@@ -150,10 +150,10 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
     void SpeedChange()
     {
         ++ _curSpeedChangeInterval;
-        float curMultiplier = Mathf.Lerp(_speedChangeStat.initialMultiplier, _speedChangeStat.finalMultiplier, 
+        TileSpeedMultiplier = Mathf.Lerp(_speedChangeStat.initialMultiplier, _speedChangeStat.finalMultiplier, 
             Mathf.Clamp01((LevelTime - _speedChangeStat.intervalStartTime) / _totalSpeedChangeTime));
 
-        GameConsts.eventManager.InvokeEvent(typeof(ILevelStageHandler), new LevelStageEventData(curMultiplier));
+        GameConsts.eventManager.InvokeEvent(typeof(ILevelStageHandler), new LevelStageEventData(TileSpeedMultiplier));
     }
 
     void GiftTargetChange()

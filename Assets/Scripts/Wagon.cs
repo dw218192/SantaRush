@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(PlayerController), typeof(HurtboxGroup))]
 public class Wagon : MonoBehaviour
 {
     [SerializeField] WagonConfig _config = null;
+    [SerializeField] Transform _giftSpawnSocket;
 
     // runtime
     Rigidbody2D _rgBody = null;
     List<WagonPart> _parts = new List<WagonPart>();
     Transform _partParent = null;
-    Vector2 _velocity;
+
     PlayerController _ctrl;
-/*    float _smoothTime;
-    Vector2? _targetPos = null;*/
+
+    Inventory _giftInventory = new Inventory();
+
+/*  
+    float _smoothTime;
+    Vector2? _targetPos = null;
+    Vector2 _velocity;
+*/
 
     bool _isInvincible = false;
     Bounds _wagonBounds; // aggregate bounds of the entire wagon
@@ -30,6 +37,8 @@ public class Wagon : MonoBehaviour
             return center / _parts.Count;
         }
     }
+
+    public WagonConfig Config { get => _config; }
 
     public void SetTarget(Vector2 pos, float speed)
     {
@@ -49,7 +58,6 @@ public class Wagon : MonoBehaviour
     {
         WagonPart last = _parts.Count > 0 ? _parts[_parts.Count - 1] : null;
         WagonPart new_part = Instantiate(prefab, _partParent);
-        new_part.parent = this;
 
         Vector2 local_pos;
 
@@ -91,17 +99,18 @@ public class Wagon : MonoBehaviour
             last.HingeJoint.connectedBody = new_part.RigidBody;
         new_part.HingeJoint.connectedBody = _rgBody;
 
+        // configure hurtbox
+        new_part.gameObject.layer = gameObject.layer;
+
         _parts.Add(new_part);
     }
 
     // remove a wagon part from the right
     public bool RemoveEnd()
     {
-        if (_parts.Count == 1 || _isInvincible)
+        if (_parts.Count == 1)
             return false;
 
-        TurnInvincible();
-        
         WagonPart last = _parts[_parts.Count - 1];
         WagonPart new_last = _parts.Count >= 2 ? _parts[_parts.Count - 2] : null;
 
@@ -110,7 +119,7 @@ public class Wagon : MonoBehaviour
         rigidbody.gravityScale = 1;
         rigidbody.velocity = Vector2.zero;
         last.HingeJoint.enabled = false;
-        last.gameObject.AddComponent<OutOfViewDestroyer>();
+        last.gameObject.AddComponentEx<OutOfViewDestroyer>();
 
         _parts.RemoveAt(_parts.Count - 1);
 
@@ -137,15 +146,14 @@ public class Wagon : MonoBehaviour
         _ctrl.UpdateWagonBounds();
     }
 
-    void TurnInvincible()
+    bool TurnInvincible()
     {
         if (_isInvincible)
-            return;
+            return false;
+        _isInvincible = true;
 
         IEnumerator _routine()
         {
-            _isInvincible = true;
-
             foreach (WagonPart part in _parts)
             {
                 Color col = part.Renderer.color;
@@ -163,8 +171,9 @@ public class Wagon : MonoBehaviour
             }
             _isInvincible = false;
         }
-
         StartCoroutine(_routine());
+        
+        return true;
     }
 
     private void Awake()
@@ -194,6 +203,16 @@ public class Wagon : MonoBehaviour
 
         _rgBody.gravityScale = 0;
         _rgBody.isKinematic = true;
+    
+        foreach(GiftDesc desc in _config.InitGiftDescs)
+        {
+            _giftInventory.Add(desc.type, desc.count);
+        }
+    }
+
+    public void SpawnGift()
+    {
+
     }
 
     private void FixedUpdate()
@@ -205,7 +224,8 @@ public class Wagon : MonoBehaviour
             _parts[i].RigidBody.AddForce(horizontalForce * _parts[i].RigidBody.mass);
         }
 
-/*        if(_targetPos != null)
+/*      
+ *      if(_targetPos != null)
         {
             _rgBody.MovePosition(Vector2.SmoothDamp(transform.position, _targetPos.Value, ref _velocity, _smoothTime));
             Debug.DrawLine(_targetPos.Value, _targetPos.Value + Vector2.up, Color.red);
@@ -215,5 +235,25 @@ public class Wagon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    public void OnWagonCollide(Hitbox inflictor)
+    {
+        GiftInstance gift = inflictor.GetComponent<GiftInstance>();
+        if (gift != null)
+        {
+            GameConsts.gameManager.AddScore(gift.GiftType.val);
+            return;
+        }
+        else
+        {
+            if (TurnInvincible())
+            {
+                RemoveEnd();
+                GameConsts.eventManager.InvokeEvent(typeof(IWagonCollisionHandler),
+                    new WagonCollisionEventData(PartCount()));
+            }
+        }
     }
 }

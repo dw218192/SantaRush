@@ -59,8 +59,8 @@ public class InfiniteTile : MonoBehaviour
         transform.position = pos;
 
         if (!gameObject.TryGetComponent<Scroller>(out _scroller))
-            _scroller = gameObject.AddComponent<Scroller>();
-        _scroller.speed = _speed;
+            _scroller = gameObject.AddComponentEx<Scroller>();
+        _scroller.BaseSpeed = _speed;
     }
 
     // Start is called before the first frame update

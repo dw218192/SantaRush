@@ -31,42 +31,56 @@ public class EventMgr : MonoBehaviour
 
     void BuildEventMap()
     {
-        void dfs(Transform cur)
-        {
-            // check if any monobehaviors on this transform implements any of the events
-            MonoBehaviour[] behaviours = cur.gameObject.GetComponents<MonoBehaviour>();
-            foreach (MonoBehaviour behaviour in behaviours)
-            {
-                foreach (InterfaceMethodPair pair in EventStub.EventTypes)
-                {
-                    if(pair.type.IsAssignableFrom(behaviour.GetType()))
-                    {
-                        List<EventTarget> l;
-                        if (!_eventMap.TryGetValue(pair.type, out l))
-                        {
-                            l = new List<EventTarget>();
-                            _eventMap.Add(pair.type, l);
-                        }
-
-                        l.Add(new EventTarget 
-                        { 
-                            ins = behaviour, 
-                            method = behaviour.GetType().GetMethod(pair.methodName, BindingFlags.Instance | BindingFlags.Public) 
-                        });
-                    }
-                }
-            }
-
-            for(int i=0; i<cur.childCount; ++i)
-            {
-                dfs(cur.GetChild(i));
-            }
-        }
-
         Scene scene = SceneManager.GetActiveScene();
         GameObject[] objs = scene.GetRootGameObjects();
         foreach(GameObject obj in objs)
-            dfs(obj.transform);
+            RegisterRecursive(obj.transform);
+    }
+
+    public void RegisterRecursive(Transform cur)
+    {
+        // check if any monobehaviors on this transform implements any of the events
+        MonoBehaviour[] behaviours = cur.gameObject.GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour behaviour in behaviours)
+            Register(behaviour);
+
+        for (int i = 0; i < cur.childCount; ++i)
+            RegisterRecursive(cur.GetChild(i));
+    }
+
+    public void Register(MonoBehaviour behaviour)
+    {
+        foreach (InterfaceMethodPair pair in EventStub.EventTypes)
+        {
+            if (pair.type.IsAssignableFrom(behaviour.GetType()))
+            {
+                List<EventTarget> l;
+                if (!_eventMap.TryGetValue(pair.type, out l))
+                {
+                    l = new List<EventTarget>();
+                    _eventMap.Add(pair.type, l);
+                }
+
+                // make sure no duplicate exists in event targets
+                bool found = false;
+                foreach(EventTarget target in l)
+                {
+                    if(ReferenceEquals(target.ins, behaviour))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found)
+                {
+                    l.Add(new EventTarget
+                    {
+                        ins = behaviour,
+                        method = behaviour.GetType().GetMethod(pair.methodName, BindingFlags.Instance | BindingFlags.Public)
+                    });
+                }
+            }
+        }
     }
 
     public void InvokeEvent(Type eventType, GameEventData eventData)
