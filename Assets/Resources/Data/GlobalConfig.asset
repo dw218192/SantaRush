@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GlobalConfig
   m_EditorClassIdentifier: 
   _gameVersion: 0.22.1.1.3
+  _defineDebugSymbol: 1

@@ -83,6 +83,39 @@ public class EventMgr : MonoBehaviour
         }
     }
 
+    public void UnRegister(MonoBehaviour behaviour)
+    {
+        foreach (InterfaceMethodPair pair in EventStub.EventTypes)
+        {
+            if (pair.type.IsAssignableFrom(behaviour.GetType()))
+            {
+                List<EventTarget> l;
+                if (!_eventMap.TryGetValue(pair.type, out l))
+                {
+                    l = new List<EventTarget>();
+                    _eventMap.Add(pair.type, l);
+                }
+
+                // make sure no duplicate exists in event targets
+                bool found = false;
+                int i = 0;
+                foreach (EventTarget target in l)
+                {
+                    if (ReferenceEquals(target.ins, behaviour))
+                    {
+                        found = true;
+                        break;
+                    }
+                    ++i;
+                }
+                if (found)
+                {
+                    l.RemoveAt(i);
+                }
+            }
+        }
+    }
+
     public void InvokeEvent(Type eventType, GameEventData eventData)
     {
         if(_eventMap.ContainsKey(eventType))
@@ -96,17 +129,5 @@ public class EventMgr : MonoBehaviour
         {
             Debug.LogWarning($"no listener found for event or event does not exist: {eventType}");
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

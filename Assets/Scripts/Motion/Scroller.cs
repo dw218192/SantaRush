@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scroller : MonoBehaviour, ILevelStageHandler
+public class Scroller : MonoBehaviourEx, ILevelStageHandler
 {
     [SerializeField] float _initSpeed = 0;
     [SerializeField] bool _usePhysics = false;
@@ -41,14 +41,9 @@ public class Scroller : MonoBehaviour, ILevelStageHandler
             if (_valid)
             {
                 if (_usePhysics)
-                    Rb.velocity = Vector2.right * _initSpeed * _multiplier;
+                    Rb.velocity.Set(_initSpeed * _multiplier, Rb.velocity.y);
             }
         }
-    }
-
-    private void Awake()
-    {
-
     }
 
     void Start()
@@ -73,6 +68,6 @@ public class Scroller : MonoBehaviour, ILevelStageHandler
         _multiplier = eventData.speedMultiplier;
 
         if (_usePhysics)
-            Rb.velocity = Vector2.right * _initSpeed * _multiplier;
+            Rb.velocity.Set(_initSpeed * _multiplier, Rb.velocity.y);
     }
 }

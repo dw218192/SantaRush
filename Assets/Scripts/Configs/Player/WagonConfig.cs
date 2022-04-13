@@ -29,7 +29,7 @@ public struct WagonPartDesc
 
 
 [Serializable]
-public class GiftType : IComparable<GiftType>, IInventoryItem
+public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryItem
 {
     public static readonly GiftType INVALID = new GiftType(-1);
     public static readonly GiftType GREEN = new GiftType(0);
@@ -47,6 +47,41 @@ public class GiftType : IComparable<GiftType>, IInventoryItem
     public int CompareTo(GiftType other)
     {
         return val.CompareTo(other.val);
+    }
+
+    public bool Equals(GiftType other)
+    {
+        return val == other.val;
+    }
+
+    public static bool operator==(GiftType g1, GiftType g2)
+    {
+        return g1.Equals(g2);
+    }
+    public static bool operator!=(GiftType g1, GiftType g2)
+    {
+        return !g1.Equals(g2);
+    }
+
+    public Color GetColor()
+    {
+        if (this == GREEN)
+            return Color.green;
+        else if (this == BLUE)
+            return Color.blue;
+        else if (this == RED)
+            return Color.red;
+        else if (this == PURPLE)
+            return new Color(128 / 255f, 0, 128 / 255f);
+        else if (this == ORANGE)
+            return new Color(1, 165 / 255f, 0);
+        else
+            return Color.white;
+    }
+
+    public int GetScore()
+    {
+        return val + 1;
     }
 }
 

@@ -13,6 +13,11 @@ public class GameGlobalConfig : ScriptableObject
     [Label("游戏版本")]
     string _gameVersion = "unknown";
 
+    [SerializeField]
+    [OnValueChanged("SetDefineSymbols")]
+    [Label("调试模式")]
+    bool _defineDebugSymbol = false;
+
     public string GameVersion 
     {
         get => _gameVersion;
@@ -31,6 +36,17 @@ public class GameGlobalConfig : ScriptableObject
         if (EditorApplication.isPlayingOrWillChangePlaymode)
             return;
         PlayerSettings.bundleVersion = GameVersion;
+#endif
+    }
+
+    void SetDefineSymbols()
+    {
+#if UNITY_EDITOR
+        string defines = "";
+        if (_defineDebugSymbol)
+            defines = "DEBUG";
+
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget), defines);
 #endif
     }
 }

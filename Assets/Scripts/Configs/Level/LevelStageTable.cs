@@ -49,5 +49,11 @@ public class LevelStageTable : ScriptableObject
     [SerializeField] 
     [Label("雪橇速度变化表")]
     SpeedChangeStat _speedChangeStat;
-    public SpeedChangeStat speedChangeStat { get => _speedChangeStat; }
+
+    [SerializeField]
+    [Label("绝对初始速度")]
+    float _initScrollSpeed;
+
+    public SpeedChangeStat SpeedChangeConfig { get => _speedChangeStat; }
+    public float InitScrollSpeed { get => _initScrollSpeed; }
 }

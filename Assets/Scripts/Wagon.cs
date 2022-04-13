@@ -119,7 +119,10 @@ public class Wagon : MonoBehaviour
         rigidbody.gravityScale = 1;
         rigidbody.velocity = Vector2.zero;
         last.HingeJoint.enabled = false;
-        last.gameObject.AddComponentEx<OutOfViewDestroyer>();
+        last.gameObject.AddComponent<OutOfViewDestroyer>();
+
+        // disable hurtbox on last part
+        last.Hurtbox.enabled = false;
 
         _parts.RemoveAt(_parts.Count - 1);
 
@@ -238,12 +241,14 @@ public class Wagon : MonoBehaviour
 
     }
 
+
+    [HurtboxHandler]
     public void OnWagonCollide(Hitbox inflictor)
     {
         GiftInstance gift = inflictor.GetComponent<GiftInstance>();
         if (gift != null)
         {
-            GameConsts.gameManager.AddScore(gift.GiftType.val);
+            GameConsts.gameManager.AddScore(gift.GiftType.GetScore());
             return;
         }
         else

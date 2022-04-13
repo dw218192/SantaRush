@@ -46,6 +46,7 @@ public class GameScoreEventData : GameEventData
     public int score;
     public int targetScore;
 
+
     public GameScoreEventData(Type type, int score, int targetScore)
     {
         this.type = type;

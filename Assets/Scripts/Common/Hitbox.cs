@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Events;
-
+using Debug = UnityEngine.Debug;
 [RequireComponent(typeof(Collider2D))]
 public class Hitbox : MonoBehaviour
 {
@@ -15,6 +16,19 @@ public class Hitbox : MonoBehaviour
 
     HashSet<Collider2D> _lastOverlap = new HashSet<Collider2D>();
     Collider2D[] _resultBuffer = new Collider2D[COLLISION_BUF_SIZE];
+
+    HashSet<Hurtbox> _excludeList = new HashSet<Hurtbox>();
+    // set a list of game objects that will be ignore, should this hitbox ever collide with their hurtboxes
+    public void AddExcludeList(params Hurtbox[] objs)
+    {
+        foreach(var obj in objs)
+            _excludeList.Add(obj);
+    }
+
+    public void ClearExcludeList()
+    {
+        _excludeList.Clear();
+    }
 
     void Awake()
     {
@@ -40,7 +54,11 @@ public class Hitbox : MonoBehaviour
         {
             Hurtbox hurtbox = _resultBuffer[i].GetComponent<Hurtbox>();
 
-            if (hurtbox != null && !ReferenceEquals(_resultBuffer[i].gameObject, gameObject))
+            if (hurtbox != null &&  // not a non-hurtbox collider
+                hurtbox.enabled &&  // hurtbox is enabled
+                !ReferenceEquals(_resultBuffer[i].gameObject, gameObject) && // not our own part
+                !_excludeList.Contains(hurtbox) // not in our exclude list
+                )
             {
                 // valid
                 curOverlap.Add(_resultBuffer[i]);
@@ -49,12 +67,14 @@ public class Hitbox : MonoBehaviour
                 if (!_lastOverlap.Contains(_resultBuffer[i]))
                 {
                     if (hurtbox.UseGroup && hurtbox.Group != null)
-                        calls.Add(hurtbox.Group.onHit);
+                        calls.Add(hurtbox.Group.OnHit);
                     else
                         calls.Add(hurtbox.onHit);
                 }
             }
         }
+
+        DEBUG_ShowContact(_lastOverlap, curOverlap);
 
         foreach(var call in calls)
         {
@@ -65,5 +85,15 @@ public class Hitbox : MonoBehaviour
             Destroy(gameObject);
 
         _lastOverlap = curOverlap;
+    }
+
+    [Conditional("DEBUG")]
+    void DEBUG_ShowContact(HashSet<Collider2D> lastOverlap, HashSet<Collider2D> curOverlap)
+    { 
+        HashSet<Collider2D> tmp = new HashSet<Collider2D>(lastOverlap);
+        tmp.IntersectWith(curOverlap);
+
+        foreach (var collider in tmp)
+            Debug.DrawLine(transform.position, collider.transform.position, Color.red);
     }
 }

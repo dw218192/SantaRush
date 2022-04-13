@@ -36,17 +36,60 @@ public class LevelTargetPool : ScriptableObject
         }
     }
 
+    public class BonusStageDesc
+    {
+        [SerializeField]
+        [AllowNesting]
+        [Label("时间限制(秒)")]
+        float _timeLimit;
+
+        [SerializeField]
+        [AllowNesting]
+        [Label("阶段目标")]
+        int _targetScore;
+
+        public float TimeLimit { get => _timeLimit; }
+        public int TargetScore { get => _targetScore; }
+    }
+
+    public class ScoreBonusConfig
+    {
+        [SerializeField]
+        [AllowNesting]
+        [Tooltip("当玩家接中第一个礼物后,开始做判断,在如下这么多时间内连续接中礼物才能触发连续得分奖励阶段")]
+        [Label("触发连续得分机制的时间限制(秒)")]
+        float _bonusStartTimeLimit;
+
+        [SerializeField]
+        [AllowNesting]
+        [Tooltip("在上面的时间限制内, 触发连续得分需要接住多少个礼物")]
+        [Label("触发连续得分机制的礼物数量")]
+        int _bonusStartGiftNum;
+
+        public float BonusStartTimeLimit { get => _bonusStartTimeLimit; }
+        public int BonusStartGiftNum { get => _bonusStartGiftNum; }
+    }
+
+
     [SerializeField]
     [ReorderableList]
     [Label("关卡目标表")]
     LevelTargetDesc[] _items;
 
+    [SerializeField]
+    [ReorderableList]
+    [Label("连续得分奖励阶段表")]
+    BonusStageDesc[] _bonusStages;
+
     // runtime
     Lottery _lottery = null;
+
     public LevelTargetDesc GetNextTarget()
     {
         if (_lottery == null)
             _lottery = new Lottery(_items);
         return (LevelTargetDesc)_lottery.NextItem();
     }
+
+    public BonusStageDesc[] BonusStages { get => _bonusStages; }
 }

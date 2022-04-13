@@ -28,4 +28,13 @@ public class NPCPart : MonoBehaviour
             return _rend;
         }
     }
+
+    public Hurtbox Hurtbox 
+    {
+        get
+        {
+            if (_hurtbox == null) _hurtbox = GetComponent<Hurtbox>();
+            return _hurtbox;
+        }
+    }
 }

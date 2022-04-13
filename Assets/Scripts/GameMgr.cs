@@ -42,6 +42,11 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
     }
     #endregion
 
+    #region GiftBonus States
+    float? _lastScoringTime;
+
+    #endregion
+
     // total score
     int _score;
     public int Score 
@@ -80,6 +85,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
     }
 
     public float TileSpeedMultiplier { get; private set; }
+    public LevelStageTable StageTable { get => _stageTable; }
 
     void Awake()
     {
@@ -96,7 +102,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
     // Start is called before the first frame update
     void Start()
     {
-        _speedChangeStat = _stageTable.speedChangeStat;
+        _speedChangeStat = _stageTable.SpeedChangeConfig;
         _totalSpeedChangeTime = _speedChangeStat.numIntervals * _speedChangeStat.intervalLength;
         _curSpeedChangeInterval = 0;
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+using NaughtyAttributes;
 using Random = System.Random;
 
 
@@ -14,7 +16,8 @@ public class InfiniteTile : MonoBehaviour
 
 
     [SerializeField] TilePool _pool = null;
-
+    [SerializeField] bool _useGameStageSpeed = false;
+    [DisableIf("_useGameStageSpeed")]
     [SerializeField] float _speed = 0;
     [SerializeField] int _sortOrder = 0;
     [SerializeField] bool _isGenerative = false;
@@ -47,7 +50,7 @@ public class InfiniteTile : MonoBehaviour
         return tileIns;
     }
 
-    private void Awake()
+    void Awake()
     {
         _cam = Camera.main;
         _viewWidth = _cam.orthographicSize * 2 * _cam.aspect;
@@ -59,8 +62,7 @@ public class InfiniteTile : MonoBehaviour
         transform.position = pos;
 
         if (!gameObject.TryGetComponent<Scroller>(out _scroller))
-            _scroller = gameObject.AddComponentEx<Scroller>();
-        _scroller.BaseSpeed = _speed;
+            _scroller = gameObject.AddComponent<Scroller>();
     }
 
     // Start is called before the first frame update
@@ -82,6 +84,10 @@ public class InfiniteTile : MonoBehaviour
         // gen an extra tile to avoid artifacts
         _tileInstances.AddLast(GenTile(total));
         _valid = _tileInstances.Count > 1;
+
+
+        // begin scroll
+        _scroller.BaseSpeed = _useGameStageSpeed ? -GameConsts.gameManager.StageTable.InitScrollSpeed : -_speed;
     }
 
     // Update is called once per frame

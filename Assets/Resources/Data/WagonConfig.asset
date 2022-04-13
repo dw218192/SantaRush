@@ -23,19 +23,19 @@ MonoBehaviour:
     count: 3
   _invicibleTimeOnCollision: 1
   _giftDescs: []
-  _tolerance: 0.1
+  _tolerance: 0.01
   _moveUp:
     m_Name: Move Up
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 3238f68b-6f49-4329-8058-7f812b97173a
     m_Processors: 
-    m_Interactions: Press
+    m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
       m_Id: 587f770a-c7c6-4aca-8cbe-98faba5d29dd
       m_Path: <Mouse>/leftButton
-      m_Interactions: 
+      m_Interactions: Press
       m_Processors: 
       m_Groups: 
       m_Action: Move Up
@@ -51,7 +51,7 @@ MonoBehaviour:
     - m_Name: 
       m_Id: c63c40eb-9db9-47ea-9019-91411991b83b
       m_Path: <Mouse>/rightButton
-      m_Interactions: 
+      m_Interactions: Press
       m_Processors: 
       m_Groups: 
       m_Action: Deploy Gift
