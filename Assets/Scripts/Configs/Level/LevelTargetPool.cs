@@ -36,6 +36,7 @@ public class LevelTargetPool : ScriptableObject
         }
     }
 
+    [Serializable]
     public class BonusStageDesc
     {
         [SerializeField]
@@ -52,6 +53,7 @@ public class LevelTargetPool : ScriptableObject
         public int TargetScore { get => _targetScore; }
     }
 
+    [Serializable]
     public class ScoreBonusConfig
     {
         [SerializeField]
@@ -81,6 +83,10 @@ public class LevelTargetPool : ScriptableObject
     [Label("连续得分奖励阶段表")]
     BonusStageDesc[] _bonusStages;
 
+    [SerializeField]
+    [Label("触发连续得分的要求")]
+    ScoreBonusConfig _bonusConfig;
+
     // runtime
     Lottery _lottery = null;
 
@@ -92,4 +98,5 @@ public class LevelTargetPool : ScriptableObject
     }
 
     public BonusStageDesc[] BonusStages { get => _bonusStages; }
+    public ScoreBonusConfig BonusConfig { get => _bonusConfig; }
 }
