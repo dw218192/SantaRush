@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: NPC1
   m_EditorClassIdentifier: 
   _giftType:
-    val: 0
+    val: 1
   _giftSpawnCooldown: 0.5
-  _speed: 6
+  _speed: 2
   _bombProbability: 0
   _npcWeight: 1
   _npcParts:
+  - prefab: {fileID: 5541145127859025487, guid: 63902847b8dad404db22706ac22974dc, type: 3}
+    count: 4
   - prefab: {fileID: 5541145127859025487, guid: 63902847b8dad404db22706ac22974dc, type: 3}
     count: 4
   _npcPartDist: 0.5

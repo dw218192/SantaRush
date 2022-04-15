@@ -45,8 +45,11 @@ public class NPCSpawnEditor : Editor
     // world space (same as orthographicSize)
     float _worldScreenHeight = 5;
     float[] _spawnYs = new float[0];
+
+    GameObject _backgroundObj = null;
     GameObject[] _spawnRef = null;
     int _renderTextureHeight = 1080;
+    bool _useBackgroundPrefab = false;
 
     // editing
     List<(string, string)> _globalSpawnSettingProperties = new List<(string, string)>();
@@ -152,7 +155,11 @@ public class NPCSpawnEditor : Editor
         _aspectChoiceIdx = SupportedAspects.Aspect16by10;
 
         _scene = EditorSceneManager.NewPreviewScene();
-        PrefabUtility.LoadPrefabContentsIntoPreviewScene(kDemoBkgPrefab, _scene);
+
+        _backgroundObj = PrefabUtility.LoadPrefabContents(kDemoBkgPrefab);
+        EditorSceneManager.MoveGameObjectToScene(_backgroundObj, _scene);
+        _backgroundObj.SetActive(_useBackgroundPrefab);
+
         _cam = InstantiatePreviewGO(Vector3.zero).AddComponent<Camera>();
         _cam.orthographic = true;
         _cam.cameraType = CameraType.Preview;
@@ -168,7 +175,8 @@ public class NPCSpawnEditor : Editor
         _cam = _previewUtil.camera;
         _cam.orthographic = true;
 
-        InstantiatePreviewGO(Vector3.zero, kDemoBkgPrefab);
+        _backgroundObj = InstantiatePreviewGO(Vector3.zero, kDemoBkgPrefab);
+        _backgroundObj.SetActive(_useBackgroundPrefab);
     }
 
     void OnEnable()
@@ -341,6 +349,14 @@ public class NPCSpawnEditor : Editor
                     _cam.transform.position = _guiStates.camPos;
                     __DrawRefScene_OldPreviewImpl();
                 }
+            }
+
+            using (var scope = new EditorGUI.ChangeCheckScope())
+            {
+                _useBackgroundPrefab = EditorGUILayout.Toggle("开关背景", _useBackgroundPrefab);
+
+                if (scope.changed)
+                    _backgroundObj.SetActive(_useBackgroundPrefab);
             }
         }
 
