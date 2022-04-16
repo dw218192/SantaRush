@@ -8,3 +8,9 @@ public class HurtboxHandlerAttribute : Attribute
 {
 
 }
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+public class StateMachineFunctionAttribute : Attribute
+{
+
+}

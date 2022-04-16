@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class HUD : MonoBehaviour, IGameScoreHandler
+public class HUD : MonoBehaviour, IGameScoreHandler, IBonusStateHanlder
 {
     [SerializeField] Text _giftTimerText;
     [SerializeField] Text _giftScoreText;
     [SerializeField] Text _totalScoreText;
+    [SerializeField] Text _playerScoreText;
+    [SerializeField] Text _bonusStageText;
 
     // Start is called before the first frame update
     void Start()
@@ -26,12 +28,23 @@ public class HUD : MonoBehaviour, IGameScoreHandler
     {
         switch(eventData.type)
         {
-            case GameScoreEventData.Type.TOTAL_SCORE:
-                _totalScoreText.text = $"总分数: {eventData.score}";
+            case GameScoreEventData.Type.TOTAL_SCORE_CHANGE:
+                _totalScoreText.text = $"获得礼物数: {eventData.values[0]}";
                 break;
-            case GameScoreEventData.Type.GIFT_TARGET_SCORE:
-                _giftScoreText.text = $"目标分数: {eventData.score}/{eventData.targetScore}";
+            case GameScoreEventData.Type.GIFT_TARGET_SCORE_CHANGE:
+                _giftScoreText.text = $"目标礼物数: {eventData.values[0]}/{eventData.values[1]}";
+                break;
+            case GameScoreEventData.Type.TOTAL_PLAYER_SCORE_CHANGE:
+                _playerScoreText.text = $"玩家分数: {eventData.values[0]}";
                 break;
         }
+    }
+
+    public void OnBonusStateChange(BonusStateEventData eventData)
+    {
+        if (!eventData.hasBonus)
+            _bonusStageText.text = "";
+        else
+            _bonusStageText.text = $"x{eventData.multiplier}";
     }
 }

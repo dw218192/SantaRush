@@ -48,9 +48,14 @@ public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryI
     {
         return val.CompareTo(other.val);
     }
-
+    public override bool Equals(object obj)
+    {
+        return Equals(obj as GiftType);
+    }
     public bool Equals(GiftType other)
     {
+        if (ReferenceEquals(other, null))
+            return false;
         return val == other.val;
     }
 
@@ -60,7 +65,12 @@ public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryI
     }
     public static bool operator!=(GiftType g1, GiftType g2)
     {
-        return !g1.Equals(g2);
+        return !(g1==g2);
+    }
+
+    public override int GetHashCode()
+    {
+        return 1835847388 + val.GetHashCode();
     }
 
     public Color GetColor()
@@ -83,6 +93,7 @@ public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryI
     {
         return val + 1;
     }
+
 }
 
 [Serializable]

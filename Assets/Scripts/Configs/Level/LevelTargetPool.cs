@@ -42,15 +42,32 @@ public class LevelTargetPool : ScriptableObject
         [SerializeField]
         [AllowNesting]
         [Label("时间限制(秒)")]
-        float _timeLimit;
+        float _timeLimit = 10;
 
         [SerializeField]
         [AllowNesting]
-        [Label("阶段目标")]
-        int _targetScore;
+        [Label("阶段目标(礼物数)")]
+        int _targetScore = 10;
+
+        [SerializeField]
+        [AllowNesting]
+        [Label("得分之间时间限制(秒)")]
+        float _timeBetweenScores = 3;
+
+        [SerializeField]
+        [AllowNesting]
+        [Label("阶段倍数")]
+        int _scoreMultiplier = 1;
 
         public float TimeLimit { get => _timeLimit; }
         public int TargetScore { get => _targetScore; }
+        public float TimeBetweenScores { get => _timeBetweenScores; }
+        public int ScoreMultiplier { get => _scoreMultiplier; }
+
+        public int GetModifiedScoreDelta(int curScore)
+        {
+            return curScore * _scoreMultiplier;
+        }
     }
 
     [Serializable]
@@ -68,8 +85,26 @@ public class LevelTargetPool : ScriptableObject
         [Label("触发连续得分机制的礼物数量")]
         int _bonusStartGiftNum;
 
+        [SerializeField]
+        [AllowNesting]
+        [Label("头槌使用时间")]
+        float _superStatusTime;
+
+        [SerializeField]
+        [AllowNesting]
+        [Label("头槌倍数")]
+        float _superStatusScoreMultiplier;
+
+        [SerializeField]
+        [AllowNesting]
+        [Label("头槌移速加成")]
+        float _superStatusSpeedIncrease;
+
         public float BonusStartTimeLimit { get => _bonusStartTimeLimit; }
         public int BonusStartGiftNum { get => _bonusStartGiftNum; }
+        public float SuperStatusSpeedIncrease { get => _superStatusSpeedIncrease; }
+        public float SuperStatusScoreMultiplier { get => _superStatusScoreMultiplier; }
+        public float SuperStatusTime { get => _superStatusTime; }
     }
 
 
@@ -88,6 +123,7 @@ public class LevelTargetPool : ScriptableObject
     ScoreBonusConfig _bonusConfig;
 
     // runtime
+    int _bonusStageIdx = -1;
     Lottery _lottery = null;
 
     public LevelTargetDesc GetNextTarget()
@@ -97,6 +133,22 @@ public class LevelTargetPool : ScriptableObject
         return (LevelTargetDesc)_lottery.NextItem();
     }
 
-    public BonusStageDesc[] BonusStages { get => _bonusStages; }
+    public BonusStageDesc GetNextBonusStage()
+    {
+        _bonusStageIdx = Mathf.Min(_bonusStageIdx + 1, _bonusStages.Length - 1);
+        return _bonusStages[_bonusStageIdx];
+    }
+
+    public BonusStageDesc PeekNextBonusStage()
+    {
+        return _bonusStages[Mathf.Min(_bonusStageIdx + 1, _bonusStages.Length - 1)];
+    }
+
+    public void ResetBonusStage()
+    {
+        _bonusStageIdx = -1;
+    }
+
     public ScoreBonusConfig BonusConfig { get => _bonusConfig; }
+    public BonusStageDesc[] BonusStages { get => _bonusStages; }
 }

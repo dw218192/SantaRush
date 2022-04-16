@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 336481387335a65409445ad09909b17b, type: 3}
   m_Name: NPCSpawn
   m_EditorClassIdentifier: 
-  _bottomOffset: 6.7
+  _bottomOffset: 4.5
   _topOffset: 0
-  _ySpawnPointDist: 1.1
+  _ySpawnPointDist: 2.6
   _npcHeight:
     val: 1
   _npcSpawnInterval:

@@ -21,6 +21,4 @@ MonoBehaviour:
   _npcParts:
   - prefab: {fileID: 5541145127859025487, guid: 63902847b8dad404db22706ac22974dc, type: 3}
     count: 4
-  - prefab: {fileID: 5541145127859025487, guid: 63902847b8dad404db22706ac22974dc, type: 3}
-    count: 4
   _npcPartDist: 0.5

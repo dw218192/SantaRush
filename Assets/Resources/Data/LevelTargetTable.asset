@@ -40,3 +40,18 @@ MonoBehaviour:
   - _giftNum: 36
     _duration: 99
     _weight: 3
+  _bonusStages:
+  - _timeLimit: 12
+    _targetScore: 5
+    _timeBetweenScores: 3
+    _scoreMultiplier: 2
+  - _timeLimit: 12
+    _targetScore: 5
+    _timeBetweenScores: 2
+    _scoreMultiplier: 3
+  _bonusConfig:
+    _bonusStartTimeLimit: 23
+    _bonusStartGiftNum: 5
+    _superStatusTime: 0
+    _superStatusScoreMultiplier: 0
+    _superStatusSpeedMultiplier: 0

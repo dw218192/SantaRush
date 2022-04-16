@@ -29,6 +29,11 @@ public interface IWagonCollisionHandler
     void OnWagonCollide(WagonCollisionEventData eventData);
 }
 
+public interface IBonusStateHanlder
+{
+    void OnBonusStateChange(BonusStateEventData eventData);
+}
+
 public class LevelStageEventData : GameEventData
 {
     public float speedMultiplier;
@@ -40,18 +45,20 @@ public class LevelStageEventData : GameEventData
 
 public class GameScoreEventData : GameEventData
 {
-    public enum Type { TOTAL_SCORE, GIFT_TARGET_SCORE };
+    public enum Type 
+    {
+        TOTAL_SCORE_CHANGE,
+        GIFT_TARGET_SCORE_CHANGE,
+        TOTAL_PLAYER_SCORE_CHANGE
+    };
 
     public Type type;
-    public int score;
-    public int targetScore;
+    public int[] values;
 
-
-    public GameScoreEventData(Type type, int score, int targetScore)
+    public GameScoreEventData(Type type, params int[] args)
     {
         this.type = type;
-        this.score = score;
-        this.targetScore = targetScore;
+        values = args;
     }
 }
 public class WagonCollisionEventData : GameEventData
@@ -60,6 +67,17 @@ public class WagonCollisionEventData : GameEventData
     public WagonCollisionEventData(int partCount)
     {
         this.partCount = partCount;
+    }
+}
+public class BonusStateEventData : GameEventData
+{
+    public bool hasBonus;
+    public int multiplier;
+
+    public BonusStateEventData(bool hasBonus, int multiplier)
+    {
+        this.hasBonus = hasBonus;
+        this.multiplier = multiplier;
     }
 }
 
@@ -76,6 +94,7 @@ public static class EventStub
         new InterfaceMethodPair { type = typeof(ITestEvent), methodName = "OnEvent" },
         new InterfaceMethodPair { type = typeof(ILevelStageHandler), methodName = "OnGameStageEnter" },
         new InterfaceMethodPair { type = typeof(IGameScoreHandler), methodName = "OnGameScoreChange" },
-        new InterfaceMethodPair { type = typeof(IWagonCollisionHandler), methodName = "OnWagonCollide" }
+        new InterfaceMethodPair { type = typeof(IWagonCollisionHandler), methodName = "OnWagonCollide" },
+        new InterfaceMethodPair { type = typeof(IBonusStateHanlder), methodName = "OnBonusStateChange" }
     };
 }
