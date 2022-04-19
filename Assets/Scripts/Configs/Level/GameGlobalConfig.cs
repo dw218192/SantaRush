@@ -47,6 +47,7 @@ public class GameGlobalConfig : ScriptableObject
             defines = "DEBUG";
 
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget), defines);
+        AssetDatabase.Refresh();
 #endif
     }
 }

@@ -41,6 +41,11 @@ public class LevelTargetPool : ScriptableObject
     {
         [SerializeField]
         [AllowNesting]
+        [Label("阶段名称")]
+        string _name;
+
+        [SerializeField]
+        [AllowNesting]
         [Label("时间限制(秒)")]
         float _timeLimit = 10;
 
@@ -63,6 +68,7 @@ public class LevelTargetPool : ScriptableObject
         public int TargetScore { get => _targetScore; }
         public float TimeBetweenScores { get => _timeBetweenScores; }
         public int ScoreMultiplier { get => _scoreMultiplier; }
+        public string Name { get => _name; }
 
         public int GetModifiedScoreDelta(int curScore)
         {
@@ -85,6 +91,23 @@ public class LevelTargetPool : ScriptableObject
         [Label("触发连续得分机制的礼物数量")]
         int _bonusStartGiftNum;
 
+        public float BonusStartTimeLimit { get => _bonusStartTimeLimit; }
+        public int BonusStartGiftNum { get => _bonusStartGiftNum; }
+    }
+
+    [Serializable]
+    public class BuffConfig
+    {
+        [SerializeField]
+        [AllowNesting]
+        [Label("驯鹿奖励所需礼物数量")]
+        int _HPRewardGiftNum;
+
+        [SerializeField]
+        [AllowNesting]
+        [Label("头槌所需礼物数量")]
+        int _superStatusGiftNum;
+
         [SerializeField]
         [AllowNesting]
         [Label("头槌使用时间")]
@@ -100,11 +123,11 @@ public class LevelTargetPool : ScriptableObject
         [Label("头槌移速加成")]
         float _superStatusSpeedIncrease;
 
-        public float BonusStartTimeLimit { get => _bonusStartTimeLimit; }
-        public int BonusStartGiftNum { get => _bonusStartGiftNum; }
         public float SuperStatusSpeedIncrease { get => _superStatusSpeedIncrease; }
         public float SuperStatusScoreMultiplier { get => _superStatusScoreMultiplier; }
         public float SuperStatusTime { get => _superStatusTime; }
+        public int HPRewardGiftNum { get => _HPRewardGiftNum; }
+        public int SuperStatusGiftNum { get => _superStatusGiftNum;  }
     }
 
 
@@ -121,6 +144,10 @@ public class LevelTargetPool : ScriptableObject
     [SerializeField]
     [Label("触发连续得分的要求")]
     ScoreBonusConfig _bonusConfig;
+
+    [SerializeField]
+    [Label("玩家BUFF设置")]
+    BuffConfig _buffConfig;
 
     // runtime
     int _bonusStageIdx = -1;
@@ -151,4 +178,5 @@ public class LevelTargetPool : ScriptableObject
 
     public ScoreBonusConfig BonusConfig { get => _bonusConfig; }
     public BonusStageDesc[] BonusStages { get => _bonusStages; }
+    public BuffConfig PlayerBuffConfig { get => _buffConfig; }
 }

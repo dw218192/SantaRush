@@ -34,6 +34,11 @@ public interface IBonusStateHanlder
     void OnBonusStateChange(BonusStateEventData eventData);
 }
 
+public interface IBuffStateHandler
+{
+    void OnBuffStateChange(BuffStateEventData eventData);
+}
+
 public class LevelStageEventData : GameEventData
 {
     public float speedMultiplier;
@@ -71,13 +76,26 @@ public class WagonCollisionEventData : GameEventData
 }
 public class BonusStateEventData : GameEventData
 {
+    public string bonusName;
     public bool hasBonus;
     public int multiplier;
 
-    public BonusStateEventData(bool hasBonus, int multiplier)
+    public BonusStateEventData(string bonusName, bool hasBonus, int multiplier)
     {
+        this.bonusName = bonusName;
         this.hasBonus = hasBonus;
         this.multiplier = multiplier;
+    }
+}
+public class BuffStateEventData : GameEventData
+{
+    public string name;
+    public bool hasBuff;
+
+    public BuffStateEventData(string name, bool hasBuff)
+    {
+        this.name = name;
+        this.hasBuff = hasBuff;
     }
 }
 
@@ -95,6 +113,7 @@ public static class EventStub
         new InterfaceMethodPair { type = typeof(ILevelStageHandler), methodName = "OnGameStageEnter" },
         new InterfaceMethodPair { type = typeof(IGameScoreHandler), methodName = "OnGameScoreChange" },
         new InterfaceMethodPair { type = typeof(IWagonCollisionHandler), methodName = "OnWagonCollide" },
-        new InterfaceMethodPair { type = typeof(IBonusStateHanlder), methodName = "OnBonusStateChange" }
+        new InterfaceMethodPair { type = typeof(IBonusStateHanlder), methodName = "OnBonusStateChange" },
+        new InterfaceMethodPair { type = typeof(IBuffStateHandler), methodName = "OnBuffStateChange" },
     };
 }

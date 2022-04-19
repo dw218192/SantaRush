@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class HUD : MonoBehaviour, IGameScoreHandler, IBonusStateHanlder
+public class HUD : MonoBehaviour, IGameScoreHandler, IBonusStateHanlder, IBuffStateHandler
 {
     [SerializeField] Text _giftTimerText;
     [SerializeField] Text _giftScoreText;
     [SerializeField] Text _totalScoreText;
     [SerializeField] Text _playerScoreText;
     [SerializeField] Text _bonusStageText;
+    [SerializeField] Text _buffText;
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -45,6 +45,14 @@ public class HUD : MonoBehaviour, IGameScoreHandler, IBonusStateHanlder
         if (!eventData.hasBonus)
             _bonusStageText.text = "";
         else
-            _bonusStageText.text = $"x{eventData.multiplier}";
+            _bonusStageText.text = $"{eventData.bonusName}!! x{eventData.multiplier}";
+    }
+
+    public void OnBuffStateChange(BuffStateEventData eventData)
+    {
+        if (!eventData.hasBuff)
+            _buffText.text = "";
+        else
+            _buffText.text += " " + eventData.name;
     }
 }
