@@ -20,7 +20,7 @@ public class EndScreen : SingletonGameMenu<EndScreen>
     public override void OnEnterMenu()
     {
         base.OnEnterMenu();
-        _scoreText.text = "分数: " + GameConsts.gameManager.Score.ToString();
+        _scoreText.text = "分数: " + GameConsts.gameManager.PlayerScore.ToString();
     }
 
     public override void OnLeaveMenu()
