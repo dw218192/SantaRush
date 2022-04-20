@@ -11,6 +11,11 @@ public class NPCPart : MonoBehaviour
     Hitbox _hitbox; // to interact the player's hurtbox
     Hurtbox _hurtbox; // to interact with gift
 
+    public NPCInstance Owner
+    {
+        get; set;
+    }
+
     public float Width
     {
         get

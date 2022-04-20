@@ -9,7 +9,7 @@ using FSM;
 using Debug = UnityEngine.Debug;
 using System.Text;
 
-public class GameMgr : MonoBehaviour, IWagonCollisionHandler
+public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
 {
     public enum GameState
     {
@@ -94,14 +94,15 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
     class ScoreEventWindow
     {
         // record 1000 seconds in game time at most
-        const float k_maxDuration = 10; 
+        readonly float _maxWindowDuration; 
         
         public float timer;
         LinkedList<float> _window = new LinkedList<float>();
         float Duration { get => _window.Count > 0 ? _window.Last.Value - _window.First.Value : 0; }
 
-        public ScoreEventWindow()
+        public ScoreEventWindow(float maxWindowDuration)
         {
+            _maxWindowDuration = maxWindowDuration;
             timer = 0;
         }
 
@@ -116,7 +117,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
             _window.AddLast(timer);
 
             // window length exceeds limit
-            if (Duration > k_maxDuration) //evict first
+            if (Duration > _maxWindowDuration) //evict first
                 _window.RemoveFirst();
 
             DEBUG_CheckInvariant();
@@ -125,7 +126,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
          * check if a player scores for [numTimes] times consecutively in the past [numSecs] seconds,
          * with each scoring event less than [interval] seconds apart
         */
-        public bool Check(int numTimes, float numSecs, float interval)
+        public bool Check(int targetCount, float targetSecs, float interval)
         {
             // empty window
             if (_window.Count == 0)
@@ -140,7 +141,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
             int count = 1;
             float secs = timer - _window.Last.Value;
             LinkedListNode<float> node = _window.Last;
-            while(node != null && secs < numSecs)
+            while(node != null && secs < targetSecs)
             {
                 LinkedListNode<float> prevNode = node.Previous;
                 if (prevNode == null)
@@ -149,14 +150,14 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
                     break;
 
                 ++count;
-                if (count >= numTimes)
+                if (count >= targetCount)
                     break;
 
                 secs += node.Value - prevNode.Value;
                 node = node.Previous;
             }
 
-            return count >= numTimes;
+            return count >= targetCount;
         }
 
         [Conditional("DEBUG")]
@@ -165,7 +166,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
             if (_window.Count == 0)
                 return;
             // duration must be less than maximum duration
-            if (Duration > k_maxDuration)
+            if (Duration > _maxWindowDuration)
                 Debug.Break();
 
             // must be strictly increasing
@@ -201,11 +202,12 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
             str.Append(" ]");
 
             GUILayout.Label(str.ToString());
+            GUILayout.Label(timer.ToString("0.00"));
         }
     }
 
     // max value in _scoreEventsWindow minus min value in _scoreEventsWindow
-    ScoreEventWindow _scoreEventWindow = new ScoreEventWindow();
+    ScoreEventWindow _scoreEventWindow;
     LevelTargetPool.BonusStageDesc _curBonusStage = null;
     LevelTargetPool.BonusStageDesc CurBonusStage
     {
@@ -234,24 +236,20 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
         }
 
         StateMachine<BuffFSMState> _fsm = null;
-        Action _applyBuff = null;
         int _giftCount = 0;
         int _targetCount = 0;
         float _timer = 0;
-        float _duration = 0;
         GameMgr _gameMgr = null;
-        string _name = null;
+        PlayerBuffDesc _buffDesc;
 
         SimpleBuffStateMachine() { }
-        public SimpleBuffStateMachine(GameMgr gameMgr, string name, Action applyBuff, int targetScore, float duration)
+        public SimpleBuffStateMachine(GameMgr gameMgr, PlayerBuffDesc buffDesc, int targetScore, float duration)
         {
             _fsm = new StateMachine<BuffFSMState>();
-            _name = name;
+            _buffDesc = buffDesc;
             _targetCount = targetScore;
-            _duration = duration;
             _gameMgr = gameMgr;
             _gameMgr._onScoreChangeEvent += SetGiftCount;
-            _applyBuff = applyBuff;
             
             _fsm.AddState(BuffFSMState.NOT_APPLIED, onEnter: OnEnterStateNotApplied);
             _fsm.AddState(BuffFSMState.APPLIED, onEnter: OnEnterStateApplied, onLogic: OnStateApplied);
@@ -260,7 +258,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
             if (Mathf.Approximately(0, duration))
                 _fsm.AddTransition(BuffFSMState.APPLIED, BuffFSMState.NOT_APPLIED, (t) => { return true; });
             else
-                _fsm.AddTransition(BuffFSMState.APPLIED, BuffFSMState.NOT_APPLIED, (t)=> { return _timer >= _duration; });
+                _fsm.AddTransition(BuffFSMState.APPLIED, BuffFSMState.NOT_APPLIED, (t)=> { return _timer >= _buffDesc.Duration; });
 
             _fsm.SetStartState(BuffFSMState.NOT_APPLIED);
             _fsm.Init();
@@ -284,17 +282,16 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
         [StateMachineFunction]
         void OnEnterStateNotApplied(State<BuffFSMState> state)
         {
-            GameConsts.eventManager.InvokeEvent(typeof(IBuffStateHandler), new BuffStateEventData(_name, false));
+            GameConsts.eventManager.InvokeEvent(typeof(IBuffStateHandler), new BuffStateEventData(false, _buffDesc));
 
             _giftCount = 0;
         }
         [StateMachineFunction]
         void OnEnterStateApplied(State<BuffFSMState> state)
         {
-            GameConsts.eventManager.InvokeEvent(typeof(IBuffStateHandler), new BuffStateEventData(_name, true));
+            GameConsts.eventManager.InvokeEvent(typeof(IBuffStateHandler), new BuffStateEventData(true, _buffDesc));
 
             _timer = 0;
-            _applyBuff.Invoke();
         }
         [StateMachineFunction]
         void OnStateApplied(State<BuffFSMState> state)
@@ -310,9 +307,9 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
         [Conditional("DEBUG")]
         public void DEBUG_OnGUI()
         {
-            GUILayout.Label($"====={_name} DEBUG info=====");
+            GUILayout.Label($"====={_buffDesc.Name} DEBUG info=====");
             GUILayout.Label($"current state: {_fsm.ActiveStateName.ToString()}");
-            GUILayout.Label($"timer:{_timer.ToString("0.0")}/{_duration.ToString("0.0")}");
+            GUILayout.Label($"timer:{_timer.ToString("0.0")}/{_buffDesc.Duration.ToString("0.0")}");
             GUILayout.Label($"gift count: {_giftCount}/{_targetCount}");
         }
     }
@@ -407,6 +404,9 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
     }
 
     // total score (actual player score with bonus stuff added)
+    float _globalPlayerScoreMultiplier = 1;
+    public float GlobalPlayerScoreMultiplier { get => _globalPlayerScoreMultiplier; private set => _globalPlayerScoreMultiplier = value; }
+
     int _playerScore;
     public int PlayerScore
     {
@@ -444,6 +444,8 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
     }
 
     public float TileSpeedMultiplier { get; private set; }
+    public float GlobalSpeedIncrease { get; private set; }
+
     public LevelStageTable StageTable { get => _stageTable; }
 
     void Awake()
@@ -465,12 +467,16 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
         {
             if (_targetPool.BonusStages.Length == 0)
             {
-                Debug.Break();
                 Debug.LogError("No Bonus stages were set!");
+                Debug.Break();
             }
             else
             {
                 int numStages = _targetPool.BonusStages.Length;
+                float maxDuration = 0;
+                for (int i = 0; i < numStages; ++i)
+                    maxDuration = Mathf.Max(maxDuration, _targetPool.BonusStages[i].TimeLimit);
+                _scoreEventWindow = new ScoreEventWindow(maxDuration + 10f);
 
                 // initialize static state objects
                 GiftBonusState.Init(_targetPool.BonusStages);
@@ -516,8 +522,12 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
 
         // FSM initialization
         SetupBonusStageFSM();
-        _superStatusFSM = new SimpleBuffStateMachine(this, "头槌!", ApplySuperStatus, _targetPool.PlayerBuffConfig.SuperStatusGiftNum, _targetPool.PlayerBuffConfig.SuperStatusTime);
-        _hpBonusFSM = new SimpleBuffStateMachine(this, "鹿!", ApplyHPReward, _targetPool.PlayerBuffConfig.HPRewardGiftNum, 0f);
+
+        PlayerBuffDesc superStatusBuff = new PlayerBuffDesc(PlayerBuffType.SUPER_STATUS, "头槌!", _targetPool.PlayerBuffConfig.SuperStatusTime);
+        PlayerBuffDesc hpRewardBuff = new PlayerBuffDesc(PlayerBuffType.HP_REWARD, "鹿!", 0f);
+
+        _superStatusFSM = new SimpleBuffStateMachine(this, superStatusBuff, _targetPool.PlayerBuffConfig.SuperStatusGiftNum, _targetPool.PlayerBuffConfig.SuperStatusTime);
+        _hpBonusFSM = new SimpleBuffStateMachine(this, hpRewardBuff, _targetPool.PlayerBuffConfig.HPRewardGiftNum, 0f);
     }
 
     // Update is called once per frame
@@ -564,6 +574,11 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
         DEBUG_BonusFSM_OnGUI();
         _superStatusFSM.DEBUG_OnGUI();
         _hpBonusFSM.DEBUG_OnGUI();
+#if DEBUG
+        GUILayout.Label("=====GameMgr DEBUG info=====");
+        GUILayout.Label($"Global Score Multiplier = {GlobalPlayerScoreMultiplier.ToString("0.00")}");
+        GUILayout.Label($"Global Speed Increase = {GlobalSpeedIncrease.ToString("0.00")}");
+#endif
     }
 
     private void OnApplicationFocus(bool focus)
@@ -574,22 +589,13 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
         }
     }
 
-    void ApplyHPReward()
-    {
-        
-    }
-
-    void ApplySuperStatus()
-    {
-    }
-
     void SpeedChange()
     {
         ++ _curSpeedChangeInterval;
         TileSpeedMultiplier = Mathf.Lerp(_speedChangeStat.initialMultiplier, _speedChangeStat.finalMultiplier, 
             Mathf.Clamp01((LevelTime - _speedChangeStat.intervalStartTime) / _totalSpeedChangeTime));
 
-        GameConsts.eventManager.InvokeEvent(typeof(ILevelStageHandler), new LevelStageEventData(TileSpeedMultiplier));
+        GameConsts.eventManager.InvokeEvent(typeof(ILevelStageHandler), new LevelStageEventData(TileSpeedMultiplier, GlobalSpeedIncrease));
     }
 
     void GiftTargetChange()
@@ -612,7 +618,10 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
         ++ Score;
 
         // player score
-        PlayerScore += _curBonusStage != null ? _curBonusStage.GetModifiedScoreDelta(delta) : delta;
+        if (_curBonusStage != null)
+            delta = _curBonusStage.GetModifiedScoreDelta(delta);
+
+        PlayerScore += Mathf.RoundToInt(delta * GlobalPlayerScoreMultiplier);
     }
 
     public void FailGame()
@@ -649,5 +658,26 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler
     {
         if (eventData.partCount == 1)
             FailGame();
+    }
+
+
+    public void OnBuffStateChange(BuffStateEventData eventData)
+    {
+        if (eventData.buffEnabled)
+        {
+            if (eventData.desc.Type == PlayerBuffType.SUPER_STATUS)
+            {
+                GlobalSpeedIncrease = _targetPool.PlayerBuffConfig.SuperStatusSpeedIncrease;
+                GlobalPlayerScoreMultiplier = _targetPool.PlayerBuffConfig.SuperStatusScoreMultiplier;
+            }
+        }
+        else
+        {
+            if (eventData.desc.Type == PlayerBuffType.SUPER_STATUS)
+            {
+                GlobalPlayerScoreMultiplier = 1;
+                GlobalSpeedIncrease = 0;
+            }
+        }
     }
 }

@@ -50,9 +50,9 @@ public class HUD : MonoBehaviour, IGameScoreHandler, IBonusStateHanlder, IBuffSt
 
     public void OnBuffStateChange(BuffStateEventData eventData)
     {
-        if (!eventData.hasBuff)
+        if (!eventData.buffEnabled)
             _buffText.text = "";
         else
-            _buffText.text += " " + eventData.name;
+            _buffText.text += " " + eventData.desc.Name;
     }
 }

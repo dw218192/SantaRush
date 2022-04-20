@@ -24,6 +24,7 @@ public class Scroller : MonoBehaviourEx, ILevelStageHandler
 
     bool _valid = true;
     float _multiplier = 1;
+    float _extraSpeedIncrease = 0;
 
     public float BaseSpeed
     {
@@ -46,6 +47,11 @@ public class Scroller : MonoBehaviourEx, ILevelStageHandler
         }
     }
 
+    public float ActualSpeed
+    {
+        get => _initSpeed * _multiplier + _extraSpeedIncrease;
+    }
+
     void Start()
     {
         BaseSpeed = _initSpeed;
@@ -58,7 +64,7 @@ public class Scroller : MonoBehaviourEx, ILevelStageHandler
 
         if (!_usePhysics)
         {
-            Vector2 move = Vector2.right * _initSpeed * _multiplier * Time.deltaTime;
+            Vector2 move = Vector2.right * ActualSpeed * Time.deltaTime;
             transform.Translate(move);
         }
     }
@@ -66,8 +72,9 @@ public class Scroller : MonoBehaviourEx, ILevelStageHandler
     public void OnGameStageEnter(LevelStageEventData eventData)
     {
         _multiplier = eventData.speedMultiplier;
+        _extraSpeedIncrease = eventData.extraSpeedIncrease;
 
         if (_usePhysics)
-            Rb.velocity.Set(_initSpeed * _multiplier, Rb.velocity.y);
+            Rb.velocity.Set(ActualSpeed, Rb.velocity.y);
     }
 }

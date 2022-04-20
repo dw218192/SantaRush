@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 [RequireComponent(typeof(PlayerController), typeof(HurtboxGroup))]
-public class Wagon : MonoBehaviour
+public class Wagon : MonoBehaviour, IBuffStateHandler
 {
     [SerializeField] WagonConfig _config = null;
     [SerializeField] Transform _giftSpawnSocket;
@@ -18,13 +20,14 @@ public class Wagon : MonoBehaviour
 
     Inventory _giftInventory = new Inventory();
 
-/*  
-    float _smoothTime;
-    Vector2? _targetPos = null;
-    Vector2 _velocity;
-*/
+    /*  
+        float _smoothTime;
+        Vector2? _targetPos = null;
+        Vector2 _velocity;
+    */
+    Coroutine _collisionInvisibleRoutine = null;
+    Coroutine _superStatusRoutine = null;
 
-    bool _isInvincible = false;
     Bounds _wagonBounds; // aggregate bounds of the entire wagon
     public Vector2 WagonSize { get => _wagonBounds.size; }
     public Vector2 WagonCenter 
@@ -102,6 +105,12 @@ public class Wagon : MonoBehaviour
         // configure hurtbox
         new_part.gameObject.layer = gameObject.layer;
 
+        // apply effects
+        if (_superStatusRoutine != null)
+            DoSuperStatusEffect(new_part, true);
+        else if (_collisionInvisibleRoutine != null)
+            DoInvisibleCollisionEffect(new_part, true);
+
         _parts.Add(new_part);
     }
 
@@ -149,34 +158,17 @@ public class Wagon : MonoBehaviour
         _ctrl.UpdateWagonBounds();
     }
 
-    bool TurnInvincible()
+    IEnumerator TurnInvincibleRoutine(float time, Action<WagonPart, bool> doEffect, Action callback)
     {
-        if (_isInvincible)
-            return false;
-        _isInvincible = true;
+        foreach (WagonPart part in _parts)
+            doEffect(part, false);
 
-        IEnumerator _routine()
-        {
-            foreach (WagonPart part in _parts)
-            {
-                Color col = part.Renderer.color;
-                col.a *= 0.5f;
-                part.Renderer.color = col;
-            }
+        yield return new WaitForSeconds(time);
 
-            yield return new WaitForSeconds(_config.InvicibleTimeOnCollision);
+        foreach (WagonPart part in _parts)
+            doEffect(part, true);
 
-            foreach (WagonPart part in _parts)
-            {
-                Color col = part.Renderer.color;
-                col.a *= 2f;
-                part.Renderer.color = col;
-            }
-            _isInvincible = false;
-        }
-        StartCoroutine(_routine());
-        
-        return true;
+        callback?.Invoke();
     }
 
     private void Awake()
@@ -235,13 +227,6 @@ public class Wagon : MonoBehaviour
         }*/
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
     [HurtboxHandler]
     public void OnWagonCollide(Hitbox inflictor)
     {
@@ -249,16 +234,127 @@ public class Wagon : MonoBehaviour
         if (gift != null)
         {
             GameConsts.gameManager.AddScore(gift.GiftType.GetScore());
-            return;
+        }
+        else if (_superStatusRoutine != null)
+        {
+            NPCPart npc = inflictor.GetComponent<NPCPart>();
+            if(npc != null)
+            {
+                GameConsts.gameManager.AddScore(npc.Owner.NpcType.GiftType.GetScore());
+                npc.Owner.Die(true);
+            }
         }
         else
         {
-            if (TurnInvincible())
+            if (_collisionInvisibleRoutine == null)
             {
+                _collisionInvisibleRoutine = StartCoroutine(TurnInvincibleRoutine(_config.InvicibleTimeOnCollision, DoInvisibleCollisionEffect, ()=> { _collisionInvisibleRoutine = null; }));
+                
                 RemoveEnd();
                 GameConsts.eventManager.InvokeEvent(typeof(IWagonCollisionHandler),
                     new WagonCollisionEventData(PartCount()));
             }
         }
+
+        DEBUG_CheckInvariant();
+    }
+
+    void DoInvisibleCollisionEffect(WagonPart part, bool undo)
+    {
+        Color c = part.Renderer.color;
+        
+        if (undo)
+            c.a *= 2;
+        else
+            c.a *= 0.5f;
+    
+        part.Renderer.color = c;
+    }
+
+    void DoSuperStatusEffect(WagonPart part, bool undo)
+    {
+        if (undo)
+            part.Renderer.color = Color.white;
+        else
+            part.Renderer.color = Color.red;
+    }
+
+    public void OnBuffStateChange(BuffStateEventData eventData)
+    {
+        if(eventData.buffEnabled)
+        {
+            switch (eventData.desc.Type)
+            {
+                case PlayerBuffType.HP_REWARD:
+                    {
+                        uint numParts = (uint)_parts.Count;
+                        uint maxNumParts = 0;
+
+                        WagonPart newPartPrefab = null;
+                        foreach (var desc in _config.PartDescs)
+                        {
+                            newPartPrefab = desc.prefab;
+                            maxNumParts += desc.count;
+                            if (maxNumParts >= numParts)
+                                break;
+                        }
+
+                        if (numParts == maxNumParts)
+                            return;
+                        else if (numParts < maxNumParts)
+                        {
+                            AddPart(newPartPrefab);
+                        }
+                        else
+                            Debug.Break();
+                        break;
+                    }
+                case PlayerBuffType.SUPER_STATUS:
+                    {
+                        if (_superStatusRoutine != null)
+                            StopCoroutine(_superStatusRoutine);
+
+                        if (_collisionInvisibleRoutine != null)
+                        {
+                            StopCoroutine(_collisionInvisibleRoutine);
+                            _collisionInvisibleRoutine = null;
+                        }
+
+                        _superStatusRoutine = StartCoroutine(TurnInvincibleRoutine(eventData.desc.Duration, DoSuperStatusEffect, ()=> { _superStatusRoutine = null; }));
+                        break;
+                    }
+                default:
+                    Debug.LogError("unknown buff type received!");
+                    Debug.Break();
+                    break;
+            }
+        }
+        else
+        {
+            switch (eventData.desc.Type)
+            {
+                case PlayerBuffType.HP_REWARD:
+                    break;
+                case PlayerBuffType.SUPER_STATUS:
+                    break;
+                default:
+                    Debug.LogError("unknown buff type received!");
+                    Debug.Break();
+                    break;
+            }
+        }
+
+        DEBUG_CheckInvariant();
+    }
+
+    [Conditional("DEBUG")]
+    void DEBUG_CheckInvariant()
+    {
+        bool b1 = _superStatusRoutine != null;
+        bool b2 = _collisionInvisibleRoutine != null;
+
+        Debug.Assert(!(b1 && b2));
+        if (b1 && b2)
+            Debug.Break();
     }
 }

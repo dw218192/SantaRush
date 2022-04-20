@@ -42,9 +42,12 @@ public interface IBuffStateHandler
 public class LevelStageEventData : GameEventData
 {
     public float speedMultiplier;
-    public LevelStageEventData(float speedMultiplier)
+    public float extraSpeedIncrease;
+
+    public LevelStageEventData(float speedMultiplier, float extraSpeedIncrease)
     {
         this.speedMultiplier = speedMultiplier;
+        this.extraSpeedIncrease = extraSpeedIncrease;
     }
 }
 
@@ -89,13 +92,13 @@ public class BonusStateEventData : GameEventData
 }
 public class BuffStateEventData : GameEventData
 {
-    public string name;
-    public bool hasBuff;
+    public bool buffEnabled;
+    public PlayerBuffDesc desc;
 
-    public BuffStateEventData(string name, bool hasBuff)
+    public BuffStateEventData(bool buffEnabled, PlayerBuffDesc desc)
     {
-        this.name = name;
-        this.hasBuff = hasBuff;
+        this.buffEnabled = buffEnabled;
+        this.desc = desc;
     }
 }
 

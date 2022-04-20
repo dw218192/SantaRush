@@ -65,6 +65,8 @@ public class NPCInstance : MonoBehaviour
         
         new_part.transform.localPosition = local_pos;
         new_part.gameObject.layer = gameObject.layer;
+        new_part.Owner = this;
+
         _parts.Add(new_part);
     }
 
@@ -94,7 +96,7 @@ public class NPCInstance : MonoBehaviour
         Vector3 tailPos = transform.TransformPoint(new Vector3(_totalWidth, 0));
         bool tailInBound = camBound.Contains(tailPos);
         if (_isTailInBound && !tailInBound)  // when the tail of NPC first leaves the screen
-            Destroy(gameObject);
+            Die(false);
         _isTailInBound = tailInBound;
 
 
@@ -114,11 +116,18 @@ public class NPCInstance : MonoBehaviour
             gift.Hitbox.AddExcludeList(part.Hurtbox);
     }
 
+    public void Die(bool useEffect)
+    {
+        // if(!useEffect)
+            Destroy(gameObject);
+        
+    }
+
     [HurtboxHandler]
     public void OnNPCCollide(Hitbox inflictor)
     {
         if (inflictor.gameObject.layer == LayerMask.NameToLayer(GameConsts.k_WorldLayerName) || 
             inflictor.gameObject.layer == LayerMask.NameToLayer(GameConsts.k_PlayerLayerName))
-            Destroy(gameObject);
+            Die(true);
     }
 }

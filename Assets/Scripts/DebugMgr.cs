@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System;
 
+[Obsolete("no longer used for debugging")]
 public class DebugMgr : MonoBehaviour
 {
     string str = "1";
@@ -12,7 +14,6 @@ public class DebugMgr : MonoBehaviour
     public GameObject go = null;
     public InputAction testScreenToWorld = null;
 
-    
     void TestScreenToWorld(InputAction.CallbackContext context)
     {
         if (go == null) return;
