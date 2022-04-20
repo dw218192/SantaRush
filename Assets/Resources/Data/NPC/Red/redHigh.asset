@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb2e941748b1a4249a530a7772355ff3, type: 3}
+  m_Name: redHigh
+  m_EditorClassIdentifier: 
+  _giftType:
+    val: 2
+  _giftSpawnCooldown: 0.6
+  _speed: 2.6
+  _bombProbability: 0
+  _npcWeight: 50
+  _npcParts:
+  - prefab: {fileID: 5541145127859025487, guid: de066584122981041a06d1ac528fbe90, type: 3}
+    count: 3
+  _npcPartDist: 0.5

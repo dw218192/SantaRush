@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6129028754993990836}
   - component: {fileID: -3325095893292793287}
   m_Layer: 10
-  m_Name: TestNPCPart
+  m_Name: TestNPCPart 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9dbc6e6099a9dfe47bafd8836d88767d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.10849059, g: 0.17908306, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
