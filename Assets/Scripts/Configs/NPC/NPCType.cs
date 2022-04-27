@@ -4,18 +4,6 @@ using UnityEngine;
 using System;
 using NaughtyAttributes;
 
-[Serializable]
-public struct NPCPartDesc
-{
-    [AllowNesting]
-    [Label("车厢种类")]
-    public NPCPart prefab;
-
-    [AllowNesting]
-    [Label("数量")]
-    public uint count;
-}
-
 [CreateAssetMenu(menuName = "策划/新NPC种类")]
 public class NPCType : ScriptableObject, ILotteryItem
 {
@@ -45,23 +33,31 @@ public class NPCType : ScriptableObject, ILotteryItem
     int _npcWeight;
 
     [SerializeField]
-    [Label("NPC雪橇部件")]
     [ReorderableList]
+    [Label("NPC雪橇部件")]
     [ValidateInput("IsNotEmpty", "不能为空")]
-    NPCPartDesc[] _npcParts;
+    PartDesc<NPCPart>[] _npcParts;
 
     [SerializeField]
     [Label("NPC部件间距")]
     [ValidateInput("IsGreaterThanZero", "必须大于0")]
     float _npcPartDist;
 
+    [SerializeField]
+    [Label("礼物投放位置(百分比)")]
+    [Range(0,1)]
+    float _npcDropSocketLerpPercentage;
+
     public float BombProbability { get => _bombProbability; }
     public float Speed { get => _speed; }
     public float GiftSpawnCooldown { get => _giftSpawnCooldown; }
     public GiftType GiftType { get => _giftType; }
     public int NpcWeight { get => _npcWeight; }
-    public NPCPartDesc[] NpcParts { get => _npcParts; }
+
+    public PartDesc<NPCPart>[] NpcParts { get => _npcParts; }
+    
     public float NpcPartDist { get => _npcPartDist; }
+    public float NpcDropSocketLerpPercentage { get => _npcDropSocketLerpPercentage; set => _npcDropSocketLerpPercentage = value; }
 
     public int GetWeight()
     {
@@ -69,7 +65,7 @@ public class NPCType : ScriptableObject, ILotteryItem
     }
 
     #region EditorValidatorMethods
-    private bool IsNotEmpty(NPCPartDesc[] parts)
+    private bool IsNotEmpty(PartDesc<NPCPart>[] parts)
     {
         return parts != null && parts.Length > 0;
     }
@@ -78,7 +74,6 @@ public class NPCType : ScriptableObject, ILotteryItem
     {
         return value > 0;
     }
-    
     private bool IsGreaterThanZeroInt(int value)
     {
         return value > 0;

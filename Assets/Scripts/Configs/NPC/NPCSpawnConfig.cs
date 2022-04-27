@@ -4,18 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-#region EDITOR
-public class NPCHeightAttribute : PropertyAttribute
-{
-    public string label;
-    public NPCHeightAttribute(string label)
-    {
-        this.label = label;
-    }
-}
-#endregion
-
 [Serializable]
 public struct NPCHeight
 {

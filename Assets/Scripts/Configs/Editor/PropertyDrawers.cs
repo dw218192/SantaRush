@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using System.Linq;
-
+using UnityEditorInternal;
 
 [CustomPropertyDrawer(typeof(GiftTypeDropdownAttribute))]
 public class GiftTypeDrawer : PropertyDrawer
@@ -34,7 +35,6 @@ public class GiftTypeDrawer : PropertyDrawer
         }
     }
 }
-
 
 [CustomPropertyDrawer(typeof(NPCHeightAttribute))]
 public class NPCHeightDrawer : PropertyDrawer

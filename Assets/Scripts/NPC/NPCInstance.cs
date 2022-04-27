@@ -77,7 +77,7 @@ public class NPCInstance : MonoBehaviour
         _partParent.parent = transform;
         _partParent.localPosition = new Vector2(-NpcType.NpcPartDist, 0);
 
-        foreach (NPCPartDesc desc in NpcType.NpcParts)
+        foreach (var desc in NpcType.NpcParts)
         {
             for (int i = 0; i < desc.count; ++i)
                 AddPart(desc.prefab);

@@ -3,31 +3,6 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-#region EDITOR
-public class GiftTypeDropdownAttribute : PropertyAttribute
-{
-    public string label;
-    public GiftTypeDropdownAttribute(string label)
-    {
-        this.label = label;
-    }
-}
-
-#endregion
-
-[Serializable]
-public struct WagonPartDesc
-{
-    [AllowNesting]
-    [Label("车厢种类")]
-    public WagonPart prefab;
-
-    [AllowNesting]
-    [Label("数量")]
-    public uint count;
-}
-
-
 [Serializable]
 public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryItem
 {
@@ -135,7 +110,7 @@ public class WagonConfig : ScriptableObject
     [SerializeField]
     [ReorderableList]
     [Label("车厢组件")]
-    WagonPartDesc[] _partDescs = null;
+    PartDesc<WagonPart>[] _partDescs = null;
 
     [Header("游戏参数")]
     [SerializeField]
@@ -179,7 +154,7 @@ public class WagonConfig : ScriptableObject
     public float HingeAngularDrag { get => _hingeAngularDrag; }
     public float PartMass { get => _partMass; }
     public float AngleRange { get => _angleRange; }
-    public WagonPartDesc[] PartDescs { get => _partDescs; }
+    public PartDesc<WagonPart>[] PartDescs { get => _partDescs; }
     public float InvicibleTimeOnCollision { get => _invicibleTimeOnCollision; }
     public GiftDesc[] InitGiftDescs { get => _giftDescs; }
     public float Tolerance { get => _tolerance; }

@@ -14,7 +14,7 @@ public interface IGameMenu
     bool CanOpen();
 }
 
-public abstract class GameMenu : MonoBehaviour, IGameMenu
+public abstract class GameMenu : UIObject, IGameMenu
 {
     List<Graphic> _raycastTargets;
 
@@ -29,8 +29,9 @@ public abstract class GameMenu : MonoBehaviour, IGameMenu
         }
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         gameObject.SetActive(false);
         GameConsts.uiMgr.RegisterMenu(this);
     }

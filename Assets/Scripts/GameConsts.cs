@@ -14,6 +14,8 @@ public static class GameConsts
     public const string k_ResourcesGameDataPath = "Data/";
     public const string k_ResourcesGiftPrefabPath = "Prefabs/Things/GiftInstance";
     public const string k_ResourcesNPCPrefabPath = "Prefabs/NPC/NPCInstance";
+    public const string k_ResourcesArtPath = "Art/";
+    public const string k_GameFontPath = "Art/Font/Muyao-Softbrush-2"; 
 
     private static Dictionary<string, GameObject> _loadedPrefabs = new Dictionary<string, GameObject>();
     public static GameObject GetPrefab(string prefabPath)
@@ -25,6 +27,14 @@ public static class GameConsts
             _loadedPrefabs[prefabPath] = ret;
         }
         return ret;
+    }
+
+    private static Font _gameFont = null;
+    public static Font GetGameFont()
+    {
+        if (_gameFont == null)
+            _gameFont = Resources.Load<Font>(k_GameFontPath);
+        return _gameFont;
     }
 
     private static GameEventDispatcher _eventDispatcher = null;

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(HingeJoint2D), typeof(SpriteRenderer), typeof(Hurtbox))]
-public class WagonPart : MonoBehaviour
+[RequireComponent(typeof(HingeJoint2D), typeof(Hurtbox))]
+public class WagonPart : SpriteObject
 {
     HingeJoint2D _hingeJoint = null;
     public HingeJoint2D HingeJoint
@@ -16,25 +16,6 @@ public class WagonPart : MonoBehaviour
     public Rigidbody2D RigidBody
     {
         get { if (_rgBody == null) _rgBody = GetComponent<Rigidbody2D>(); return _rgBody; }
-    }
-
-    SpriteRenderer _rend = null;
-    public float Width
-    {
-        get
-        {
-            if (_rend == null) _rend = GetComponent<SpriteRenderer>();
-            return _rend.bounds.size.x;
-        }
-    }
-
-    public SpriteRenderer Renderer
-    {
-        get
-        {
-            if (_rend == null) _rend = GetComponent<SpriteRenderer>();
-            return _rend;
-        }
     }
 
     Collider2D _collider = null;

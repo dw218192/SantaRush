@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class HUD : MonoBehaviour, IGameScoreHandler, IBonusStateHanlder, IBuffStateHandler
+public class HUD : UIObject, IGameScoreHandler, IBonusStateHanlder, IBuffStateHandler
 {
     [SerializeField] Text _giftTimerText;
     [SerializeField] Text _giftScoreText;
@@ -12,11 +12,6 @@ public class HUD : MonoBehaviour, IGameScoreHandler, IBonusStateHanlder, IBuffSt
     [SerializeField] Text _playerScoreText;
     [SerializeField] Text _bonusStageText;
     [SerializeField] Text _buffText;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
     // Update is called once per frame
     void Update()

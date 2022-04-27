@@ -179,7 +179,7 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
         _ctrl = GetComponent<PlayerController>();
         _rgBody = gameObject.AddComponent<Rigidbody2D>();
 
-        foreach (WagonPartDesc desc in _config.PartDescs)
+        foreach (var desc in _config.PartDescs)
         {
             for (int i = 0; i < desc.count; ++i)
                 AddPart(desc.prefab);

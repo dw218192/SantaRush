@@ -29,6 +29,11 @@ public class EventMgr : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        
+    }
+
     void BuildEventMap()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -73,11 +78,19 @@ public class EventMgr : MonoBehaviour
                 }
                 if(!found)
                 {
+#if !UNITY_WEBGL
                     l.Add(new EventTarget
                     {
                         ins = behaviour,
                         method = behaviour.GetType().GetMethod(pair.methodName, BindingFlags.Instance | BindingFlags.Public)
                     });
+#else
+                    l.Add(new EventTarget
+                    {
+                        ins = behaviour,
+                        method = behaviour.GetType().GetMethod(pair.methodName, BindingFlags.Instance | BindingFlags.Public)
+                    });
+#endif
                 }
             }
         }
@@ -122,7 +135,10 @@ public class EventMgr : MonoBehaviour
         {
             foreach(EventTarget target in _eventMap[eventType])
             {
-                target.method.Invoke(target.ins, new object[] { eventData });
+                if (target.method == null)
+                    Debug.LogError($"event method info is null for {target.ins.name}");
+                else
+                    target.method.Invoke(target.ins, new object[] { eventData });
             }
         }
         else

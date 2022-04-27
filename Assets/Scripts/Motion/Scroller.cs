@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scroller : MonoBehaviourEx, ILevelStageHandler
+public class Scroller : MonoBehaviour, ILevelStageHandler
 {
     [SerializeField] float _initSpeed = 0;
     [SerializeField] bool _usePhysics = false;
