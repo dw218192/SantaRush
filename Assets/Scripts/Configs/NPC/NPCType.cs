@@ -46,7 +46,7 @@ public class NPCType : ScriptableObject, ILotteryItem
     [SerializeField]
     [Label("礼物投放位置(百分比)")]
     [Range(0,1)]
-    float _npcDropSocketLerpPercentage;
+    float _npcGiftSpawnLerpPercentage;
 
     public float BombProbability { get => _bombProbability; }
     public float Speed { get => _speed; }
@@ -57,7 +57,7 @@ public class NPCType : ScriptableObject, ILotteryItem
     public PartDesc<NPCPart>[] NpcParts { get => _npcParts; }
     
     public float NpcPartDist { get => _npcPartDist; }
-    public float NpcDropSocketLerpPercentage { get => _npcDropSocketLerpPercentage; set => _npcDropSocketLerpPercentage = value; }
+    public float NpcGiftSpawnLerpPercentage { get => _npcGiftSpawnLerpPercentage; }
 
     public int GetWeight()
     {

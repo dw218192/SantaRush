@@ -28,9 +28,6 @@ public class NPCSpawnEditor : Editor
         Aspect16by9 = 4
     };
 
-    const string kDemoBkgPrefab = "Assets/Resources/Prefabs/Demo/DemoBkg.prefab";
-    const string kPlaceHolderSpritePrefab = "Assets/Resources/Prefabs/Demo/SpawnRef.prefab";
-
     Texture _tex;
 
     PreviewRenderUtility _previewUtil;
@@ -156,7 +153,7 @@ public class NPCSpawnEditor : Editor
 
         _scene = EditorSceneManager.NewPreviewScene();
 
-        _backgroundObj = PrefabUtility.LoadPrefabContents(kDemoBkgPrefab);
+        _backgroundObj = PrefabUtility.LoadPrefabContents(EditorResources.kDemoBkgPrefab);
         EditorSceneManager.MoveGameObjectToScene(_backgroundObj, _scene);
         _backgroundObj.SetActive(_useBackgroundPrefab);
 
@@ -175,7 +172,7 @@ public class NPCSpawnEditor : Editor
         _cam = _previewUtil.camera;
         _cam.orthographic = true;
 
-        _backgroundObj = InstantiatePreviewGO(Vector3.zero, kDemoBkgPrefab);
+        _backgroundObj = InstantiatePreviewGO(Vector3.zero, EditorResources.kDemoBkgPrefab);
         _backgroundObj.SetActive(_useBackgroundPrefab);
     }
 
@@ -259,7 +256,7 @@ public class NPCSpawnEditor : Editor
         {
             Vector3 pos = new Vector3(viewMax.x - 1f, _spawnYs[i], 10f);
             if (instantiateFlag)
-                _spawnRef[i] = InstantiatePreviewGO(pos, kPlaceHolderSpritePrefab);
+                _spawnRef[i] = InstantiatePreviewGO(pos, EditorResources.kPlaceHolderSpritePrefab);
             else
                 _spawnRef[i].transform.position = pos;
 

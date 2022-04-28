@@ -30,14 +30,27 @@ public class NPCInstance : MonoBehaviour
 
     NPCType _npcType;
     public NPCType NpcType { get => _npcType; set => _npcType = value; }
-    public Vector2 PartCenter 
+
+    public Vector2 GiftSpawnPos 
     { 
         get
         {
-            Vector2 center = Vector2.zero;
-            foreach (NPCPart part in _parts)
-                center += new Vector2(part.transform.position.x, transform.position.y);
-            return center / _parts.Count;
+            return _partParent.TransformPoint(new Vector2(_totalWidth * NpcType.NpcGiftSpawnLerpPercentage, 0));
+        }
+    }
+
+    public float TotalWidth { get => _totalWidth; }
+
+    void SetupParts()
+    {
+        _partParent = new GameObject("parts").transform;
+        _partParent.parent = transform;
+        _partParent.localPosition = new Vector2(-NpcType.NpcPartDist, 0);
+
+        foreach (var desc in NpcType.NpcParts)
+        {
+            for (int i = 0; i < desc.count; ++i)
+                AddPart(desc.prefab);
         }
     }
 
@@ -73,15 +86,7 @@ public class NPCInstance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _partParent = new GameObject("parts").transform;
-        _partParent.parent = transform;
-        _partParent.localPosition = new Vector2(-NpcType.NpcPartDist, 0);
-
-        foreach (var desc in NpcType.NpcParts)
-        {
-            for (int i = 0; i < desc.count; ++i)
-                AddPart(desc.prefab);
-        }
+        SetupParts();
 
         _scroller = GetComponent<Scroller>();
         _scroller.BaseSpeed = -(NpcType.Speed + GameConsts.gameManager.StageTable.InitScrollSpeed);
@@ -111,7 +116,7 @@ public class NPCInstance : MonoBehaviour
 
     void SpawnGift()
     {
-        var gift = GiftInstance.Create(NpcType.GiftType, PartCenter);
+        var gift = GiftInstance.Create(NpcType.GiftType, GiftSpawnPos);
         foreach(var part in _parts)
             gift.Hitbox.AddExcludeList(part.Hurtbox);
     }
