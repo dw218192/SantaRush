@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(OutOfViewDestroyer), typeof(StickOnContact), typeof(Scroller))]
+[RequireComponent(typeof(OutOfViewDestroyer), typeof(Scroller))]
 [RequireComponent(typeof(Hitbox), typeof(SpriteRenderer))]
 public class GiftInstance : MonoBehaviour
 {
@@ -53,5 +54,10 @@ public class GiftInstance : MonoBehaviour
                 _hitbox = GetComponent<Hitbox>();
             return _hitbox;
         }
+    }
+
+    void Awake()
+    {
+        gameObject.layer = LayerMask.NameToLayer(GameConsts.k_GiftLayerName);
     }
 }

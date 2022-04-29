@@ -30,6 +30,11 @@ public class Hitbox : MonoBehaviour
         _excludeList.Clear();
     }
 
+    public bool IsInLayer(string layerName)
+    {
+        return gameObject.layer == LayerMask.NameToLayer(layerName);
+    }
+
     void Awake()
     {
         _collider = GetComponent<Collider2D>();

@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+[Obsolete("All collisions should be handled through hurtbox", true)]
 [RequireComponent(typeof(Rigidbody2D))]
 public class StickOnContact : MonoBehaviour
 {

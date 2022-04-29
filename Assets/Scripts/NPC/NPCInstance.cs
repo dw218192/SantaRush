@@ -86,6 +86,7 @@ public class NPCInstance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.layer = LayerMask.NameToLayer(GameConsts.k_NPCLayerName);
         SetupParts();
 
         _scroller = GetComponent<Scroller>();
@@ -107,18 +108,27 @@ public class NPCInstance : MonoBehaviour
 
         if(_giftSpawnTimer >= NpcType.GiftSpawnCooldown)
         {
-            SpawnGift();
+            SpawnGiftOrBomb();
             _giftSpawnTimer = 0f;
         }
 
         _giftSpawnTimer += Time.deltaTime;
     }
 
-    void SpawnGift()
+    void SpawnGiftOrBomb()
     {
-        var gift = GiftInstance.Create(NpcType.GiftType, GiftSpawnPos);
-        foreach(var part in _parts)
-            gift.Hitbox.AddExcludeList(part.Hurtbox);
+        if (Random.Range(0f, 1f) <= NpcType.BombProbability)
+        {
+            var bomb = BombInstance.Create(GiftSpawnPos);
+            foreach (var part in _parts)
+                bomb.Hitbox.AddExcludeList(part.Hurtbox);
+        }
+        else
+        {
+            var gift = GiftInstance.Create(NpcType.GiftType, GiftSpawnPos);
+            foreach (var part in _parts)
+                gift.Hitbox.AddExcludeList(part.Hurtbox);
+        }
     }
 
     public void Die(bool useEffect)
@@ -131,8 +141,8 @@ public class NPCInstance : MonoBehaviour
     [HurtboxHandler]
     public void OnNPCCollide(Hitbox inflictor)
     {
-        if (inflictor.gameObject.layer == LayerMask.NameToLayer(GameConsts.k_WorldLayerName) || 
-            inflictor.gameObject.layer == LayerMask.NameToLayer(GameConsts.k_PlayerLayerName))
+        if (inflictor.IsInLayer(GameConsts.k_WorldLayerName) ||
+            inflictor.IsInLayer(GameConsts.k_PlayerLayerName))
             Die(true);
     }
 }

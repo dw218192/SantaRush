@@ -9,10 +9,13 @@ public static class GameConsts
     public const string k_PlayerLayerName = "Player";
     public const string k_NPCLayerName = "NPC";
     public const string k_WorldLayerName = "World";
+    public const string k_GiftLayerName = "Gift";
+    public const string k_BombLayerName = "Bomb";
 
     public const string k_GameEventDispatcherPath = "Data/GameEvents";
     public const string k_ResourcesGameDataPath = "Data/";
     public const string k_ResourcesGiftPrefabPath = "Prefabs/Things/GiftInstance";
+    public const string k_ResourcesBombPrefabPath = "Prefabs/Things/BombInstance";
     public const string k_ResourcesNPCPrefabPath = "Prefabs/NPC/NPCInstance";
     public const string k_ResourcesArtPath = "Art/";
     public const string k_GameFontPath = "Art/Font/Muyao-Softbrush-2"; 

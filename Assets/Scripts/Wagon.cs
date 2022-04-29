@@ -227,33 +227,47 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
         }*/
     }
 
+    void TakeDamage()
+    {
+        if (_collisionInvisibleRoutine == null)
+        {
+            _collisionInvisibleRoutine = StartCoroutine(TurnInvincibleRoutine(_config.InvicibleTimeOnCollision, DoInvisibleCollisionEffect, () => { _collisionInvisibleRoutine = null; }));
+
+            RemoveEnd();
+            GameConsts.eventManager.InvokeEvent(typeof(IWagonCollisionHandler),
+                new WagonCollisionEventData(PartCount()));
+        }
+    }
+
     [HurtboxHandler]
     public void OnWagonCollide(Hitbox inflictor)
     {
-        GiftInstance gift = inflictor.GetComponent<GiftInstance>();
-        if (gift != null)
+        if (inflictor.IsInLayer(GameConsts.k_GiftLayerName))
         {
+            GiftInstance gift = inflictor.GetComponent<GiftInstance>();
+
+            Debug.Assert(gift != null);
             GameConsts.gameManager.AddScore(gift.GiftType.GetScore());
         }
-        else if (_superStatusRoutine != null)
+        else if (inflictor.IsInLayer(GameConsts.k_NPCLayerName))
         {
-            NPCPart npc = inflictor.GetComponent<NPCPart>();
-            if(npc != null)
+            if(_superStatusRoutine != null)
             {
+                NPCPart npc = inflictor.GetComponent<NPCPart>();
+
+                Debug.Assert(npc != null);
                 GameConsts.gameManager.AddScore(npc.Owner.NpcType.GiftType.GetScore());
                 npc.Owner.Die(true);
+            }
+            else
+            {
+                TakeDamage();
             }
         }
         else
         {
-            if (_collisionInvisibleRoutine == null)
-            {
-                _collisionInvisibleRoutine = StartCoroutine(TurnInvincibleRoutine(_config.InvicibleTimeOnCollision, DoInvisibleCollisionEffect, ()=> { _collisionInvisibleRoutine = null; }));
-                
-                RemoveEnd();
-                GameConsts.eventManager.InvokeEvent(typeof(IWagonCollisionHandler),
-                    new WagonCollisionEventData(PartCount()));
-            }
+            if (_superStatusRoutine == null)
+                TakeDamage();
         }
 
         DEBUG_CheckInvariant();
