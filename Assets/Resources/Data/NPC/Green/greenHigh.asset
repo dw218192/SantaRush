@@ -17,8 +17,9 @@ MonoBehaviour:
   _giftSpawnCooldown: 0.6
   _speed: 0.8
   _bombProbability: 0
-  _npcWeight: 50
+  _npcWeight: 70
   _npcParts:
   - prefab: {fileID: 5541145127859025487, guid: 63902847b8dad404db22706ac22974dc, type: 3}
     count: 3
   _npcPartDist: 0.1
+  _npcGiftSpawnLerpPercentage: 0
