@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * component to move an object
+ * Note: all velocity is negative!!!
+ * because the world moves backwards in this game
+ * instead of the player moving forward!
+ */
 public class Scroller : MonoBehaviour, ILevelStageHandler
 {
     [SerializeField] float _initSpeed = 0;
@@ -49,7 +55,7 @@ public class Scroller : MonoBehaviour, ILevelStageHandler
 
     public float ActualSpeed
     {
-        get => _initSpeed * _multiplier + _extraSpeedIncrease;
+        get => _initSpeed * _multiplier - _extraSpeedIncrease;
     }
 
     void Start()

@@ -22,7 +22,7 @@ public class PauseMenu : SingletonGameMenu<PauseMenu>
     public override void OnEnterMenu()
     {
         base.OnEnterMenu();
-        _scoreText.text = "分数: " + GameConsts.gameManager.Score.ToString();
+        _scoreText.text = $"分数: {GameConsts.gameManager.PlayerScore}";
     }
 
     public override void OnLeaveMenu()

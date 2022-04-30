@@ -31,6 +31,9 @@ public class NPCInstance : MonoBehaviour
     NPCType _npcType;
     public NPCType NpcType { get => _npcType; set => _npcType = value; }
 
+    bool NoBomb { get => Mathf.Approximately(_npcType.BombProbability, 0f); }
+    bool AlwaysBomb { get => Mathf.Approximately(_npcType.BombProbability, 1f); }
+
     public Vector2 GiftSpawnPos 
     { 
         get
@@ -117,14 +120,18 @@ public class NPCInstance : MonoBehaviour
 
     void SpawnGiftOrBomb()
     {
-        if (Random.Range(0f, 1f) <= NpcType.BombProbability)
+        if (AlwaysBomb || (!NoBomb && Random.Range(0f, 1f) <= NpcType.BombProbability))
         {
+            Debug.Assert(!NoBomb, this);
+
             var bomb = BombInstance.Create(GiftSpawnPos);
             foreach (var part in _parts)
                 bomb.Hitbox.AddExcludeList(part.Hurtbox);
         }
         else
         {
+            Debug.Assert(!AlwaysBomb, this);
+
             var gift = GiftInstance.Create(NpcType.GiftType, GiftSpawnPos);
             foreach (var part in _parts)
                 gift.Hitbox.AddExcludeList(part.Hurtbox);

@@ -277,7 +277,7 @@ public class NPCSpawnEditor : Editor
             _spawnYs[i] /= viewHeight;
 
         foreach (var y in _spawnYs)
-            Debug.Assert(y >= 0 && y < 1);
+            Debug.Assert(y >= 0 && y < 1, this);
 
         serializedObject.ApplyModifiedProperties();
     }

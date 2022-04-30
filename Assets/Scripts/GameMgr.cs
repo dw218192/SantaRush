@@ -312,6 +312,12 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
             GUILayout.Label($"timer:{_timer.ToString("0.0")}/{_buffDesc.Duration.ToString("0.0")}");
             GUILayout.Label($"gift count: {_giftCount}/{_targetCount}");
         }
+
+        [Conditional("DEBUG")]
+        public void DEBUG_ForceApply()
+        {
+            _fsm.RequestStateChange(BuffFSMState.APPLIED, true);
+        }
     }
 
     // player super status buff state machine
@@ -585,6 +591,10 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
     {
         if(!focus)
         {
+            // do not show pause menu if the player is at end game screen
+            if (ReferenceEquals(GameConsts.uiMgr.GetActiveMenu(), EndScreen.Instance))
+                return;
+
             PauseGame();
         }
     }
@@ -606,7 +616,8 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
         if (float.MaxValue - _curTarget.duration <= GiftTime)
             GiftTime = float.MaxValue;
         else
-            GiftTime += _curTarget.duration;
+            // GiftTime += _curTarget.duration;
+            GiftTime = _curTarget.duration;
     }
 
     public void AddScore(int delta)

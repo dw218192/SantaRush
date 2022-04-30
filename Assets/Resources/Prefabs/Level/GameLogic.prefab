@@ -56,7 +56,6 @@ GameObject:
   - component: {fileID: 3563059960929879454}
   - component: {fileID: 3563059960929879448}
   - component: {fileID: 3563059960929879450}
-  - component: {fileID: 3563059960929879451}
   m_Layer: 0
   m_Name: GameLogic
   m_TagString: Untagged
@@ -119,28 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca862768572af8647842b223b99497ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3563059960929879451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3563059960929879455}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdbf923043fceb24b87d9d18a598b7e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wagonPartPrefab: {fileID: -1223508938271819481, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
-  go: {fileID: 556045570548848695, guid: 8b12cc7840a0e9d49865c530156050f8, type: 3}
-  testScreenToWorld:
-    m_Name: Test Screen To World
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 526eeab9-9764-4932-90e7-14ea1f5287dc
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
 --- !u!1 &3563059961171220675
 GameObject:
   m_ObjectHideFlags: 0

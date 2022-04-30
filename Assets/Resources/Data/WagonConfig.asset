@@ -23,7 +23,7 @@ MonoBehaviour:
     count: 3
   _invicibleTimeOnCollision: 1
   _giftDescs: []
-  _tolerance: 0.01
+  _tolerance: 0
   _moveUp:
     m_Name: Move Up
     m_Type: 0

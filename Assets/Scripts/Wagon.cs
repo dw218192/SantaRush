@@ -246,7 +246,8 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
         {
             GiftInstance gift = inflictor.GetComponent<GiftInstance>();
 
-            Debug.Assert(gift != null);
+            Debug.Assert(gift != null, this);
+            
             GameConsts.gameManager.AddScore(gift.GiftType.GetScore());
         }
         else if (inflictor.IsInLayer(GameConsts.k_NPCLayerName))
@@ -255,7 +256,8 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
             {
                 NPCPart npc = inflictor.GetComponent<NPCPart>();
 
-                Debug.Assert(npc != null);
+                Debug.Assert(npc != null, this);
+
                 GameConsts.gameManager.AddScore(npc.Owner.NpcType.GiftType.GetScore());
                 npc.Owner.Die(true);
             }
@@ -367,7 +369,7 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
         bool b1 = _superStatusRoutine != null;
         bool b2 = _collisionInvisibleRoutine != null;
 
-        Debug.Assert(!(b1 && b2));
+        Debug.Assert(!(b1 && b2), this);
         if (b1 && b2)
             Debug.Break();
     }
