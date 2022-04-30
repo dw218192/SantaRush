@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _giftType:
     val: 2
-  _giftSpawnCooldown: 0.4
+  _giftSpawnCooldown: 0.5
   _speed: 3.2
   _bombProbability: 1
   _npcWeight: 40

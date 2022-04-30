@@ -15,7 +15,7 @@ MonoBehaviour:
   _giftType:
     val: 0
   _giftSpawnCooldown: 0.8
-  _speed: 0.5
+  _speed: 0.6
   _bombProbability: 0
   _npcWeight: 70
   _npcParts:

@@ -17,5 +17,5 @@ MonoBehaviour:
     _intervalLength: 1
     _intervalStartTime: 0
     _initialMultiplier: 1.6
-    _finalMultiplier: 3.4
+    _finalMultiplier: 3.2
   _initScrollSpeed: 4
