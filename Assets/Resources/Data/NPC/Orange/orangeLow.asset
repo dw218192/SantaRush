@@ -22,4 +22,4 @@ MonoBehaviour:
   - prefab: {fileID: 5541145127859025487, guid: 0745b9368b72b664a98db59d9cf45d79, type: 3}
     count: 1
   _npcPartDist: 0.8
-  _npcGiftSpawnLerpPercentage: 0
+  _npcGiftSpawnLerpPercentage: 0.502
