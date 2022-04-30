@@ -43,35 +43,35 @@ MonoBehaviour:
   _bonusStages:
   - _name: "\u7CBE\u51C6\u63A5\u624B"
     _timeLimit: 18
-    _targetScore: 10
-    _timeBetweenScores: 4
+    _targetScore: 12
+    _timeBetweenScores: 3
     _scoreMultiplier: 2
   - _name: "\u5C0F\u4E8B\u4E00\u6869"
-    _timeLimit: 23
-    _targetScore: 15
-    _timeBetweenScores: 4
+    _timeLimit: 25
+    _targetScore: 18
+    _timeBetweenScores: 3
     _scoreMultiplier: 3
   - _name: "\u793C\u7269\u4E0D\u65AD"
-    _timeLimit: 28
-    _targetScore: 20
-    _timeBetweenScores: 4
+    _timeLimit: 30
+    _targetScore: 25
+    _timeBetweenScores: 3
     _scoreMultiplier: 4
   - _name: "\u60CA\u559C\u8FDE\u8FDE"
-    _timeLimit: 33
-    _targetScore: 25
-    _timeBetweenScores: 4
+    _timeLimit: 25
+    _targetScore: 20
+    _timeBetweenScores: 3
     _scoreMultiplier: 5
   - _name: "\u6C38\u4E0D\u5931\u624B"
-    _timeLimit: 5
+    _timeLimit: 3
     _targetScore: 1
-    _timeBetweenScores: 4
+    _timeBetweenScores: 3
     _scoreMultiplier: 6
   _bonusConfig:
     _bonusStartTimeLimit: 5
     _bonusStartGiftNum: 2
   _buffConfig:
-    _HPRewardGiftNum: 30
-    _superStatusGiftNum: 45
-    _superStatusTime: 10
+    _HPRewardGiftNum: 45
+    _superStatusGiftNum: 28
+    _superStatusTime: 8
     _superStatusScoreMultiplier: 3
     _superStatusSpeedIncrease: 2

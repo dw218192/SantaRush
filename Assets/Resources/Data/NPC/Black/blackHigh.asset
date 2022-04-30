@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb2e941748b1a4249a530a7772355ff3, type: 3}
-  m_Name: orangeLow
+  m_Name: blackHigh
   m_EditorClassIdentifier: 
   _giftType:
-    val: 0
-  _giftSpawnCooldown: 0.4
-  _speed: 3
-  _bombProbability: 0
-  _npcWeight: 70
+    val: 2
+  _giftSpawnCooldown: 0.5
+  _speed: 3.4
+  _bombProbability: 1
+  _npcWeight: 40
   _npcParts:
-  - prefab: {fileID: 5541145127859025487, guid: 0745b9368b72b664a98db59d9cf45d79, type: 3}
-    count: 1
-  _npcPartDist: 0.8
-  _npcGiftSpawnLerpPercentage: 0.502
+  - prefab: {fileID: 5541145127859025487, guid: 2a47d567e71d32442b5d6b97144c34e6, type: 3}
+    count: 3
+  _npcPartDist: 0.5
+  _npcGiftSpawnLerpPercentage: 0.866
