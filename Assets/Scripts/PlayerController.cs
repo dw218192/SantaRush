@@ -94,9 +94,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    Vector2 GetPointerPos()
+    {
+        if (GameConsts.IsOnMobile())
+            return Touchscreen.current.position.ReadValue();
+        else
+            return Mouse.current.position.ReadValue();
+    }
+
     void MoveUp(InputAction.CallbackContext context)
     {
-        _prevMousePos = Mouse.current.position.ReadValue();
+        _prevMousePos = GetPointerPos();
         StartCoroutine(DragRoutine());
     }
 
@@ -106,7 +114,7 @@ public class PlayerController : MonoBehaviour
 
         while(!Mathf.Approximately(0, Config.MoveUp.ReadValue<float>()))
         {
-            Vector2 pos = Mouse.current.position.ReadValue();
+            Vector2 pos = GetPointerPos();
 
             float percentY = Mathf.Abs(pos.y - _prevMousePos.y) / Screen.height;
             float percentX = Mathf.Abs(pos.x - _prevMousePos.x) / Screen.width;

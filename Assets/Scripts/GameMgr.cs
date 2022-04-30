@@ -574,7 +574,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
 
     private void OnGUI()
     {
-        GUILayout.Label(Application.version);
+        GUILayout.Label($"{Application.version} { ( GameConsts.IsOnMobile() ? "Mobile" : "PC") }");
 
         _scoreEventWindow.DEBUG_OnGUI();
         DEBUG_BonusFSM_OnGUI();

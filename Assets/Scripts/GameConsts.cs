@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public static class GameConsts
@@ -83,5 +84,18 @@ public static class GameConsts
         }
     }
 
+    [System.Obsolete("no longer used for debugging", true)]
     public static DebugMgr debugMgr = null;
+
+    [DllImport("__Internal")]
+    private static extern bool IsMobile();
+
+    public static bool IsOnMobile()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        return IsMobile();
+#else
+        return Application.isMobilePlatform;
+#endif
+    }
 }

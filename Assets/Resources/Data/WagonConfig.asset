@@ -40,6 +40,14 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Move Up
       m_Flags: 0
+    - m_Name: 
+      m_Id: 7bd7cfc7-9837-44d5-b4c1-fdd4d0373586
+      m_Path: <Touchscreen>/press
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Up
+      m_Flags: 0
   _deployGift:
     m_Name: Deploy Gift
     m_Type: 0
@@ -47,15 +55,7 @@ MonoBehaviour:
     m_Id: e5b805e1-66ec-4560-8dc6-31c45bb40690
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: c63c40eb-9db9-47ea-9019-91411991b83b
-      m_Path: <Mouse>/rightButton
-      m_Interactions: Press
-      m_Processors: 
-      m_Groups: 
-      m_Action: Deploy Gift
-      m_Flags: 0
+    m_SingletonActionBindings: []
   _switchGift:
     m_Name: Switch Gift
     m_Type: 0

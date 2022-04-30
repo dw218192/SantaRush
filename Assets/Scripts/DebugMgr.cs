@@ -5,11 +5,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System;
 
-[Obsolete("no longer used for debugging")]
+[Obsolete("no longer used for debugging", true)]
 public class DebugMgr : MonoBehaviour
 {
-    string str = "1";
-
     public WagonPart wagonPartPrefab = null;
     public GameObject go = null;
     public InputAction testScreenToWorld = null;

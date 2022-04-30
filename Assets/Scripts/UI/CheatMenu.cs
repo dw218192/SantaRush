@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Reflection;
 
-public class CheatMenu : MonoBehaviour
+public class CheatMenu : DebugBehaviour
 {
 #if UNITY_EDITOR
     [SerializeField] Text _timeScaleText;
