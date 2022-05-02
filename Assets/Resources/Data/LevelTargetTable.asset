@@ -13,33 +13,33 @@ MonoBehaviour:
   m_Name: LevelTargetTable
   m_EditorClassIdentifier: 
   _items:
+  - _giftNum: 3
+    _duration: 7
+    _weight: 8
+  - _giftNum: 5
+    _duration: 8
+    _weight: 8
+  - _giftNum: 8
+    _duration: 12
+    _weight: 8
   - _giftNum: 10
-    _duration: 18
-    _weight: 8
+    _duration: 14
+    _weight: 5
+  - _giftNum: 12
+    _duration: 16
+    _weight: 5
   - _giftNum: 15
+    _duration: 20
+    _weight: 5
+  - _giftNum: 18
     _duration: 23
-    _weight: 8
+    _weight: 3
   - _giftNum: 20
     _duration: 28
-    _weight: 8
-  - _giftNum: 25
-    _duration: 33
-    _weight: 5
-  - _giftNum: 30
-    _duration: 38
-    _weight: 5
-  - _giftNum: 35
-    _duration: 43
-    _weight: 5
-  - _giftNum: 40
-    _duration: 48
     _weight: 3
-  - _giftNum: 45
-    _duration: 53
-    _weight: 3
-  - _giftNum: 50
-    _duration: 58
-    _weight: 3
+  - _giftNum: 22
+    _duration: 30
+    _weight: 1
   _bonusStages:
   - _name: "\u7CBE\u51C6\u63A5\u624B"
     _timeLimit: 11
@@ -53,16 +53,16 @@ MonoBehaviour:
     _scoreMultiplier: 3
   - _name: "\u793C\u7269\u4E0D\u65AD"
     _timeLimit: 25
-    _targetScore: 18
+    _targetScore: 20
     _timeBetweenScores: 3
     _scoreMultiplier: 4
   - _name: "\u60CA\u559C\u8FDE\u8FDE"
-    _timeLimit: 30
-    _targetScore: 25
+    _timeLimit: 31
+    _targetScore: 33
     _timeBetweenScores: 3
     _scoreMultiplier: 5
   - _name: "\u6C38\u4E0D\u5931\u624B"
-    _timeLimit: 4
+    _timeLimit: 3
     _targetScore: 1
     _timeBetweenScores: 3
     _scoreMultiplier: 6
