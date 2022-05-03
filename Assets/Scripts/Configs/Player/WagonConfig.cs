@@ -159,7 +159,10 @@ public class WagonConfig : ScriptableObject
     public GiftDesc[] InitGiftDescs { get => _giftDescs; }
     public float Tolerance { get => _tolerance; }
     public InputAction MoveUp { get => _moveUp; set => _moveUp = value; }
+    
+    [Obsolete("deploying gift is a removed game mechanism")]
     public InputAction DeployGift { get => _deployGift; set => _deployGift = value; }
+    [Obsolete("switching gift is a removed game mecahnism")]
     public InputAction SwitchGift { get => _switchGift; set => _switchGift = value; }
 
     public float Speed { get => _speed; }

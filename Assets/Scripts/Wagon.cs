@@ -252,13 +252,17 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
         }
         else if (inflictor.IsInLayer(GameConsts.k_NPCLayerName))
         {
+            // kill NPC and gets its gift reward during super status
             if(_superStatusRoutine != null)
             {
                 NPCPart npc = inflictor.GetComponent<NPCPart>();
 
                 Debug.Assert(npc != null, this);
 
-                GameConsts.gameManager.AddScore(npc.Owner.NpcType.GiftType.GetScore());
+                // if not a bomb only NPC
+                if(!npc.Owner.AlwaysBomb)
+                    GameConsts.gameManager.AddScore(npc.Owner.NpcType.GiftType.GetScore());
+                
                 npc.Owner.Die(true);
             }
             else

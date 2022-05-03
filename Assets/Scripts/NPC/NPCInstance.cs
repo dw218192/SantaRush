@@ -31,8 +31,8 @@ public class NPCInstance : MonoBehaviour
     NPCType _npcType;
     public NPCType NpcType { get => _npcType; set => _npcType = value; }
 
-    bool NoBomb { get => Mathf.Approximately(_npcType.BombProbability, 0f); }
-    bool AlwaysBomb { get => Mathf.Approximately(_npcType.BombProbability, 1f); }
+    public bool NoBomb { get => Mathf.Approximately(_npcType.BombProbability, 0f); }
+    public bool AlwaysBomb { get => Mathf.Approximately(_npcType.BombProbability, 1f); }
 
     public Vector2 GiftSpawnPos 
     { 
