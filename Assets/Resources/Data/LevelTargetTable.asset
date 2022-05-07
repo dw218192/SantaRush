@@ -73,5 +73,5 @@ MonoBehaviour:
     _HPRewardGiftNum: 42
     _superStatusGiftNum: 30
     _superStatusTime: 8
-    _superStatusScoreMultiplier: 3
+    _superStatusScoreMultiplier: 5
     _superStatusSpeedIncrease: 2
