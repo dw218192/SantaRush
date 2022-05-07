@@ -102,16 +102,22 @@ public class NPCInstance : MonoBehaviour
         Bounds camBound = new Bounds();
         camBound.min = GameConsts.worldCameraMin;
         camBound.max = GameConsts.worldCameraMax;
+
         Vector3 tailPos = transform.TransformPoint(new Vector3(_totalWidth, 0));
+        Vector3 headPos = transform.TransformPoint(Vector3.zero);
+        bool headInBound = camBound.Contains(headPos);
         bool tailInBound = camBound.Contains(tailPos);
         if (_isTailInBound && !tailInBound)  // when the tail of NPC first leaves the screen
             Die(false);
+        
         _isTailInBound = tailInBound;
 
 
         if(_giftSpawnTimer >= NpcType.GiftSpawnCooldown)
         {
-            SpawnGiftOrBomb();
+            // only spawn if the head of the NPC is still visible on the screen
+            if(headInBound)
+                SpawnGiftOrBomb();
             _giftSpawnTimer = 0f;
         }
 
