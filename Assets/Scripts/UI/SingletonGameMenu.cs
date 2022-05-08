@@ -81,6 +81,35 @@ public abstract class GameMenu : UIObject, IGameMenu
 }
 
 [DisallowMultipleComponent]
+public abstract class SingletonUIObject<ObjType> : UIObject where ObjType : SingletonUIObject<ObjType>
+{
+    private static ObjType _Instance;
+    public static ObjType Instance { get { return _Instance; } }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if (_Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _Instance = (ObjType)this;
+        }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (_Instance == this)
+        {
+            _Instance = null;
+        }
+    }
+}
+
+[DisallowMultipleComponent]
 public abstract class SingletonGameMenu<MenuType> : GameMenu where MenuType : SingletonGameMenu<MenuType>
 {
     private static MenuType _Instance;

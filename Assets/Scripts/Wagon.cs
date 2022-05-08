@@ -184,14 +184,16 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
             for (int i = 0; i < desc.count; ++i)
                 AddPart(desc.prefab);
         }
-
-        RecalculateBounds();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        RecalculateBounds();
+
         float h = Camera.main.orthographicSize;
+        h -= HUD.Instance.Height;
+
         Vector3 pos = Camera.main.transform.TransformPoint(new Vector2(0, h * 0.85f));
         pos.z = 10;
         transform.position = pos;
