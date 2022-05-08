@@ -567,7 +567,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
             return;
 
         LevelTime += Time.deltaTime;
-        GiftTime -= Time.deltaTime;
+        GiftTime = Mathf.Max(0, GiftTime - Time.deltaTime);
 
         if(_curSpeedChangeInterval <= _speedChangeStat.numIntervals)
         {
@@ -582,7 +582,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
         {
             GiftTargetChange();
         }
-        else if (GiftTime <= 0)
+        else if (Mathf.Approximately(GiftTime, 0))
         {
             FailGame();
         }
