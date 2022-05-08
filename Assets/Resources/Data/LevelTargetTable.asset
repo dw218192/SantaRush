@@ -52,13 +52,13 @@ MonoBehaviour:
     _timeBetweenScores: 3
     _scoreMultiplier: 3
   - _name: "\u793C\u7269\u4E0D\u65AD"
-    _timeLimit: 25
-    _targetScore: 20
+    _timeLimit: 32
+    _targetScore: 28
     _timeBetweenScores: 3
     _scoreMultiplier: 4
   - _name: "\u60CA\u559C\u8FDE\u8FDE"
     _timeLimit: 31
-    _targetScore: 33
+    _targetScore: 22
     _timeBetweenScores: 3
     _scoreMultiplier: 5
   - _name: "\u6C38\u4E0D\u5931\u624B"
