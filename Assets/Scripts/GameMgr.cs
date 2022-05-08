@@ -425,6 +425,13 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
         }
     }
 
+    // the highest score of the player ever recoreded
+    public int HighestPlayerScore
+    {
+        get;
+        private set;
+    }
+
     GameState _state;
     public GameState State 
     {
@@ -469,7 +476,22 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
     // Start is called before the first frame update
     void Start()
     {
-        void SetupBonusStageFSM()
+        void GameInit()
+        {
+            _speedChangeStat = _stageTable.SpeedChangeConfig;
+            _totalSpeedChangeTime = _speedChangeStat.numIntervals * _speedChangeStat.intervalLength;
+            _curSpeedChangeInterval = 0;
+        }
+
+        void GiftTargetInit()
+        {
+            LevelTime = 0;
+            Score = 0;
+            PlayerScore = 0;
+            GiftTargetChange();
+        }
+
+        void BonusFSMInit()
         {
             if (_targetPool.BonusStages.Length == 0)
             {
@@ -513,27 +535,29 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
                 DEBUG_Init_StateToName(GiftBonusState.Stages);
             }
         }
-        
-        _speedChangeStat = _stageTable.SpeedChangeConfig;
-        _totalSpeedChangeTime = _speedChangeStat.numIntervals * _speedChangeStat.intervalLength;
-        _curSpeedChangeInterval = 0;
 
-        LevelTime = 0;
-        Score = 0;
-        PlayerScore = 0;
+        void BuffFSMInit()
+        {
+            PlayerBuffDesc superStatusBuff = new PlayerBuffDesc(PlayerBuffType.SUPER_STATUS, "头槌!", _targetPool.PlayerBuffConfig.SuperStatusTime);
+            PlayerBuffDesc hpRewardBuff = new PlayerBuffDesc(PlayerBuffType.HP_REWARD, "鹿!", 0f);
 
-        GiftTargetChange();
+            _superStatusFSM = new SimpleBuffStateMachine(this, superStatusBuff, _targetPool.PlayerBuffConfig.SuperStatusGiftNum, _targetPool.PlayerBuffConfig.SuperStatusTime);
+            _hpBonusFSM = new SimpleBuffStateMachine(this, hpRewardBuff, _targetPool.PlayerBuffConfig.HPRewardGiftNum, 0f);
+        }
+
+        void PlayerSaveInit()
+        {
+            HighestPlayerScore = PlayerPrefs.GetInt(GameConsts.k_PlayerPrefHighestScore, 0);
+        }
+
+        GameInit();
+        GiftTargetInit();
+        // FSM initialization
+        BonusFSMInit();
+        BuffFSMInit();
+        PlayerSaveInit();
 
         State = GameState.RUNNING;
-
-        // FSM initialization
-        SetupBonusStageFSM();
-
-        PlayerBuffDesc superStatusBuff = new PlayerBuffDesc(PlayerBuffType.SUPER_STATUS, "头槌!", _targetPool.PlayerBuffConfig.SuperStatusTime);
-        PlayerBuffDesc hpRewardBuff = new PlayerBuffDesc(PlayerBuffType.HP_REWARD, "鹿!", 0f);
-
-        _superStatusFSM = new SimpleBuffStateMachine(this, superStatusBuff, _targetPool.PlayerBuffConfig.SuperStatusGiftNum, _targetPool.PlayerBuffConfig.SuperStatusTime);
-        _hpBonusFSM = new SimpleBuffStateMachine(this, hpRewardBuff, _targetPool.PlayerBuffConfig.HPRewardGiftNum, 0f);
     }
 
     // Update is called once per frame
@@ -638,6 +662,13 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
     public void FailGame()
     {
         State = GameState.OVER;
+
+        // record player score if it is the new highest score
+        if (_playerScore > HighestPlayerScore)
+        {
+            PlayerPrefs.SetInt(GameConsts.k_PlayerPrefHighestScore, _playerScore);
+        }
+
         GameConsts.uiMgr.OpenMenu(EndScreen.Instance);
     }
 

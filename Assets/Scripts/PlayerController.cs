@@ -62,10 +62,17 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateWagonBounds()
     {
-        Vector2 viewSize = new Vector2(Cam.orthographicSize * Cam.aspect, Cam.orthographicSize);
+        Vector2 viewMin = GameConsts.worldCameraMin;
+        Vector2 viewMax = GameConsts.worldCameraMax;
+
+        // take HUD into account
+        viewMax.y -= HUD.Instance.Height;
+
+        // Vector2 viewSize = new Vector2(Cam.orthographicSize * Cam.aspect, Cam.orthographicSize);
         Vector2 offset = (Vector2)Wagon.transform.position - Wagon.WagonCenter;
-        _wagonMoveBounds[0] = (Vector2)Cam.transform.TransformPoint(-viewSize) + Wagon.WagonSize / 2 + offset;
-        _wagonMoveBounds[1] = (Vector2)Cam.transform.TransformPoint(viewSize) - Wagon.WagonSize / 2 + offset;
+
+        _wagonMoveBounds[0] = viewMin + Wagon.WagonSize / 2 + offset;
+        _wagonMoveBounds[1] = viewMax - Wagon.WagonSize / 2 + offset;
     }
 
     // Start is called before the first frame update

@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public abstract class UIObject : MonoBehaviour
 {
+    protected virtual void Awake()
+    {
+
+    }
+
     protected virtual void Start()
     {
         Text[] texts = GetComponentsInChildren<Text>();
