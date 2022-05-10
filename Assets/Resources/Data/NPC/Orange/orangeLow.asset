@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: orangeLow
   m_EditorClassIdentifier: 
   _giftType:
-    val: 0
+    val: 4
   _giftSpawnCooldown: 0.4
   _speed: 3
   _bombProbability: 0
