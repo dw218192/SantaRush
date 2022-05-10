@@ -105,23 +105,35 @@ public class NPCInstance : MonoBehaviour
 
         Vector3 tailPos = transform.TransformPoint(new Vector3(_totalWidth, 0));
         Vector3 headPos = transform.TransformPoint(Vector3.zero);
-        bool headInBound = camBound.Contains(headPos);
         bool tailInBound = camBound.Contains(tailPos);
         if (_isTailInBound && !tailInBound)  // when the tail of NPC first leaves the screen
             Die(false);
         
         _isTailInBound = tailInBound;
 
+        
+        //shrink the camera bound a bit
+        var tmp = camBound.min;
+        tmp.x += 0.1f * camBound.size.x;
+        camBound.min = tmp;
 
-        if(_giftSpawnTimer >= NpcType.GiftSpawnCooldown)
+        if (_giftSpawnTimer >= NpcType.GiftSpawnCooldown)
         {
+            bool headInBound = camBound.Contains(headPos);
             // only spawn if the head of the NPC is still visible on the screen
-            if(headInBound)
+            if (headInBound)
                 SpawnGiftOrBomb();
+            
             _giftSpawnTimer = 0f;
         }
 
         _giftSpawnTimer += Time.deltaTime;
+
+        // draw debug NPC bound
+        Debug.DrawLine(camBound.min, camBound.min + new Vector3(camBound.size.x, 0), Color.red);
+        Debug.DrawLine(camBound.min + new Vector3(camBound.size.x, 0), camBound.max, Color.red);
+        Debug.DrawLine(camBound.max, camBound.max - new Vector3(camBound.size.x, 0), Color.red);
+        Debug.DrawLine(camBound.max - new Vector3(camBound.size.x, 0), camBound.min, Color.red);
     }
 
     void SpawnGiftOrBomb()
