@@ -5,10 +5,17 @@ using UnityEngine.UI;
 
 public class PauseMenu : SingletonGameMenu<PauseMenu>
 {
-    [SerializeField] Text _scoreText;
-    [SerializeField] Button _resumeButton;
-    [SerializeField] Button _restartButton;
-    [SerializeField] Button _quitGameButton;
+    [SerializeField]
+    Button _resumeButton;
+    
+    [SerializeField]
+    Button _restartButton;
+    
+    [SerializeField]
+    Button _quitGameButton;
+
+    [SerializeField]
+    StringTextPair _scoreText;
 
     protected override void Start()
     {
@@ -22,7 +29,7 @@ public class PauseMenu : SingletonGameMenu<PauseMenu>
     public override void OnEnterMenu()
     {
         base.OnEnterMenu();
-        _scoreText.text = $"分数: {GameConsts.gameManager.PlayerScore}";
+        _scoreText.Set(" ", GameConsts.gameManager.PlayerScore.ToString());
     }
 
     public override void OnLeaveMenu()

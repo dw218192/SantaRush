@@ -21,7 +21,11 @@ public class UIController : MonoBehaviour
 
     void PauseGame(InputAction.CallbackContext context)
     {
-        if(GameConsts.gameManager.State == GameMgr.GameState.PAUSED)
+        if(GameConsts.gameManager.State == GameMgr.GameState.OVER)
+        {
+            return;
+        }
+        else if(GameConsts.gameManager.State == GameMgr.GameState.PAUSED)
         {
             IGameMenu menu = GameConsts.uiMgr.GetActiveMenu();
             if(menu != null && (Object)menu != EndScreen.Instance)

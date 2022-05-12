@@ -18,8 +18,10 @@ public abstract class GameMenu : UIObject, IGameMenu
 {
     List<Graphic> _raycastTargets;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _raycastTargets = new List<Graphic>();
         Graphic[] graphics = GetComponentsInChildren<Graphic>();
         foreach (var graphic in graphics)

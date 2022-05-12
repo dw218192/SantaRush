@@ -587,10 +587,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71ea68d052c787469b3ff6322b4ef5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scoreText: {fileID: 565127931204236411}
+  _localizedTexts:
+  - str: {fileID: 11400000, guid: 130c8cf3655b7474d93236455f3ef5a5, type: 2}
+    text: {fileID: 565127931204236411}
+  - str: {fileID: 11400000, guid: 1dd72da238793ba47aa15d9432367e29, type: 2}
+    text: {fileID: 2661420707665851673}
+  - str: {fileID: 11400000, guid: a18e8fdc9cc529149a016be540f2024f, type: 2}
+    text: {fileID: 7788039628136571885}
+  - str: {fileID: 11400000, guid: dc0dd49bd2a8e32468d15ec40b500bc1, type: 2}
+    text: {fileID: 3201623452076596249}
   _resumeButton: {fileID: 4552493975039871968}
   _restartButton: {fileID: 1192878373155033349}
   _quitGameButton: {fileID: 4472029648288900644}
+  _scoreText:
+    str: {fileID: 11400000, guid: 130c8cf3655b7474d93236455f3ef5a5, type: 2}
+    text: {fileID: 565127931204236411}
 --- !u!1 &5886055627528452916
 GameObject:
   m_ObjectHideFlags: 0

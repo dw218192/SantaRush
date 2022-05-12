@@ -114,11 +114,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eababa2cc153eb479ea0b39e49bd719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _localizedTexts:
+  - str: {fileID: 11400000, guid: 5e3a1b6b868af414c9a6bfc60ee7cd24, type: 2}
+    text: {fileID: 3674326791681331301}
+  - str: {fileID: 11400000, guid: 5e3a1b6b868af414c9a6bfc60ee7cd24, type: 2}
+    text: {fileID: 2348541100344623310}
+  - str: {fileID: 11400000, guid: 352f38ccdaf3eab4a853770d539c5bf2, type: 2}
+    text: {fileID: 7011051173514248761}
+  - str: {fileID: 11400000, guid: 130c8cf3655b7474d93236455f3ef5a5, type: 2}
+    text: {fileID: 7568185625439133941}
   _panel: {fileID: 438442808319209994}
-  _giftTimerText: {fileID: 7011051173514248761}
-  _giftScoreText: {fileID: 3674326791681331301}
-  _totalScoreText: {fileID: 2348541100344623310}
-  _playerScoreText: {fileID: 7568185625439133941}
+  _giftTimerText:
+    str: {fileID: 11400000, guid: 352f38ccdaf3eab4a853770d539c5bf2, type: 2}
+    text: {fileID: 7011051173514248761}
+  _giftScoreText:
+    str: {fileID: 11400000, guid: be5a2edc46f9a9f4aa77547d9022503b, type: 2}
+    text: {fileID: 3674326791681331301}
+  _totalScoreText:
+    str: {fileID: 11400000, guid: 5e3a1b6b868af414c9a6bfc60ee7cd24, type: 2}
+    text: {fileID: 2348541100344623310}
+  _playerScoreText:
+    str: {fileID: 11400000, guid: 130c8cf3655b7474d93236455f3ef5a5, type: 2}
+    text: {fileID: 7568185625439133941}
   _bonusStageText: {fileID: 5727270901202140361}
   _buffText: {fileID: 2801371691059291541}
 --- !u!1 &1708417906160088309

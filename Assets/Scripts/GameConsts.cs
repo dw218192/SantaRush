@@ -52,11 +52,25 @@ public static class GameConsts
         return _eventDispatcher;
     }
 
-    public static GameMgr gameManager = null;
-    public static EventMgr eventManager = null;
-    public static UIMgr uiMgr = null;
+    public static GameMgr gameManager
+    {
+        get;
+        set;
+    }
 
-    private static Vector2? _worldCameraMin;
+    public static EventMgr eventManager
+    {
+        get;
+        set;
+    }
+
+    public static UIMgr uiMgr
+    {
+        get;
+        set;
+    }
+
+    private static Vector2? _worldCameraMin = null;
     public static Vector2 worldCameraMin
     {
         get
@@ -71,7 +85,7 @@ public static class GameConsts
             return _worldCameraMin.Value;
         }
     }
-    private static Vector2? _worldCameraMax;
+    private static Vector2? _worldCameraMax = null;
     public static Vector2 worldCameraMax
     {
         get
@@ -84,6 +98,25 @@ public static class GameConsts
                 _worldCameraMax = cam.transform.TransformPoint(localMax);
             }
             return _worldCameraMax.Value;
+        }
+    }
+
+    private static Language? _curLanguage = null;
+    public static Language curLanguage 
+    {
+        get
+        {
+            if(_curLanguage == null)
+            {
+                curLanguage = Language.CHN;
+            }
+
+            return _curLanguage.Value;
+        }
+        set
+        {
+            _curLanguage = value;
+            eventManager.InvokeEvent(typeof(IGameSettingHandler), new GameSettingEventData(GameSettingEventData.Type.LANGUAGE_CHANGE));
         }
     }
 

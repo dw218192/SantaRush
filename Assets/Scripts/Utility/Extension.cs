@@ -23,16 +23,3 @@ public static class Extension
     }
     #endregion
 }
-
-public class MonoBehaviourEx : MonoBehaviour
-{
-    public virtual void Awake()
-    {
-        GameConsts.eventManager.Register(this);
-    }
-
-    public virtual void OnDestroy()
-    {
-        GameConsts.eventManager.UnRegister(this);
-    }
-}
