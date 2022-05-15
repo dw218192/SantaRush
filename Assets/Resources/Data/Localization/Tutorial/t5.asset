@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _values:
   - 'There are 6 types of items that can be dropped by the NPCs. You will get different
-    amount of points depending what type of item you catch.
+    amount of points depending on what type of item you catch.
 
 
-    From top to bottom:
+    From top to
+    bottom:
 
-    1
-    point
+    1 point
 
     2 points
 
@@ -30,5 +30,6 @@ MonoBehaviour:
 
     5 points
 
-    Bomb (no points)'
+    Bomb
+    (no points)'
   - "NPC\u603B\u5171\u53EF\u4EE5\u62546\u79CD\u7269\u4F53, \u63A5\u4F4F\u4E0D\u540C\u7269\u4F53\u7684\u5F97\u5206\u4E0D\u540C\n\n\u4ECE\u4E0A\u5F80\u4E0B:\n1\u5206\r\n2\u5206\r\n3\u5206\r\n4\u5206\r\n5\u5206\r\n\u70B8\u5F39(\u6CA1\u6709\u5206)"

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EndScreen : SingletonGameMenu<EndScreen>
 {
+    [SerializeField] StringTextPair _restartText;
+    [SerializeField] StringTextPair _quitGameText;
     [SerializeField] StringTextPair _highestScoreText;
     [SerializeField] StringTextPair _scoreText;
     [SerializeField] LocalizedString _personalBestNoteStr;

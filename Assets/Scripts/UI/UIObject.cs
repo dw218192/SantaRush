@@ -17,8 +17,13 @@ public abstract class UIObject : MonoBehaviour, IGameSettingHandler
             if (field.FieldType == typeof(StringTextPair))
                 pairs.Add((StringTextPair)field.GetValue(this));
         _localizedTexts = pairs.ToArray();
+
+        foreach (var txt in _localizedTexts)
+        {
+            txt.Set();
+        }
     }
-    
+
     protected virtual void Start()
     {
         Text[] texts = GetComponentsInChildren<Text>();
