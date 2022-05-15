@@ -219,7 +219,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
             if (value == null)
                 GameConsts.eventManager.InvokeEvent(typeof(IBonusStateHanlder), new BonusStateEventData("",false,0));
             else
-                GameConsts.eventManager.InvokeEvent(typeof(IBonusStateHanlder), new BonusStateEventData(value.Name, true, value.ScoreMultiplier));
+                GameConsts.eventManager.InvokeEvent(typeof(IBonusStateHanlder), new BonusStateEventData(value.DisplayName, true, value.ScoreMultiplier));
         }
     }
     float _curStageTimer = 0;
@@ -538,8 +538,12 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
 
         void BuffFSMInit()
         {
-            PlayerBuffDesc superStatusBuff = new PlayerBuffDesc(PlayerBuffType.SUPER_STATUS, "头槌!", _targetPool.PlayerBuffConfig.SuperStatusTime);
-            PlayerBuffDesc hpRewardBuff = new PlayerBuffDesc(PlayerBuffType.HP_REWARD, "鹿!", 0f);
+            PlayerBuffDesc superStatusBuff = new PlayerBuffDesc(
+                PlayerBuffType.SUPER_STATUS, 
+                _targetPool.PlayerBuffConfig.SuperStatusName, 
+                _targetPool.PlayerBuffConfig.SuperStatusTime);
+
+            PlayerBuffDesc hpRewardBuff = new PlayerBuffDesc(PlayerBuffType.HP_REWARD, "", 0f);
 
             _superStatusFSM = new SimpleBuffStateMachine(this, superStatusBuff, _targetPool.PlayerBuffConfig.SuperStatusGiftNum, _targetPool.PlayerBuffConfig.SuperStatusTime);
             _hpBonusFSM = new SimpleBuffStateMachine(this, hpRewardBuff, _targetPool.PlayerBuffConfig.HPRewardGiftNum, 0f);

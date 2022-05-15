@@ -19,10 +19,12 @@ public static class GameConsts
     public const string k_ResourcesBombPrefabPath = "Prefabs/Things/BombInstance";
     public const string k_ResourcesNPCPrefabPath = "Prefabs/NPC/NPCInstance";
     public const string k_ResourcesArtPath = "Art/";
+    public const string k_ResourcesUIPrefabPath = "Prefabs/UI";
+
     public const string k_GameFontPath = "Art/Font/Muyao-Softbrush-2";
 
     public const string k_PlayerPrefHighestScore = "HighestScore";
-    public const string k_PlayerPrefTutorialSkip = "TutorialSkip";
+    public const string k_PlayerPrefTutorialViewed = "TutorialView";
 
     private static Dictionary<string, GameObject> _loadedPrefabs = new Dictionary<string, GameObject>();
     public static GameObject GetPrefab(string prefabPath)
@@ -52,11 +54,25 @@ public static class GameConsts
         return _eventDispatcher;
     }
 
-    public static GameMgr gameManager = null;
-    public static EventMgr eventManager = null;
-    public static UIMgr uiMgr = null;
+    public static GameMgr gameManager
+    {
+        get;
+        set;
+    }
 
-    private static Vector2? _worldCameraMin;
+    public static EventMgr eventManager
+    {
+        get;
+        set;
+    }
+
+    public static UIMgr uiMgr
+    {
+        get;
+        set;
+    }
+
+    private static Vector2? _worldCameraMin = null;
     public static Vector2 worldCameraMin
     {
         get
@@ -71,7 +87,7 @@ public static class GameConsts
             return _worldCameraMin.Value;
         }
     }
-    private static Vector2? _worldCameraMax;
+    private static Vector2? _worldCameraMax = null;
     public static Vector2 worldCameraMax
     {
         get
@@ -84,6 +100,25 @@ public static class GameConsts
                 _worldCameraMax = cam.transform.TransformPoint(localMax);
             }
             return _worldCameraMax.Value;
+        }
+    }
+
+    private static Language? _curLanguage = null;
+    public static Language curLanguage 
+    {
+        get
+        {
+            if(_curLanguage == null)
+            {
+                curLanguage = Language.CHN;
+            }
+
+            return _curLanguage.Value;
+        }
+        set
+        {
+            _curLanguage = value;
+            eventManager.InvokeEvent(typeof(IGameSettingHandler), new GameSettingEventData(GameSettingEventData.Type.LANGUAGE_CHANGE));
         }
     }
 

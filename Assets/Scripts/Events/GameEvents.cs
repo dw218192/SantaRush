@@ -39,6 +39,12 @@ public interface IBuffStateHandler
     void OnBuffStateChange(BuffStateEventData eventData);
 }
 
+
+public interface IGameSettingHandler
+{
+    void OnGameSettingChange(GameSettingEventData eventData);
+}
+
 public class LevelStageEventData : GameEventData
 {
     public float speedMultiplier;
@@ -101,6 +107,20 @@ public class BuffStateEventData : GameEventData
         this.desc = desc;
     }
 }
+public class GameSettingEventData : GameEventData
+{
+    public enum Type
+    {
+        LANGUAGE_CHANGE,
+    }
+
+    public Type type;
+
+    public GameSettingEventData(Type type)
+    {
+        this.type = type;
+    }
+}
 
 public struct InterfaceMethodPair
 {
@@ -118,5 +138,6 @@ public static class EventStub
         new InterfaceMethodPair { type = typeof(IWagonCollisionHandler), methodName = "OnWagonCollide" },
         new InterfaceMethodPair { type = typeof(IBonusStateHanlder), methodName = "OnBonusStateChange" },
         new InterfaceMethodPair { type = typeof(IBuffStateHandler), methodName = "OnBuffStateChange" },
+        new InterfaceMethodPair { type = typeof(IGameSettingHandler), methodName = "OnGameSettingChange" }
     };
 }

@@ -46,6 +46,11 @@ public class LevelTargetPool : ScriptableObject
 
         [SerializeField]
         [AllowNesting]
+        [Label("游戏内显示名称")]
+        LocalizedString _displayName;
+
+        [SerializeField]
+        [AllowNesting]
         [Label("时间限制(秒)")]
         float _timeLimit = 10;
 
@@ -69,6 +74,7 @@ public class LevelTargetPool : ScriptableObject
         public float TimeBetweenScores { get => _timeBetweenScores; }
         public int ScoreMultiplier { get => _scoreMultiplier; }
         public string Name { get => _name; }
+        public string DisplayName { get => _displayName == null ? _name : _displayName;  }
 
         public int GetModifiedScoreDelta(int curScore)
         {
@@ -123,11 +129,17 @@ public class LevelTargetPool : ScriptableObject
         [Label("头槌移速加成")]
         float _superStatusSpeedIncrease;
 
+        [SerializeField]
+        [AllowNesting]
+        [Label("头槌显示名称")]
+        LocalizedString _superStatusName;
+
         public float SuperStatusSpeedIncrease { get => _superStatusSpeedIncrease; }
         public float SuperStatusScoreMultiplier { get => _superStatusScoreMultiplier; }
         public float SuperStatusTime { get => _superStatusTime; }
         public int HPRewardGiftNum { get => _HPRewardGiftNum; }
         public int SuperStatusGiftNum { get => _superStatusGiftNum;  }
+        public string SuperStatusName { get => _superStatusName == null ? "头槌" : _superStatusName;  }
     }
 
 

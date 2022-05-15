@@ -42,26 +42,31 @@ MonoBehaviour:
     _weight: 1
   _bonusStages:
   - _name: "\u7CBE\u51C6\u63A5\u624B"
+    _displayName: {fileID: 11400000, guid: 80e3cfefec975cc4b8181a3fd215b7f7, type: 2}
     _timeLimit: 11
     _targetScore: 7
     _timeBetweenScores: 3
     _scoreMultiplier: 2
   - _name: "\u5C0F\u4E8B\u4E00\u6869"
+    _displayName: {fileID: 11400000, guid: 32c2c6e0b8f72f547b613f42802e6b6c, type: 2}
     _timeLimit: 14
     _targetScore: 10
     _timeBetweenScores: 3
     _scoreMultiplier: 3
   - _name: "\u793C\u7269\u4E0D\u65AD"
+    _displayName: {fileID: 11400000, guid: ed656359ecfb8364a933ee5b46a103cc, type: 2}
     _timeLimit: 32
     _targetScore: 28
     _timeBetweenScores: 3
     _scoreMultiplier: 4
   - _name: "\u60CA\u559C\u8FDE\u8FDE"
+    _displayName: {fileID: 11400000, guid: 9e41bb281451c7042a1ad0a3d5d260c8, type: 2}
     _timeLimit: 31
     _targetScore: 22
     _timeBetweenScores: 3
     _scoreMultiplier: 5
   - _name: "\u6C38\u4E0D\u5931\u624B"
+    _displayName: {fileID: 11400000, guid: 2992b6472ce68ec4ebff98e6ef37c25c, type: 2}
     _timeLimit: 3
     _targetScore: 1
     _timeBetweenScores: 3
@@ -75,3 +80,4 @@ MonoBehaviour:
     _superStatusTime: 8
     _superStatusScoreMultiplier: 5
     _superStatusSpeedIncrease: 2
+    _superStatusName: {fileID: 0}

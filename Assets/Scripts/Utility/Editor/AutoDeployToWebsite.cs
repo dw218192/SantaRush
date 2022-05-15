@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using System.Diagnostics;
 using System;
+using System.Linq;
+
 using Debug = UnityEngine.Debug;
 using System.IO;
 
@@ -59,6 +61,7 @@ public static class AutoDeployToWebsite
         BuildPlayerOptions opts = new BuildPlayerOptions();
         opts.locationPathName = path;
         opts.target = BuildTarget.WebGL;
+        opts.scenes = EditorBuildSettings.scenes.Select((scene) => scene.path).ToArray();
 
         var report = BuildPipeline.BuildPlayer(opts);
 

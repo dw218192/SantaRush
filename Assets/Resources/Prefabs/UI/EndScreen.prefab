@@ -745,8 +745,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cea71a9e417d624c93d0b0a7a120420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _highestScoreText: {fileID: 99888990572722001}
-  _scoreText: {fileID: 1587294300201016814}
+  _restartText:
+    str: {fileID: 11400000, guid: a18e8fdc9cc529149a016be540f2024f, type: 2}
+    text: {fileID: 6149254974557505901}
+  _quitGameText:
+    str: {fileID: 11400000, guid: dc0dd49bd2a8e32468d15ec40b500bc1, type: 2}
+    text: {fileID: 2858237964131738714}
+  _highestScoreText:
+    str: {fileID: 11400000, guid: 15d2faf6e466e1a4096f0eaeadf260c1, type: 2}
+    text: {fileID: 99888990572722001}
+  _scoreText:
+    str: {fileID: 11400000, guid: 130c8cf3655b7474d93236455f3ef5a5, type: 2}
+    text: {fileID: 1587294300201016814}
+  _personalBestNoteStr: {fileID: 11400000, guid: 6f8100e75cc26554e9e1c029866b584e, type: 2}
   _restartButton: {fileID: 1284566138662140990}
   _quitGameButton: {fileID: 5463593051080667187}
 --- !u!1 &7075629208056731926

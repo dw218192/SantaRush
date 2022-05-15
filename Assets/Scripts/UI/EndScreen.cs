@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class EndScreen : SingletonGameMenu<EndScreen>
 {
-    [SerializeField] Text _highestScoreText;
-    [SerializeField] Text _scoreText;
-
+    [SerializeField] StringTextPair _restartText;
+    [SerializeField] StringTextPair _quitGameText;
+    [SerializeField] StringTextPair _highestScoreText;
+    [SerializeField] StringTextPair _scoreText;
+    [SerializeField] LocalizedString _personalBestNoteStr;
 
     [SerializeField] Button _restartButton;
     [SerializeField] Button _quitGameButton;
@@ -29,13 +31,13 @@ public class EndScreen : SingletonGameMenu<EndScreen>
 
         if(highestScore < sessionScore)
         {
-            _highestScoreText.text = $"个人最佳: {sessionScore}";
-            _scoreText.text = $"分数: {sessionScore} (新最高分!!)";
+            _highestScoreText.Set($": {sessionScore.ToString()}");
+            _scoreText.Set($": {sessionScore.ToString()} ", _personalBestNoteStr);
         }
         else
         {
-            _highestScoreText.text = $"个人最佳: {highestScore}";
-            _scoreText.text = $"分数: {sessionScore}";
+            _highestScoreText.Set($": {highestScore.ToString()}");
+            _scoreText.Set($": {sessionScore.ToString()}");
         }
     }
 
@@ -43,6 +45,10 @@ public class EndScreen : SingletonGameMenu<EndScreen>
     {
         base.OnLeaveMenu();
         GameConsts.gameManager.ResumeGame();
+    }
+    public override bool CanClose()
+    {
+        return false;
     }
 
     void QuitGame()
