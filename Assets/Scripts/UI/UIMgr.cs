@@ -7,6 +7,7 @@ public class UIMgr : MonoBehaviour
     //a linkedlist that behaves like a stack
     LinkedList<IGameMenu> _MenuStack = new LinkedList<IGameMenu>();
     List<IGameMenu> _MenuInstances = new List<IGameMenu>();
+    Transform _MenuParent = null;
 
     private void Awake()
     {
@@ -14,11 +15,27 @@ public class UIMgr : MonoBehaviour
             Destroy(this);
         else
             GameConsts.uiMgr = this;
+
+        _MenuParent = new GameObject("GameMenus").transform;
+
+        GameObject[] objs = Resources.LoadAll<GameObject>(GameConsts.k_ResourcesUIPrefabPath);
+        foreach(GameObject obj in objs)
+        {
+            IGameMenu menu = obj.GetComponent<IGameMenu>();
+            if(menu != null)
+            {
+                GameObject ins = Instantiate(obj, _MenuParent);
+
+                RegisterMenu(ins.GetComponent<IGameMenu>());
+                ins.SetActive(false);
+            }
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame

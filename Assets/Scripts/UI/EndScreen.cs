@@ -44,6 +44,10 @@ public class EndScreen : SingletonGameMenu<EndScreen>
         base.OnLeaveMenu();
         GameConsts.gameManager.ResumeGame();
     }
+    public override bool CanClose()
+    {
+        return false;
+    }
 
     void QuitGame()
     {

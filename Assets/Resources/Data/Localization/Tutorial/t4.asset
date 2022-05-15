@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bb0cf3c9ba5554bb55265617ad871d, type: 3}
+  m_Name: t4
+  m_EditorClassIdentifier: 
+  _values:
+  - 'After you catch a certain number of gifts, the super status effect is triggered.
+    The player will turn red when this happens.
+
+
+    When you are in the super status,
+    you are able to directly collide with the NPCs to score.'
+  - "\u5F53\u83B7\u53D6\u4E00\u5B9A\u6570\u91CF\u7684\u793C\u7269\u540E\uFF0C\u4F1A\u89E6\u53D1\"\u5934\u69CC\"\u6548\u679C\uFF0C\u73A9\u5BB6\u6B64\u65F6\u4F1A\u53D8\u6210\u7EA2\u8272\n\n\u89E6\u53D1\u540E\u4F1A\u8FDB\u5165\u65E0\u654C\r\u72B6\u6001\uFF0C\u53EF\u4EE5\u76F4\u63A5\u649E\u51FBNPC\u5F97\u5206"

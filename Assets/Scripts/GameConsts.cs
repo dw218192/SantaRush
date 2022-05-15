@@ -19,10 +19,12 @@ public static class GameConsts
     public const string k_ResourcesBombPrefabPath = "Prefabs/Things/BombInstance";
     public const string k_ResourcesNPCPrefabPath = "Prefabs/NPC/NPCInstance";
     public const string k_ResourcesArtPath = "Art/";
+    public const string k_ResourcesUIPrefabPath = "Prefabs/UI";
+
     public const string k_GameFontPath = "Art/Font/Muyao-Softbrush-2";
 
     public const string k_PlayerPrefHighestScore = "HighestScore";
-    public const string k_PlayerPrefTutorialSkip = "TutorialSkip";
+    public const string k_PlayerPrefTutorialViewed = "TutorialView";
 
     private static Dictionary<string, GameObject> _loadedPrefabs = new Dictionary<string, GameObject>();
     public static GameObject GetPrefab(string prefabPath)

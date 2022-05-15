@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bb0cf3c9ba5554bb55265617ad871d, type: 3}
+  m_Name: t1
+  m_EditorClassIdentifier: 
+  _values:
+  - Drag to move around and dodge the incoming NPCs
+  - "\u4E0A\u4E0B\u5DE6\u53F3\r\u62D6\u52A8\u6765\u79FB\u52A8\u4E3B\u89D2\u6765\u8EB2\u907F\u5BF9\u9762\u7684NPC"

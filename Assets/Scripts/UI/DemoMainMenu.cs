@@ -10,9 +10,12 @@ public class DemoMainMenu : UIObject
     [SerializeField] StringTextPair _quitGameText;
     [SerializeField] StringTextPair _gameTitleText;
     [SerializeField] StringTextPair _languageOptionText;
+    [SerializeField] StringTextPair _tutorialText;
 
     [SerializeField] Button _startGameButton;
     [SerializeField] Button _quitGameButton;
+    [SerializeField] Button _tutorialButton;
+
     [SerializeField] Dropdown _languageDropdown;
 
     protected override void Start()
@@ -32,8 +35,22 @@ public class DemoMainMenu : UIObject
         _languageDropdown.RefreshShownValue();
         OnLanguageChanged(0);
 
-        _startGameButton.onClick.AddListener(()=> { SceneManager.LoadScene(GameConsts.k_MainSceneIndex); });
+        _startGameButton.onClick.AddListener(StartGame);
         _quitGameButton.onClick.AddListener(() => { Application.Quit();  });
+        _tutorialButton.onClick.AddListener(() => { GameConsts.uiMgr.OpenMenu(TutorialMenu.Instance); });
+    }
+
+    void StartGame()
+    {
+        int tutorialViewed = PlayerPrefs.GetInt(GameConsts.k_PlayerPrefTutorialViewed, 0);
+        if (tutorialViewed == 0)
+        {
+            GameConsts.uiMgr.OpenMenu(TutorialMenu.Instance);
+            TutorialMenu.Instance.TutorialFInishEvent += () => { SceneManager.LoadScene(GameConsts.k_MainSceneIndex); };
+            return;
+        }
+        
+        SceneManager.LoadScene(GameConsts.k_MainSceneIndex);
     }
 
     void OnLanguageChanged(int val)

@@ -34,8 +34,10 @@ public abstract class GameMenu : UIObject, IGameMenu
     protected override void Start()
     {
         base.Start();
-        gameObject.SetActive(false);
-        GameConsts.uiMgr.RegisterMenu(this);
+        
+        // this logic now happens in UIMgr
+        // gameObject.SetActive(false);
+        // GameConsts.uiMgr.RegisterMenu(this);
     }
 
     public virtual void OnEnterMenu()
