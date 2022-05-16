@@ -122,6 +122,8 @@ MonoBehaviour:
     description: {fileID: 11400000, guid: 74b9c42e8b86e86468e8300362ea8a1c, type: 2}
   - image: {fileID: 21300000, guid: 3f04f8892c938d347bd2ee34784e5f07, type: 3}
     description: {fileID: 11400000, guid: fc878a8294b72714181f5d683a94aa8b, type: 2}
+  - image: {fileID: 21300000, guid: 27f2191650f6a2c4285e35d0df89f55a, type: 3}
+    description: {fileID: 11400000, guid: 4c3f82952127bf84d80c85371de8ac10, type: 2}
   - image: {fileID: 21300000, guid: c48c81126123dd9438d9187668f4de2b, type: 3}
     description: {fileID: 11400000, guid: c623cf5ce17260144a1e438454f44ccd, type: 2}
   _nextPageButton: {fileID: 8905932272622655213}
