@@ -154,10 +154,10 @@ public class PlayerController : MonoBehaviour, IResolutionScaleHandler
             Gizmos.DrawCube(_wagon.WagonCenter, _wagon.WagonSize);
         }
     }
+#endif
 
     public void OnResolutionScale(ResolutionScaleEventData eventData)
     {
         UpdateWagonBounds();
     }
-#endif
 }

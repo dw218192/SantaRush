@@ -35,12 +35,13 @@ public static class GameConsts
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void InitGame()
     {
+        /*
         if (IsOnMobile())
         {
             Screen.orientation = ScreenOrientation.LandscapeLeft;
             Screen.autorotateToPortrait = Screen.autorotateToPortraitUpsideDown = Screen.autorotateToLandscapeRight = false;
         }
-
+        */
         _baseUIHeight = Screen.height;
         OrderedUpdate.AddUpdateReceiver(UpdateGame);
         SceneManager.sceneLoaded += OnSceneLoad;
@@ -48,6 +49,12 @@ public static class GameConsts
 
     static void FixResolution()
     {
+        if (Screen.height == 0)
+        {
+            Debug.LogError("Screen height is zero");
+            return;
+        }
+
         float aspect = Screen.width / (float)Screen.height;
         // get rid of FUCKING portrait, fucking annoying as shit having to manually do this
         if (aspect < k_AspectRatio)
@@ -66,11 +73,30 @@ public static class GameConsts
 
             Camera.main.rect = r;
 
+            Debug.Log($"resizing to {Camera.main.pixelWidth}, {Camera.main.pixelHeight} with rect correction");
             eventManager.InvokeEvent(typeof(IResolutionScaleHandler), new ResolutionScaleEventData(heightRatio));
         }
         // ok resolution
         else
         {
+            Rect r = Camera.main.rect;
+
+            // left bottom
+            r.x = 0;
+            r.y = 0;
+            r.width = 1;
+            r.height = 1;
+
+            Camera.main.rect = r;
+
+            Debug.Log($"resizing to {Camera.main.pixelWidth}, {Camera.main.pixelHeight}");
+
+            if (Mathf.Approximately(_baseUIHeight, 0))
+            {
+                Debug.LogError("_baseUIHeight is zero");
+                _baseUIHeight = Screen.height;
+            }
+            
             eventManager.InvokeEvent(typeof(IResolutionScaleHandler), new ResolutionScaleEventData(Screen.height / _baseUIHeight));
         }
     }
@@ -84,9 +110,7 @@ public static class GameConsts
     {
         Debug.Assert(uiMgr != null && eventManager != null);
 
-        // force normal aspect ratio
         Vector2Int curRes = new Vector2Int(Screen.width, Screen.height);
-
         // resolution change or first update
         if (_lastScreenSize == null || _lastScreenSize.Value != curRes)
         {
