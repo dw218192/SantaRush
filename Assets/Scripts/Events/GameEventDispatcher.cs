@@ -19,10 +19,10 @@ public class GameEventDispatcher : ScriptableObject
         GameConsts.gameManager.AddScore(delta);
     }
 
-    public void Fail()
+    public void Fail(GameMgr.GameFailCause cause)
     {
         if (!GameConsts.gameManager)
             Debug.LogWarning("cannot find game manager", this);
-        GameConsts.gameManager.FailGame();
+        GameConsts.gameManager.FailGame(cause);
     }
 }

@@ -45,6 +45,11 @@ public interface IGameSettingHandler
     void OnGameSettingChange(GameSettingEventData eventData);
 }
 
+public interface IResolutionScaleHandler
+{
+    void OnResolutionScale(ResolutionScaleEventData eventData);
+}
+
 public class LevelStageEventData : GameEventData
 {
     public float speedMultiplier;
@@ -122,6 +127,15 @@ public class GameSettingEventData : GameEventData
     }
 }
 
+public class ResolutionScaleEventData : GameEventData
+{
+    public float scaleFactor;
+    public ResolutionScaleEventData(float factor)
+    {
+        this.scaleFactor = factor;
+    }
+}
+
 public struct InterfaceMethodPair
 {
     public Type type;
@@ -138,6 +152,7 @@ public static class EventStub
         new InterfaceMethodPair { type = typeof(IWagonCollisionHandler), methodName = "OnWagonCollide" },
         new InterfaceMethodPair { type = typeof(IBonusStateHanlder), methodName = "OnBonusStateChange" },
         new InterfaceMethodPair { type = typeof(IBuffStateHandler), methodName = "OnBuffStateChange" },
-        new InterfaceMethodPair { type = typeof(IGameSettingHandler), methodName = "OnGameSettingChange" }
+        new InterfaceMethodPair { type = typeof(IGameSettingHandler), methodName = "OnGameSettingChange" },
+        new InterfaceMethodPair { type = typeof(IResolutionScaleHandler), methodName = "OnResolutionScale" }
     };
 }

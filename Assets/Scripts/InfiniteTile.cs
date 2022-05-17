@@ -6,7 +6,7 @@ using NaughtyAttributes;
 using Random = System.Random;
 
 [RequireComponent(typeof(Scroller))]
-public class InfiniteTile : MonoBehaviour
+public class InfiniteTile : MonoBehaviour, IResolutionScaleHandler
 {
     struct TileInstance
     {
@@ -53,25 +53,27 @@ public class InfiniteTile : MonoBehaviour
     void Awake()
     {
         _cam = Camera.main;
-        _viewWidth = _cam.orthographicSize * 2 * _cam.aspect;
+        _viewWidth = GameConsts.worldCameraMax.x - GameConsts.worldCameraMin.x;
+        transform.position = GameConsts.worldCameraMin;
+        /*
         float viewHeight = _cam.orthographicSize * 2;
-
         Vector2 pos = transform.position;
         pos.x = _cam.transform.position.x - _viewWidth / 2;
         pos.y = _cam.transform.position.y - viewHeight / 2;
         transform.position = pos;
-
+        */
         _scroller = GetComponent<Scroller>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        float total = 0;
+        float total = -_viewWidth;
         float target = _viewWidth;
-        int i = 0;
+
         while (total < target)
         {
+            int i;
             for (i = 0; i < _pool.Items.Length && total < target; ++i)
             {
                 TileInstance tile = GenTile(total);
@@ -97,7 +99,7 @@ public class InfiniteTile : MonoBehaviour
         if(!_isGenerative)
         {
             TileInstance first = _tileInstances.First.Value;
-            if(first.ins.transform.position.x + first.width / 2 < _cam.transform.position.x - _viewWidth / 2)
+            if(first.ins.transform.position.x + first.width / 2 < GameConsts.worldCameraMin.x - _viewWidth / 2)
             {
                 TileInstance last = _tileInstances.Last.Value;
                 
@@ -112,7 +114,7 @@ public class InfiniteTile : MonoBehaviour
         else
         {
             TileInstance first = _tileInstances.First.Value;
-            if (first.ins.transform.position.x + first.width / 2 < _cam.transform.position.x - _viewWidth / 2)
+            if (first.ins.transform.position.x + first.width / 2 < GameConsts.worldCameraMin.x - _viewWidth / 2)
             {
                 TileInstance last = _tileInstances.Last.Value;
 
@@ -121,5 +123,32 @@ public class InfiniteTile : MonoBehaviour
                 _tileInstances.AddLast(GenTile(last.ins.transform.localPosition.x + last.width / 2));
             }
         }
+    }
+
+    public void OnResolutionScale(ResolutionScaleEventData eventData)
+    {
+        _viewWidth = GameConsts.worldCameraMax.x - GameConsts.worldCameraMin.x;
+        transform.position = GameConsts.worldCameraMin;
+
+        foreach (var tile in _tileInstances)
+            Destroy(tile.ins);
+        _tileInstances.Clear();
+
+        float total = -_viewWidth;
+        float target = _viewWidth;
+        while (total < target)
+        {
+            int i;
+            for (i = 0; i < _pool.Items.Length && total < target; ++i)
+            {
+                TileInstance tile = GenTile(total);
+                _tileInstances.AddLast(tile);
+                total += tile.width;
+            }
+        }
+
+        // gen an extra tile to avoid artifacts
+        _tileInstances.AddLast(GenTile(total));
+        _valid = _tileInstances.Count > 1;
     }
 }

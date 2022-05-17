@@ -9,23 +9,35 @@ public class HUD : SingletonUIObject<HUD>, IGameScoreHandler, IBonusStateHanlder
     [SerializeField] Image _panel;
     [SerializeField] StringTextPair _giftTimerText;
     [SerializeField] StringTextPair _giftScoreText;
-    [SerializeField] StringTextPair _totalScoreText;
+    // [SerializeField] StringTextPair _totalScoreText;
     [SerializeField] StringTextPair _playerScoreText;
     [SerializeField] Text _bonusStageText;
     [SerializeField] Text _buffText;
 
+    [SerializeField] AnimationCurve _timeTextAnimCurve;
+    [SerializeField] float _timeTextAnimStartTime = 3f;
+
+    int _timerTextBaseFontSize;
     Vector3[] _wordCorners = null;
 
     protected override void Start()
     {
         base.Start();
-        
+        _timerTextBaseFontSize = _giftTimerText.text.fontSize;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _giftTimerText.Set(" ", GameConsts.gameManager.GiftTime.ToString("n2"));
+        float time = GameConsts.gameManager.GiftTime;
+        if (time < _timeTextAnimStartTime)
+        {
+            float scale = _timeTextAnimCurve.Evaluate(time);
+            _giftTimerText.text.color = Color.red;
+            _giftTimerText.text.fontSize = Mathf.RoundToInt(_timerTextBaseFontSize * scale);
+        }
+
+        _giftTimerText.Set(" ", time.ToString("n2"));
     }
 
     public float Height
@@ -48,7 +60,7 @@ public class HUD : SingletonUIObject<HUD>, IGameScoreHandler, IBonusStateHanlder
         switch(eventData.type)
         {
             case GameScoreEventData.Type.TOTAL_SCORE_CHANGE:
-                _totalScoreText.Set($": {eventData.values[0]}");
+                // _totalScoreText.Set($": {eventData.values[0]}");
                 break;
             case GameScoreEventData.Type.GIFT_TARGET_SCORE_CHANGE:
                 _giftScoreText.Set($": {eventData.values[0]} / {eventData.values[1]}");

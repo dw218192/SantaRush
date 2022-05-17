@@ -3,5 +3,5 @@ var MobileChecker = {
    {
       return Module.SystemInfo.mobile;
    }
-};  
+};
 mergeInto(LibraryManager.library, MobileChecker);

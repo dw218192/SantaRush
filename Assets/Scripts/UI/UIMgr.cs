@@ -11,6 +11,8 @@ public class UIMgr : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Assert(GameConsts.eventManager);
+
         if (GameConsts.uiMgr != null)
             Destroy(this);
         else
@@ -26,7 +28,9 @@ public class UIMgr : MonoBehaviour
             {
                 GameObject ins = Instantiate(obj, _MenuParent);
 
-                RegisterMenu(ins.GetComponent<IGameMenu>());
+                IGameMenu insMenu = ins.GetComponent<IGameMenu>();
+                GameConsts.eventManager.Register(insMenu as MonoBehaviour);
+                RegisterMenu(insMenu);
                 ins.SetActive(false);
             }
         }

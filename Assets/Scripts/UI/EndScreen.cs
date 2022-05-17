@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class EndScreen : SingletonGameMenu<EndScreen>
 {
+    [System.Serializable]
+    struct FailImageDesc
+    {
+        public GameMgr.GameFailCause cause;
+        public Sprite image;
+    }
+
+    [SerializeField] FailImageDesc[] _failImageDescs;
     [SerializeField] StringTextPair _restartText;
     [SerializeField] StringTextPair _quitGameText;
     [SerializeField] StringTextPair _highestScoreText;
@@ -13,6 +21,9 @@ public class EndScreen : SingletonGameMenu<EndScreen>
 
     [SerializeField] Button _restartButton;
     [SerializeField] Button _quitGameButton;
+    [SerializeField] Image _failImage;
+
+    public GameMgr.GameFailCause GameFailCause { get; set; } = GameMgr.GameFailCause.DEATH;
 
     protected override void Start()
     {
@@ -25,6 +36,15 @@ public class EndScreen : SingletonGameMenu<EndScreen>
     public override void OnEnterMenu()
     {
         base.OnEnterMenu();
+
+        foreach(var desc in _failImageDescs)
+        {
+            if (desc.cause == GameFailCause)
+            {
+                _failImage.sprite = desc.image;
+                break;
+            }
+        }
 
         int highestScore = GameConsts.gameManager.HighestPlayerScore;
         int sessionScore = GameConsts.gameManager.PlayerScore;

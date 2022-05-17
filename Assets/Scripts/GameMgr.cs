@@ -18,6 +18,12 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
         OVER
     }
 
+    public enum GameFailCause
+    {
+        TIME_OUT,
+        DEATH
+    }
+
     [SerializeField] LevelStageTable _stageTable = null;
     [SerializeField] LevelTargetPool _targetPool = null;
 
@@ -588,7 +594,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
         }
         else if (Mathf.Approximately(GiftTime, 0))
         {
-            FailGame();
+            FailGame(GameFailCause.TIME_OUT);
         }
 
 
@@ -663,7 +669,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
         PlayerScore += Mathf.RoundToInt(delta * GlobalPlayerScoreMultiplier);
     }
 
-    public void FailGame()
+    public void FailGame(GameFailCause cause)
     {
         State = GameState.OVER;
 
@@ -673,6 +679,7 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
             PlayerPrefs.SetInt(GameConsts.k_PlayerPrefHighestScore, _playerScore);
         }
 
+        EndScreen.Instance.GameFailCause = cause;
         GameConsts.uiMgr.OpenMenu(EndScreen.Instance);
     }
 
@@ -703,9 +710,8 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
     public void OnWagonCollide(WagonCollisionEventData eventData)
     {
         if (eventData.partCount == 1)
-            FailGame();
+            FailGame(GameFailCause.DEATH);
     }
-
 
     public void OnBuffStateChange(BuffStateEventData eventData)
     {
