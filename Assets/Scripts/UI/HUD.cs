@@ -36,6 +36,11 @@ public class HUD : SingletonUIObject<HUD>, IGameScoreHandler, IBonusStateHanlder
             _giftTimerText.text.color = Color.red;
             _giftTimerText.text.fontSize = Mathf.RoundToInt(_timerTextBaseFontSize * scale);
         }
+        else
+        {
+            _giftTimerText.text.color = Color.black;
+            _giftTimerText.text.fontSize = _timerTextBaseFontSize;
+        }
 
         _giftTimerText.Set(" ", time.ToString("n2"));
     }
