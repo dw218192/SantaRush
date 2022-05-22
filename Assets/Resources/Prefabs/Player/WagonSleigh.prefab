@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WagonSleigh
       objectReference: {fileID: 0}
+    - target: {fileID: 8993284894172205177, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 8993284894172205179, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -98,6 +102,14 @@ PrefabInstance:
     - target: {fileID: 8993284894172205179, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8993284894172205179, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8993284894172205179, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
