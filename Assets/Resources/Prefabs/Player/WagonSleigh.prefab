@@ -7,6 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 811033054388348681, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 2.038
+      objectReference: {fileID: 0}
+    - target: {fileID: 811033054388348681, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.391
+      objectReference: {fileID: 0}
+    - target: {fileID: 811033054388348681, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
+      propertyPath: m_Size.x
+      value: 2.038
+      objectReference: {fileID: 0}
+    - target: {fileID: 811033054388348681, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
+      propertyPath: m_Size.y
+      value: 1.391
+      objectReference: {fileID: 0}
     - target: {fileID: 8933477854141348172, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
       propertyPath: _onHit.m_PersistentCalls.m_Calls.Array.size
       value: 0
@@ -34,7 +50,7 @@ PrefabInstance:
     - target: {fileID: 8993284894172205174, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 31444871dd41ca04a8913593b03a5eeb, type: 3}
+      objectReference: {fileID: 21300000, guid: 0af9e39ef48ee0d47aa7b2062763540b, type: 3}
     - target: {fileID: 8993284894172205175, guid: 930df649e27eea142a5da9dec8882e36, type: 3}
       propertyPath: m_Name
       value: WagonSleigh

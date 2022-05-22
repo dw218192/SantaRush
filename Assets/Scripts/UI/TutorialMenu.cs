@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using NaughtyAttributes;
 
 public class TutorialMenu : SingletonGameMenu<TutorialMenu>
 {
@@ -13,6 +14,7 @@ public class TutorialMenu : SingletonGameMenu<TutorialMenu>
         public LocalizedString description;
     }
 
+    [ReorderableList]
     [SerializeField]
     TutorialPage[] _pages = new TutorialPage[0];
     [SerializeField]

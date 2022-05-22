@@ -114,15 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eababa2cc153eb479ea0b39e49bd719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _localizedTexts:
-  - str: {fileID: 11400000, guid: 5e3a1b6b868af414c9a6bfc60ee7cd24, type: 2}
-    text: {fileID: 3674326791681331301}
-  - str: {fileID: 11400000, guid: 5e3a1b6b868af414c9a6bfc60ee7cd24, type: 2}
-    text: {fileID: 2348541100344623310}
-  - str: {fileID: 11400000, guid: 352f38ccdaf3eab4a853770d539c5bf2, type: 2}
-    text: {fileID: 7011051173514248761}
-  - str: {fileID: 11400000, guid: 130c8cf3655b7474d93236455f3ef5a5, type: 2}
-    text: {fileID: 7568185625439133941}
   _panel: {fileID: 438442808319209994}
   _giftTimerText:
     str: {fileID: 11400000, guid: 352f38ccdaf3eab4a853770d539c5bf2, type: 2}
@@ -130,14 +121,45 @@ MonoBehaviour:
   _giftScoreText:
     str: {fileID: 11400000, guid: be5a2edc46f9a9f4aa77547d9022503b, type: 2}
     text: {fileID: 3674326791681331301}
-  _totalScoreText:
-    str: {fileID: 11400000, guid: 5e3a1b6b868af414c9a6bfc60ee7cd24, type: 2}
-    text: {fileID: 2348541100344623310}
   _playerScoreText:
     str: {fileID: 11400000, guid: 130c8cf3655b7474d93236455f3ef5a5, type: 2}
     text: {fileID: 7568185625439133941}
   _bonusStageText: {fileID: 5727270901202140361}
   _buffText: {fileID: 2801371691059291541}
+  _timeTextAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1.5
+      inSlope: 0.0106332
+      outSlope: -0.007383089
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.3596279
+      outWeight: 0.5179398
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 0
+    m_RotationOrder: 4
+  _timeTextAnimStartTime: 3
 --- !u!1 &1708417906160088309
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5047482672203012806
 RectTransform:
   m_ObjectHideFlags: 0
@@ -549,10 +571,10 @@ RectTransform:
   m_Father: {fileID: 3543195566463231823}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 226.75, y: -20}
+  m_SizeDelta: {x: 154.5, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3904330084100211232
 CanvasRenderer:
@@ -750,7 +772,7 @@ MonoBehaviour:
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Timer Text

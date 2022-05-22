@@ -692,7 +692,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &4643057933326271294
 MonoBehaviour:
@@ -745,6 +745,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cea71a9e417d624c93d0b0a7a120420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _failImageDescs:
+  - cause: 1
+    image: {fileID: 21300000, guid: 86ec00c71c2ac4243bebf56dcaf3f358, type: 3}
+  - cause: 0
+    image: {fileID: 21300000, guid: a51ed786dae2dc14c8926dddcb23206b, type: 3}
   _restartText:
     str: {fileID: 11400000, guid: a18e8fdc9cc529149a016be540f2024f, type: 2}
     text: {fileID: 6149254974557505901}
@@ -760,6 +765,7 @@ MonoBehaviour:
   _personalBestNoteStr: {fileID: 11400000, guid: 6f8100e75cc26554e9e1c029866b584e, type: 2}
   _restartButton: {fileID: 1284566138662140990}
   _quitGameButton: {fileID: 5463593051080667187}
+  _failImage: {fileID: 4214463360330914368}
 --- !u!1 &7075629208056731926
 GameObject:
   m_ObjectHideFlags: 0

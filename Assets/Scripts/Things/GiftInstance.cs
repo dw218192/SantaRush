@@ -40,7 +40,8 @@ public class GiftInstance : MonoBehaviour
         get => _giftType;
         set
         {
-            rend.color = value.GetColor();
+            rend.sprite = value.GetSprite();
+            // rend.color = value.GetColor();
             _giftType = value;
         }
     }

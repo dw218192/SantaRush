@@ -12,6 +12,7 @@ public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryI
     public static readonly GiftType RED = new GiftType(2);
     public static readonly GiftType PURPLE = new GiftType(3);
     public static readonly GiftType ORANGE = new GiftType(4);
+    static Sprite[] _giftSprites = null;
 
     public int val;
     GiftType(int val)
@@ -48,6 +49,7 @@ public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryI
         return 1835847388 + val.GetHashCode();
     }
 
+    [Obsolete("gift now uses different sprites", true)]
     public Color GetColor()
     {
         if (this == GREEN)
@@ -62,6 +64,16 @@ public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryI
             return new Color(1, 165 / 255f, 0);
         else
             return Color.white;
+    }
+
+    public Sprite GetSprite()
+    {
+        if (_giftSprites == null)
+            _giftSprites = Resources.LoadAll<Sprite>(GameConsts.k_ResourcesGiftSpritePath);
+        Debug.Assert(_giftSprites != null && _giftSprites.Length > 0);
+        Debug.Assert(val != GiftType.INVALID.val);
+        
+        return _giftSprites[val];
     }
 
     public int GetScore()

@@ -5,9 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 
-public abstract class UIObject : MonoBehaviour, IGameSettingHandler
+public abstract class UIObject : MonoBehaviour, IGameSettingHandler, IResolutionScaleHandler
 {
-    StringTextPair[] _localizedTexts;
+    CanvasScaler _scaler = null;
+    StringTextPair[] _localizedTexts = null;
 
     protected virtual void Awake()
     {
@@ -22,6 +23,14 @@ public abstract class UIObject : MonoBehaviour, IGameSettingHandler
         {
             txt.Set();
         }
+
+
+
+        _scaler = GetComponent<CanvasScaler>();
+        if (_scaler == null)
+            _scaler = gameObject.AddComponent<CanvasScaler>();
+        _scaler.referencePixelsPerUnit = 100;
+        _scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
     }
 
     protected virtual void Start()
@@ -43,5 +52,10 @@ public abstract class UIObject : MonoBehaviour, IGameSettingHandler
                 }
             }
         }
+    }
+
+    public void OnResolutionScale(ResolutionScaleEventData data)
+    {
+        _scaler.scaleFactor = data.scaleFactor;
     }
 }

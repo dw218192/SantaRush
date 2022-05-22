@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Wagon))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IResolutionScaleHandler
 {
     Camera _cam = null;
     float _timer = 0f;
@@ -152,14 +152,12 @@ public class PlayerController : MonoBehaviour
         if (UnityEditor.EditorApplication.isPlaying)
         {
             Gizmos.DrawCube(_wagon.WagonCenter, _wagon.WagonSize);
-            Vector2 viewSize = new Vector2(Cam.orthographicSize * Cam.aspect, Cam.orthographicSize);
-            Vector2 offset = (Vector2)_wagon.transform.position - _wagon.WagonCenter;
-            Vector2 viewMin = (Vector2)Cam.transform.TransformPoint(-viewSize) + _wagon.WagonSize / 2 + offset;
-            Vector2 viewMax = (Vector2)Cam.transform.TransformPoint(viewSize) - _wagon.WagonSize / 2 + offset;
-
-            Gizmos.DrawSphere(viewMin, 0.1f);
-            Gizmos.DrawSphere(viewMax, 0.1f);
         }
     }
 #endif
+
+    public void OnResolutionScale(ResolutionScaleEventData eventData)
+    {
+        UpdateWagonBounds();
+    }
 }
