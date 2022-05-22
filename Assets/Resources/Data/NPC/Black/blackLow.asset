@@ -19,7 +19,7 @@ MonoBehaviour:
   _bombProbability: 1
   _npcWeight: 40
   _npcParts:
-  - prefab: {fileID: 5541145127859025487, guid: 2a47d567e71d32442b5d6b97144c34e6, type: 3}
+  - prefab: {fileID: 5541145127859025487, guid: 5b5e9b322430872468062721520599ee, type: 3}
     count: 1
   _npcPartDist: 0.5
   _npcGiftSpawnLerpPercentage: 0.4
