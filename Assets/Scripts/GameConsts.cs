@@ -17,13 +17,14 @@ public static class GameConsts
 
     public const string k_GameEventDispatcherPath = "Data/GameEvents";
     public const string k_ResourcesGameDataPath = "Data/";
+
     public const string k_ResourcesGiftPrefabPath = "Prefabs/Things/GiftInstance";
     public const string k_ResourcesBombPrefabPath = "Prefabs/Things/BombInstance";
     public const string k_ResourcesNPCPrefabPath = "Prefabs/NPC/NPCInstance";
-    public const string k_ResourcesArtPath = "Art/";
     public const string k_ResourcesUIPrefabPath = "Prefabs/UI";
 
-    public const string k_GameFontPath = "Art/Font/Muyao-Softbrush-2";
+    public const string k_ResourcesGameFontPath = "Art/Font/Muyao-Softbrush-2";
+    public const string k_ResourcesGiftSpritePath = "Art/GiftSprites";
 
     public const string k_PlayerPrefHighestScore = "HighestScore";
     public const string k_PlayerPrefTutorialViewed = "TutorialView";
@@ -137,7 +138,7 @@ public static class GameConsts
     public static Font GetGameFont()
     {
         if (_gameFont == null)
-            _gameFont = Resources.Load<Font>(k_GameFontPath);
+            _gameFont = Resources.Load<Font>(k_ResourcesGameFontPath);
         return _gameFont;
     }
 
