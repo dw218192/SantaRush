@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
@@ -6,7 +7,20 @@ public struct StringTextPair
 {
     public LocalizedString str;
     public Text text;
+    // if not null, will use this font instead of GameConsts.GetFont()
+    public Font fontOverride;
+
     private string[] _appendStrings;
+
+    public void Init()
+    {
+        if(fontOverride != null)
+            text.font = fontOverride;
+        else
+            text.font = GameConsts.GetGameFont();
+
+        Set();
+    }
 
     public void Set(params string[] appendStrings)
     {

@@ -10,6 +10,7 @@ public class EndScreen : SingletonGameMenu<EndScreen>
     {
         public GameMgr.GameFailCause cause;
         public Sprite image;
+        public LocalizedString desc;
     }
 
     [SerializeField] FailImageDesc[] _failImageDescs;
@@ -22,6 +23,7 @@ public class EndScreen : SingletonGameMenu<EndScreen>
     [SerializeField] Button _restartButton;
     [SerializeField] Button _quitGameButton;
     [SerializeField] Image _failImage;
+    [SerializeField] Text _failText;
 
     public GameMgr.GameFailCause GameFailCause { get; set; } = GameMgr.GameFailCause.DEATH;
 
@@ -42,6 +44,7 @@ public class EndScreen : SingletonGameMenu<EndScreen>
             if (desc.cause == GameFailCause)
             {
                 _failImage.sprite = desc.image;
+                _failText.text = desc.desc;
                 break;
             }
         }

@@ -556,26 +556,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1675624833827115916, guid: a59d30d4651a999449c10c88dcda0a09, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1675624833827115916, guid: a59d30d4651a999449c10c88dcda0a09, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1675624833827115916, guid: a59d30d4651a999449c10c88dcda0a09, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1675624833827115918, guid: a59d30d4651a999449c10c88dcda0a09, type: 3}
-      propertyPath: m_MatchWidthOrHeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1675624833827115918, guid: a59d30d4651a999449c10c88dcda0a09, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1675624835382102266, guid: a59d30d4651a999449c10c88dcda0a09, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0

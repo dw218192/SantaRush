@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7bb0cf3c9ba5554bb55265617ad871d, type: 3}
-  m_Name: GameTitle
+  m_Name: GameOverReason_Dead
   m_EditorClassIdentifier: 
   _values:
-  - "Santa\n      Rush"
-  - "Santa\n      Rush"
+  - You are Dead
+  - "\u751F\u547D\u8017\u5C3D"

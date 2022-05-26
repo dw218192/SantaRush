@@ -14,15 +14,20 @@ public class HUD : SingletonUIObject<HUD>, IGameScoreHandler, IBonusStateHanlder
     [SerializeField] Text _bonusStageText;
     [SerializeField] Text _buffText;
 
+    [Header("timer text settings")]
+    [SerializeField] Color _timerTextColorUrgent;
     [SerializeField] AnimationCurve _timeTextAnimCurve;
     [SerializeField] float _timeTextAnimStartTime = 3f;
 
+    Color _initTimerTextColor;
     int _timerTextBaseFontSize;
     Vector3[] _wordCorners = null;
 
     protected override void Start()
     {
         base.Start();
+
+        _initTimerTextColor = _giftTimerText.text.color;
         _timerTextBaseFontSize = _giftTimerText.text.fontSize;
     }
 
@@ -33,12 +38,12 @@ public class HUD : SingletonUIObject<HUD>, IGameScoreHandler, IBonusStateHanlder
         if (time < _timeTextAnimStartTime)
         {
             float scale = _timeTextAnimCurve.Evaluate(time);
-            _giftTimerText.text.color = Color.red;
+            _giftTimerText.text.color = _timerTextColorUrgent;
             _giftTimerText.text.fontSize = Mathf.RoundToInt(_timerTextBaseFontSize * scale);
         }
         else
         {
-            _giftTimerText.text.color = Color.black;
+            _giftTimerText.text.color = _initTimerTextColor;
             _giftTimerText.text.fontSize = _timerTextBaseFontSize;
         }
 
