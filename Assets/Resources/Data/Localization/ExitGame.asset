@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ExitGame
   m_EditorClassIdentifier: 
   _values:
-  - Exit
-  - "\u9000\u51FA"
+  - Exit Game
+  - "\u9000\u51FA\u6E38\u620F"
