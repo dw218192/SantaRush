@@ -16,24 +16,32 @@ public class UIMgr : MonoBehaviour
         if (GameConsts.uiMgr != null)
             Destroy(this);
         else
+        {
             GameConsts.uiMgr = this;
 
-        _MenuParent = new GameObject("GameMenus").transform;
+            _MenuParent = new GameObject("GameMenus").transform;
 
-        GameObject[] objs = Resources.LoadAll<GameObject>(GameConsts.k_ResourcesUIPrefabPath);
-        foreach(GameObject obj in objs)
-        {
-            IGameMenu menu = obj.GetComponent<IGameMenu>();
-            if(menu != null)
+            GameObject[] objs = Resources.LoadAll<GameObject>(GameConsts.k_ResourcesUIPrefabPath);
+            foreach (GameObject obj in objs)
             {
-                GameObject ins = Instantiate(obj, _MenuParent);
+                IGameMenu menu = obj.GetComponent<IGameMenu>();
+                if (menu != null)
+                {
+                    GameObject ins = Instantiate(obj, _MenuParent);
 
-                IGameMenu insMenu = ins.GetComponent<IGameMenu>();
-                GameConsts.eventManager.Register(insMenu as MonoBehaviour);
-                RegisterMenu(insMenu);
-                ins.SetActive(false);
+                    IGameMenu insMenu = ins.GetComponent<IGameMenu>();
+                    GameConsts.eventManager.Register(insMenu as MonoBehaviour);
+                    RegisterMenu(insMenu);
+                    ins.SetActive(false);
+                }
             }
         }
+    }
+    
+    void OnDestroy()
+    {
+        if (ReferenceEquals(GameConsts.uiMgr, this))
+            GameConsts.uiMgr = null;
     }
 
     // Start is called before the first frame update

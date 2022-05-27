@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _values:
   - Score
+<<<<<<< HEAD
   - "\u5F97\u5206"
+=======
+  - "\u672C\u8F6E\u5206\u6570"
+>>>>>>> ef35ed007d0e2aa728065e397a7c7e5b88df4a8a

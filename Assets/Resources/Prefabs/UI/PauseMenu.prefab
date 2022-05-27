@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.1764706}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -215,7 +215,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &1054210881234395354
 MonoBehaviour:
@@ -271,7 +271,7 @@ MonoBehaviour:
   _resumeButton: {fileID: 4683845943635319851}
   _restartButton: {fileID: 5166129522459564945}
   _tutorialButton: {fileID: 5726797239863266669}
-  _quitGameButton: {fileID: 3011324798170170888}
+  _mainMenuButton: {fileID: 3011324798170170888}
   _scoreText:
     str: {fileID: 11400000, guid: 130c8cf3655b7474d93236455f3ef5a5, type: 2}
     text: {fileID: 565127931204236411}
@@ -288,8 +288,8 @@ MonoBehaviour:
     str: {fileID: 11400000, guid: 97837332c65c6634692dce17dfef83a6, type: 2}
     text: {fileID: 5726797239802031240}
     fontOverride: {fileID: 0}
-  _quitGameText:
-    str: {fileID: 11400000, guid: dc0dd49bd2a8e32468d15ec40b500bc1, type: 2}
+  _mainMenuText:
+    str: {fileID: 11400000, guid: 8bdb9e6ff1de39147876d886d081fed7, type: 2}
     text: {fileID: 3011324798264977389}
     fontOverride: {fileID: 0}
 --- !u!1 &5886055627528452916

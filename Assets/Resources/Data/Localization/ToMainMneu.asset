@@ -10,13 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7bb0cf3c9ba5554bb55265617ad871d, type: 3}
-  m_Name: HUDGiftObjective
+  m_Name: ToMainMneu
   m_EditorClassIdentifier: 
   _values:
-<<<<<<< HEAD
-  - Target Gift Number
-  - "\u76EE\u6807\u793C\u7269"
-=======
-  - Gift Target
-  - "\u793C\u7269\u76EE\u6807"
->>>>>>> ef35ed007d0e2aa728065e397a7c7e5b88df4a8a
+  - Main Menu
+  - "\u8FD4\u56DE\u4E3B\u83DC\u5355"
