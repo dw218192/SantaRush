@@ -29,6 +29,12 @@ public class EventMgr : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        if (ReferenceEquals(GameConsts.eventManager, this))
+            GameConsts.eventManager = null;
+    }
+
     void Start()
     {
         

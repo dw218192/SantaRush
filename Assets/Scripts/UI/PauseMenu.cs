@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : SingletonGameMenu<PauseMenu>
@@ -12,7 +13,7 @@ public class PauseMenu : SingletonGameMenu<PauseMenu>
     [SerializeField]
     Button _tutorialButton;
     [SerializeField]
-    Button _quitGameButton;
+    Button _mainMenuButton;
 
     [SerializeField]
     StringTextPair _scoreText;
@@ -23,7 +24,7 @@ public class PauseMenu : SingletonGameMenu<PauseMenu>
     [SerializeField]
     StringTextPair _tutorialText;
     [SerializeField]
-    StringTextPair _quitGameText;
+    StringTextPair _mainMenuText;
     
     protected override void Start()
     {
@@ -32,7 +33,7 @@ public class PauseMenu : SingletonGameMenu<PauseMenu>
         _resumeButton.onClick.AddListener(OnBackPressed);
         _restartButton.onClick.AddListener(GameConsts.gameManager.RestartGame);
         _tutorialButton.onClick.AddListener(() => { GameConsts.uiMgr.OpenMenu(TutorialMenu.Instance); });
-        _quitGameButton.onClick.AddListener(GameConsts.gameManager.QuitGame);
+        _mainMenuButton.onClick.AddListener(ToMainMenu);
     }
 
     public override void OnEnterMenu()
@@ -45,5 +46,11 @@ public class PauseMenu : SingletonGameMenu<PauseMenu>
     {
         base.OnLeaveMenu();
         GameConsts.gameManager.ResumeGame();
+    }
+
+    void ToMainMenu()
+    {
+        GameConsts.gameManager.ResumeGame();
+        SceneManager.LoadScene(GameConsts.k_MainMenuSceneIndex);
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EndScreen : SingletonGameMenu<EndScreen>
 {
@@ -15,13 +16,13 @@ public class EndScreen : SingletonGameMenu<EndScreen>
 
     [SerializeField] FailImageDesc[] _failImageDescs;
     [SerializeField] StringTextPair _restartText;
-    [SerializeField] StringTextPair _quitGameText;
+    [SerializeField] StringTextPair _mainMenuText;
     [SerializeField] StringTextPair _highestScoreText;
     [SerializeField] StringTextPair _scoreText;
     [SerializeField] LocalizedString _personalBestNoteStr;
 
     [SerializeField] Button _restartButton;
-    [SerializeField] Button _quitGameButton;
+    [SerializeField] Button _mainMenuButton;
     [SerializeField] Image _failImage;
     [SerializeField] Text _failText;
 
@@ -31,8 +32,9 @@ public class EndScreen : SingletonGameMenu<EndScreen>
     {
         base.Start();
 
+        
         _restartButton.onClick.AddListener(RestartGame);
-        _quitGameButton.onClick.AddListener(QuitGame);
+        _mainMenuButton.onClick.AddListener(ToMainMenu);
     }
 
     public override void OnEnterMenu()
@@ -64,19 +66,15 @@ public class EndScreen : SingletonGameMenu<EndScreen>
         }
     }
 
-    public override void OnLeaveMenu()
-    {
-        base.OnLeaveMenu();
-        GameConsts.gameManager.ResumeGame();
-    }
     public override bool CanClose()
     {
         return false;
     }
 
-    void QuitGame()
+    void ToMainMenu()
     {
-        GameConsts.gameManager.QuitGame();
+        GameConsts.gameManager.ResumeGame();
+        SceneManager.LoadScene(GameConsts.k_MainMenuSceneIndex);
     }
 
     void RestartGame()

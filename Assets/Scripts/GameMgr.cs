@@ -479,6 +479,12 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
         }
     }
 
+    void OnDestroy()
+    {
+        if(ReferenceEquals(GameConsts.gameManager, this))
+            GameConsts.gameManager = null;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

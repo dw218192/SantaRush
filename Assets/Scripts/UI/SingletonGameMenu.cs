@@ -114,6 +114,7 @@ public abstract class SingletonUIObject<ObjType> : UIObject where ObjType : Sing
 }
 
 [DisallowMultipleComponent]
+[RequireComponent(typeof(Canvas))]
 public abstract class SingletonGameMenu<MenuType> : GameMenu where MenuType : SingletonGameMenu<MenuType>
 {
     private static MenuType _Instance;

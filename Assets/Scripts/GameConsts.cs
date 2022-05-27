@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public static class GameConsts
 {
     public const float k_AspectRatio = 1.33333f;
+    public const int k_MainMenuSceneIndex = 0;
     public const int k_MainSceneIndex = 1;
 
     public const string k_PlayerLayerName = "Player";
