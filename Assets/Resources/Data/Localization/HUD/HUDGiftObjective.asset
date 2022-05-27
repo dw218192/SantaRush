@@ -13,10 +13,5 @@ MonoBehaviour:
   m_Name: HUDGiftObjective
   m_EditorClassIdentifier: 
   _values:
-<<<<<<< HEAD
-  - Target Gift Number
-  - "\u76EE\u6807\u793C\u7269"
-=======
   - Gift Target
   - "\u793C\u7269\u76EE\u6807"
->>>>>>> ef35ed007d0e2aa728065e397a7c7e5b88df4a8a
