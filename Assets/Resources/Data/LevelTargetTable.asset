@@ -52,8 +52,8 @@ MonoBehaviour:
     _scoreMultiplier: 4
   - _name: "\u60CA\u559C\u8FDE\u8FDE"
     _displayName: {fileID: 11400000, guid: 9e41bb281451c7042a1ad0a3d5d260c8, type: 2}
-    _timeLimit: 31
-    _targetScore: 22
+    _timeLimit: 28
+    _targetScore: 18
     _timeBetweenScores: 3
     _scoreMultiplier: 5
   - _name: "\u6C38\u4E0D\u5931\u624B"
