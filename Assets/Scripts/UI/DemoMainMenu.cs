@@ -31,9 +31,8 @@ public class DemoMainMenu : UIObject
         }
 
         _languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
-        _languageDropdown.value = 0;
+        _languageDropdown.value = (int) GameConsts.curLanguage;
         _languageDropdown.RefreshShownValue();
-        OnLanguageChanged(0);
 
         _startGameButton.onClick.AddListener(StartGame);
         _quitGameButton.onClick.AddListener(() => { Application.Quit();  });

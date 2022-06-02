@@ -29,8 +29,9 @@ public static class GameConsts
 
     public const string k_PlayerPrefHighestScore = "HighestScore";
     public const string k_PlayerPrefTutorialViewed = "TutorialView";
+    public const string k_PlayerPrefLanguage = "Language";
 
-#region Resolution Related
+    #region Resolution Related
     private static float _baseUIHeight = Screen.height;
     private static Vector2Int? _lastScreenSize = null;
 
@@ -221,7 +222,7 @@ public static class GameConsts
         {
             if(_curLanguage == null)
             {
-                curLanguage = Language.CHN;
+                curLanguage = (Language) PlayerPrefs.GetInt(k_PlayerPrefLanguage, (int)Language.ENG);
             }
 
             return _curLanguage.Value;
@@ -231,6 +232,7 @@ public static class GameConsts
             Debug.Assert(eventManager != null);
 
             _curLanguage = value;
+            PlayerPrefs.SetInt(k_PlayerPrefLanguage, (int)value);
             eventManager.InvokeEvent(typeof(IGameSettingHandler), new GameSettingEventData(GameSettingEventData.Type.LANGUAGE_CHANGE));
         }
     }
