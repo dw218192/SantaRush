@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour, IResolutionScaleHandler
 
     Vector2[] _wagonMoveBounds = new Vector2[2];
 
+    bool _ctrlEnabled = true;
+    
     Wagon Wagon 
     { 
         get {
@@ -37,6 +39,8 @@ public class PlayerController : MonoBehaviour, IResolutionScaleHandler
         }
         set => _cam = value;
     }
+
+    public bool CtrlEnabled { get => _ctrlEnabled; set => _ctrlEnabled = value; }
 
     private void OnEnable()
     {
@@ -94,6 +98,9 @@ public class PlayerController : MonoBehaviour, IResolutionScaleHandler
 
     void DeployGift(InputAction.CallbackContext context)
     {
+        if (!CtrlEnabled)
+            return;
+
         if(_timer >= Config.DeplpyCooldown)
         {
             Wagon.SpawnGift();
@@ -111,6 +118,9 @@ public class PlayerController : MonoBehaviour, IResolutionScaleHandler
 
     void MoveUp(InputAction.CallbackContext context)
     {
+        if (!CtrlEnabled)
+            return;
+
         _prevMousePos = GetPointerPos();
         StartCoroutine(DragRoutine());
     }

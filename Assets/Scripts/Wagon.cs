@@ -231,13 +231,41 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
 
     void TakeDamage()
     {
+        IEnumerator _deathRoutine()
+        {
+            if(_config.DeathEffectPrefab != null)
+            {
+                Color c = _parts[0].Renderer.color;
+                c.a = 0;
+                _parts[0].Renderer.color = c;
+
+
+                _ctrl.CtrlEnabled = false;
+
+                GameObject effectIns = Instantiate(_config.DeathEffectPrefab.gameObject, _parts[0].transform.position, Quaternion.identity);
+                Animator animator = effectIns.GetComponent<Animator>();
+
+                while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1 || animator.IsInTransition(0))
+                {
+                    yield return null;
+                }
+            }
+            GameConsts.eventManager.InvokeEvent(typeof(IWagonCollisionHandler), new WagonCollisionEventData(PartCount()));
+        }
+
         if (_collisionInvisibleRoutine == null)
         {
-            _collisionInvisibleRoutine = StartCoroutine(TurnInvincibleRoutine(_config.InvicibleTimeOnCollision, DoInvisibleCollisionEffect, () => { _collisionInvisibleRoutine = null; }));
-
+            _collisionInvisibleRoutine = StartCoroutine(TurnInvincibleRoutine(_config.InvicibleTimeOnCollision, 
+                DoInvisibleCollisionEffect, () => { _collisionInvisibleRoutine = null; }));
             RemoveEnd();
-            GameConsts.eventManager.InvokeEvent(typeof(IWagonCollisionHandler),
-                new WagonCollisionEventData(PartCount()));
+            if (PartCount() > 1)
+            {
+                GameConsts.eventManager.InvokeEvent(typeof(IWagonCollisionHandler), new WagonCollisionEventData(PartCount()));
+            }
+            else
+            {
+                StartCoroutine(_deathRoutine());
+            }
         }
     }
 

@@ -162,6 +162,10 @@ public class WagonConfig : ScriptableObject
     [Label("礼物投放冷却时间(秒)")]
     float _deplpyCooldown = 1f;
 
+    [SerializeField]
+    [Label("特效")]
+    Animator _deathEffectPrefab = null;
+
     public float HingeDist { get => _hingeDist; }
     public float HingeAngularDrag { get => _hingeAngularDrag; }
     public float PartMass { get => _partMass; }
@@ -179,4 +183,5 @@ public class WagonConfig : ScriptableObject
 
     public float Speed { get => _speed; }
     public float DeplpyCooldown { get => _deplpyCooldown; }
+    public Animator DeathEffectPrefab { get => _deathEffectPrefab; }
 }
