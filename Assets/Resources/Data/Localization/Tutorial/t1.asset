@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _values:
   - Drag to move around and dodge the incoming NPCs
-  - "\u4E0A\u4E0B\u5DE6\u53F3\r\u62D6\u52A8\u6765\u79FB\u52A8\u4E3B\u89D2\u6765\u8EB2\u907F\u5BF9\u9762\u7684NPC"
+  - "\u4F7F\u7528\u9F20\u6807\u4E0A\u4E0B\u5DE6\u53F3\r\u62D6\u52A8\u89D2\u8272\u8EB2\u907F\u5BF9\u9762\u7684NPC"
