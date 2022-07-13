@@ -66,3 +66,4 @@ MonoBehaviour:
     m_SingletonActionBindings: []
   _speed: 1
   _deplpyCooldown: 1
+  _deathEffectPrefab: {fileID: 5099671307629107481, guid: ee489d9221940c74d87fb85f09140963, type: 3}
