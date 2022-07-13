@@ -13,6 +13,7 @@ public class CheatMenu : DebugBehaviour
     [SerializeField] Button _infObjectiveButton;
     [SerializeField] Button _resetButton;
     [SerializeField] Button _superStatusButton;
+    [SerializeField] Button _hpBonusButton;
 
     [SerializeField] Button _hideMenuButton;
     [SerializeField] GameObject[] _hideItems;
@@ -22,6 +23,7 @@ public class CheatMenu : DebugBehaviour
 
     FieldInfo _targetPoolMember;
     FieldInfo _superStatusFSMMember;
+    FieldInfo _hpBonusFSMMember;
     MethodInfo _targetChangeMeth;
 
     object _savedTargetPool = null;
@@ -44,11 +46,12 @@ public class CheatMenu : DebugBehaviour
         ConfigBtn(_infObjectiveButton, "使用调试任务表", SetInfObjective);
         ConfigBtn(_resetButton, "恢复(有bug)", Reset);
         ConfigBtn(_superStatusButton, "启用头槌", EnableSuperStatus);
+        ConfigBtn(_hpBonusButton, "加驯鹿", EnableHPBonus);
         ConfigBtn(_hideMenuButton, "X", ToggleHide);
-
         _targetPoolMember = typeof(GameMgr).GetField("_targetPool", BindingFlags.Instance | BindingFlags.NonPublic);
         _targetChangeMeth = typeof(GameMgr).GetMethod("GiftTargetChange", BindingFlags.Instance | BindingFlags.NonPublic);
         _superStatusFSMMember = typeof(GameMgr).GetField("_superStatusFSM", BindingFlags.Instance | BindingFlags.NonPublic);
+        _hpBonusFSMMember = typeof(GameMgr).GetField("_hpBonusFSM", BindingFlags.Instance | BindingFlags.NonPublic);
 
         // start disabled
         ToggleHide();
@@ -58,6 +61,12 @@ public class CheatMenu : DebugBehaviour
     void EnableSuperStatus()
     {
         object fsm = _superStatusFSMMember.GetValue(GameConsts.gameManager);
+        var forceApplyMethod = fsm.GetType().GetMethod("DEBUG_ForceApply", BindingFlags.Public | BindingFlags.Instance);
+        forceApplyMethod.Invoke(fsm, new object[] { });
+    }
+    void EnableHPBonus()
+    {
+        object fsm = _hpBonusFSMMember.GetValue(GameConsts.gameManager);
         var forceApplyMethod = fsm.GetType().GetMethod("DEBUG_ForceApply", BindingFlags.Public | BindingFlags.Instance);
         forceApplyMethod.Invoke(fsm, new object[] { });
     }

@@ -107,9 +107,9 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
 
         // apply effects
         if (_superStatusRoutine != null)
-            DoSuperStatusEffect(new_part, true);
+            DoSuperStatusEffect(new_part, false);
         else if (_collisionInvisibleRoutine != null)
-            DoInvisibleCollisionEffect(new_part, true);
+            DoInvisibleCollisionEffect(new_part, false);
 
         _parts.Add(new_part);
     }
