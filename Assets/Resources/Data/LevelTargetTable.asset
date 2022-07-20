@@ -71,4 +71,5 @@ MonoBehaviour:
     _superStatusTime: 8
     _superStatusScoreMultiplier: 5
     _superStatusSpeedIncrease: 2
-    _superStatusName: {fileID: 0}
+    _superStatusName: {fileID: 11400000, guid: 4cf4f08191c731147acbba6197143669, type: 2}
+    _superStatusBGM: {fileID: 8300000, guid: 063870a960aeb884e8527b6466fd423b, type: 3}

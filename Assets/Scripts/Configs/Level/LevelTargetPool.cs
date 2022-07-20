@@ -134,12 +134,17 @@ public class LevelTargetPool : ScriptableObject
         [Label("头槌显示名称")]
         LocalizedString _superStatusName;
 
+        [SerializeField]
+        [Label("头槌音乐")]
+        AudioClip _superStatusBGM;
+
         public float SuperStatusSpeedIncrease { get => _superStatusSpeedIncrease; }
         public float SuperStatusScoreMultiplier { get => _superStatusScoreMultiplier; }
         public float SuperStatusTime { get => _superStatusTime; }
         public int HPRewardGiftNum { get => _HPRewardGiftNum; }
         public int SuperStatusGiftNum { get => _superStatusGiftNum;  }
         public string SuperStatusName { get => _superStatusName == null ? "头槌" : _superStatusName;  }
+        public AudioClip SuperStatusBGM { get => _superStatusBGM; }
     }
 
 

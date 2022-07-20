@@ -170,6 +170,12 @@ public static class GameConsts
         set;
     }
 
+    public static AudioMgr audioMgr
+    {
+        get;
+        set;
+    }
+
     // private static Vector2? _worldCameraMin = null;
     public static Vector2 worldCameraMin
     {

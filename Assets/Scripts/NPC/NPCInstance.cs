@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Scroller), typeof(HurtboxGroup))]
 public class NPCInstance : MonoBehaviour
 {
-    public static NPCInstance Create(NPCType type, Vector2 pos)
+    public static NPCInstance Create(NPCType type, Vector2 pos, Action onDeath = null)
     {
         var go = Instantiate(GameConsts.GetPrefab(GameConsts.k_ResourcesNPCPrefabPath));
         go.name = $"{type}_NPCInstance";
@@ -14,6 +16,7 @@ public class NPCInstance : MonoBehaviour
 
         var ret = go.GetComponent<NPCInstance>();
         ret.NpcType = type;
+        ret.OnDeath = onDeath;
 
         go.transform.position = pos;
         go.SetActive(true);
@@ -30,6 +33,7 @@ public class NPCInstance : MonoBehaviour
 
     NPCType _npcType;
     public NPCType NpcType { get => _npcType; set => _npcType = value; }
+    public Action OnDeath { get; private set; } = null;
 
     public bool NoBomb { get => Mathf.Approximately(_npcType.BombProbability, 0f); }
     public bool AlwaysBomb { get => Mathf.Approximately(_npcType.BombProbability, 1f); }
@@ -160,7 +164,7 @@ public class NPCInstance : MonoBehaviour
     {
         // if(!useEffect)
             Destroy(gameObject);
-        
+        OnDeath?.Invoke();
     }
 
     [HurtboxHandler]

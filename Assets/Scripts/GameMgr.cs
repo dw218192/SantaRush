@@ -289,6 +289,10 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
         void OnEnterStateNotApplied(State<BuffFSMState> state)
         {
             GameConsts.eventManager.InvokeEvent(typeof(IBuffStateHandler), new BuffStateEventData(false, _buffDesc));
+            if(_buffDesc.AudioClip)
+            {
+                GameConsts.audioMgr.PlayDefault();
+            }
 
             _giftCount = 0;
         }
@@ -296,6 +300,10 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
         void OnEnterStateApplied(State<BuffFSMState> state)
         {
             GameConsts.eventManager.InvokeEvent(typeof(IBuffStateHandler), new BuffStateEventData(true, _buffDesc));
+            if(_buffDesc.AudioClip)
+            {
+                GameConsts.audioMgr.Play(_buffDesc.AudioClip);
+            }
 
             _timer = 0;
         }
@@ -553,7 +561,9 @@ public class GameMgr : MonoBehaviour, IWagonCollisionHandler, IBuffStateHandler
             PlayerBuffDesc superStatusBuff = new PlayerBuffDesc(
                 PlayerBuffType.SUPER_STATUS, 
                 _targetPool.PlayerBuffConfig.SuperStatusName, 
-                _targetPool.PlayerBuffConfig.SuperStatusTime);
+                _targetPool.PlayerBuffConfig.SuperStatusTime,
+                _targetPool.PlayerBuffConfig.SuperStatusBGM
+            );
 
             PlayerBuffDesc hpRewardBuff = new PlayerBuffDesc(PlayerBuffType.HP_REWARD, "", 0f);
 

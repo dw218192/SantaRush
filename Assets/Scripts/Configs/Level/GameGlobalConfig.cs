@@ -18,10 +18,21 @@ public class GameGlobalConfig : ScriptableObject
     [Label("调试模式")]
     bool _defineDebugSymbol = false;
 
+    [Header("音乐")]
+    [SerializeField]
+    [Label("游戏音乐")]
+    AudioClip _gameBGM;
+
+    [SerializeField]
+    [Label("菜单音乐")]
+    AudioClip _menuBGM;
+
     public string GameVersion 
     {
         get => _gameVersion;
     }
+    public AudioClip GameBGM { get => _gameBGM; }
+    public AudioClip MenuBGM { get => _menuBGM; }
 
     private void OnEnable()
     {

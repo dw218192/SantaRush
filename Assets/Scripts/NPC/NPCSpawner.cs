@@ -4,14 +4,31 @@ using UnityEngine;
 
 public class NPCSpawner : MonoBehaviour
 {
+    struct SpawnDesc
+    {
+        public NPCType type;
+        public Vector2 pos;
+        public int spawnPointIndex;
+
+        public SpawnDesc(NPCType type, Vector2 pos, int spawnPointIndex)
+        {
+            this.type = type;
+            this.pos = pos;
+            this.spawnPointIndex = spawnPointIndex;
+        }
+    }
+
     [SerializeField] NPCSpawnConfig _spawnConfig;
     const int _maxSimultaneousSpawn = 3;
     const int _maxReadyQueueSize = 1024;
+    float[] _spawnYs;
+
+    // RUNTIME -------
     Lottery _npcSpawnLottery;
     NPCType[] _npcTypes;
-    float[] _spawnYs;
-    float[] _spawnTimers;
-    Queue<(NPCType, Vector2)> _ready = new Queue<(NPCType, Vector2)>();
+    float[] _spawnTimers; //spawn timer per spawn point
+    int[] _activeNpcs;    //number of active npcs spawned that are on the screen per spawn point
+    Queue<SpawnDesc> _ready = new Queue<SpawnDesc>();
 
     public static float[] GenSpawnPointYs(float viewYMin, float viewYMax, NPCSpawnConfig config)
     {
@@ -35,6 +52,7 @@ public class NPCSpawner : MonoBehaviour
         _npcSpawnLottery = new Lottery(_npcTypes);
         _spawnYs = GenSpawnPointYs(GameConsts.worldCameraMin.y, GameConsts.worldCameraMax.y, _spawnConfig);
         _spawnTimers = new float[_spawnYs.Length];
+        _activeNpcs = new int[_spawnYs.Length];
 
         // to outside the screen
         transform.position = GameConsts.worldCameraMax;
@@ -52,18 +70,21 @@ public class NPCSpawner : MonoBehaviour
             _spawnTimers[i] = Mathf.Max(_spawnTimers[i] - Time.deltaTime, 0);
             if(Mathf.Approximately(_spawnTimers[i], 0) && _ready.Count < _maxReadyQueueSize)
             {
-                _ready.Enqueue(((NPCType)_npcSpawnLottery.NextItem(), new Vector2(transform.position.x, _spawnYs[i])));
+                _ready.Enqueue(new SpawnDesc((NPCType)_npcSpawnLottery.NextItem(), new Vector2(transform.position.x, _spawnYs[i]), i));
                 _spawnTimers[i] = _spawnConfig.NpcSpawnInterval[i];
             }
         }
 
         for (int i = 0; i < _maxSimultaneousSpawn && _ready.Count > 0; ++i)
         {
-            var desc = _ready.Dequeue();
-            NPCType type = desc.Item1;
-            Vector2 pos = desc.Item2;
-
-            NPCInstance.Create(type, pos);
+            SpawnDesc desc = _ready.Dequeue();
+            if (_activeNpcs[desc.spawnPointIndex] > 0)
+                continue;
+            
+            ++_activeNpcs[desc.spawnPointIndex];
+            NPCInstance.Create(desc.type, desc.pos, ()=> {
+                -- _activeNpcs[desc.spawnPointIndex];
+            });
         }
     }
 

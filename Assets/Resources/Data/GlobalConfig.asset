@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameVersion: 0.22.1.1.3
   _defineDebugSymbol: 0
+  _gameBGM: {fileID: 8300000, guid: 6e37739f81aa0ee4a881720a74119a63, type: 3}
+  _menuBGM: {fileID: 8300000, guid: 4c97bf6d59334c447ba421b85c5fc9b9, type: 3}
+  _superStatusBGM: {fileID: 8300000, guid: 063870a960aeb884e8527b6466fd423b, type: 3}
