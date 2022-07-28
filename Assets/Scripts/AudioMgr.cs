@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(AudioSource))]
 public class AudioMgr : MonoBehaviour
 {
+    const int k_MaxOneShotSrcs = 5;
+
     [SerializeField]
     GameGlobalConfig _config;
     [SerializeField]
     float _transitionTime = 1f;
+    [SerializeField]
+    [Range(0,1)]
+    float _volume = 0.5f;
 
-    AudioSource _src;
-    float _volume;
+    AudioSource[] _oneshotSrcs;
+    AudioSource _musicSrc;
     AudioClip _last;
 
     void Awake()
@@ -27,9 +31,21 @@ public class AudioMgr : MonoBehaviour
             return;
         }
 
-        _src = GetComponent<AudioSource>();
-        _src.playOnAwake = true;
-        _volume = _src.volume;
+
+        _oneshotSrcs = new AudioSource[k_MaxOneShotSrcs];
+        for(int i=0; i<k_MaxOneShotSrcs; ++i)
+        {
+            _oneshotSrcs[i] = gameObject.AddComponent<AudioSource>();
+            _oneshotSrcs[i].playOnAwake = false;
+            _oneshotSrcs[i].loop = false;
+            _oneshotSrcs[i].volume = _volume;
+        }
+
+        _musicSrc = gameObject.AddComponent<AudioSource>();
+        _musicSrc.playOnAwake = true;
+        _musicSrc.loop = true;
+        _musicSrc.volume = _volume;
+
         PlayDefault();
     }
 
@@ -37,32 +53,40 @@ public class AudioMgr : MonoBehaviour
     {
         for(float time = 0; time <= second; time += Time.deltaTime)
         {
-            _src.volume = Mathf.Lerp(_volume, 0, time/second);
+            _musicSrc.volume = Mathf.Lerp(_volume, 0, time/second);
             yield return null;
         }
 
-        _src.clip = newClip;
-        _src.Play();
+        _musicSrc.clip = newClip;
+        _musicSrc.Play();
 
         for (float time = 0; time <= second; time += Time.deltaTime)
         {
-            _src.volume = Mathf.Lerp(0, _volume, time / second);
+            _musicSrc.volume = Mathf.Lerp(0, _volume, time / second);
             yield return null;
         }
-        _src.volume = _volume;
+        _musicSrc.volume = _volume;
+    }
+
+
+    public void PlayEffect(AudioClip clip, int slot = 0)
+    {
+        _oneshotSrcs[slot].Stop();
+        _oneshotSrcs[slot].clip = clip;
+        _oneshotSrcs[slot].Play();
     }
 
     public void Play(AudioClip clip)
     {
-        if (_src.clip)
+        if (_musicSrc.clip)
         {
-            _last = _src.clip;
+            _last = _musicSrc.clip;
             StartCoroutine(_transitionRoutine(_transitionTime, clip));
         }
         else
         {
-            _src.clip = clip;
-            _src.Play();
+            _musicSrc.clip = clip;
+            _musicSrc.Play();
         }
     }
 
@@ -77,13 +101,13 @@ public class AudioMgr : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex == GameConsts.k_MainMenuSceneIndex)
         {
-            _src.clip = _config.MenuBGM;
-            _src.Play();
+            _musicSrc.clip = _config.MenuBGM;
+            _musicSrc.Play();
         }
         else
         {
-            _src.clip = _config.GameBGM;
-            _src.Play();
+            _musicSrc.clip = _config.GameBGM;
+            _musicSrc.Play();
         }
     }
 }

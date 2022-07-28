@@ -13,6 +13,8 @@ public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryI
     public static readonly GiftType PURPLE = new GiftType(3);
     public static readonly GiftType ORANGE = new GiftType(4);
     static Sprite[] _giftSprites = null;
+    static AudioClip _giftSound = null;
+
 
     public int val;
     GiftType(int val)
@@ -74,6 +76,13 @@ public class GiftType : IComparable<GiftType>, IEquatable<GiftType>, IInventoryI
         Debug.Assert(val != GiftType.INVALID.val);
         
         return _giftSprites[val];
+    }
+
+    public AudioClip GetSound()
+    {
+        if (_giftSound == null)
+            _giftSound = Resources.Load<AudioClip>(GameConsts.k_ResourcesGiftSoundPath);
+        return _giftSound;
     }
 
     public int GetScore()

@@ -22,7 +22,7 @@ public class NPCInstance : MonoBehaviour
         go.SetActive(true);
         return ret;
     }
-
+    static AudioClip s_npcDeathSound = null;
     
     List<NPCPart> _parts = new List<NPCPart>();
     Transform _partParent = null;
@@ -98,6 +98,11 @@ public class NPCInstance : MonoBehaviour
 
         _scroller = GetComponent<Scroller>();
         _scroller.BaseSpeed = -(NpcType.Speed + GameConsts.gameManager.StageTable.InitScrollSpeed);
+
+        if (s_npcDeathSound == null)
+        {
+            s_npcDeathSound = Resources.Load<AudioClip>(GameConsts.k_ResourcesNPCDeathSoundPath);
+        }
     }
 
     // Update is called once per frame
@@ -162,8 +167,12 @@ public class NPCInstance : MonoBehaviour
 
     public void Die(bool useEffect)
     {
-        // if(!useEffect)
-            Destroy(gameObject);
+        if(useEffect)
+        {
+            GameConsts.audioMgr.PlayEffect(s_npcDeathSound);
+        }
+        
+        Destroy(gameObject);
         OnDeath?.Invoke();
     }
 

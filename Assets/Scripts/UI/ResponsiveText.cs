@@ -8,13 +8,17 @@ using UnityEngine.UI;
 public class ResponsiveText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     Text _text;
-
+    [SerializeField] AudioClip _soundEffect;
     [SerializeField] Color _selectedTextColor;
     [SerializeField] Color _normalTextColor;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         _text.color = _selectedTextColor;
+        if(GameConsts.audioMgr && _soundEffect)
+        {
+            GameConsts.audioMgr.PlayEffect(_soundEffect);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -29,11 +33,5 @@ public class ResponsiveText : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         Debug.Assert(_text);
 
         _text.color = _normalTextColor;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

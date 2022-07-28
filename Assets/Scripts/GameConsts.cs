@@ -26,6 +26,9 @@ public static class GameConsts
 
     public const string k_ResourcesGameFontPath = "Art/Font/Muyao-Softbrush-2";
     public const string k_ResourcesGiftSpritePath = "Art/GiftSprites";
+    public const string k_ResourcesGiftSoundPath = "Art/Sound/success_bell-6776";
+    public const string k_ResourcesPlayerDeathSoundPath = "Art/Sound/negative_beeps-6008";
+    public const string k_ResourcesNPCDeathSoundPath = "Art/Sound/anvil-hit-2-14845";
 
     public const string k_PlayerPrefHighestScore = "HighestScore";
     public const string k_PlayerPrefTutorialViewed = "TutorialView";

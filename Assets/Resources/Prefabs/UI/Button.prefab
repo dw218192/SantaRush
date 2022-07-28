@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615ad3152254c744785ae2a6ce22b99f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _soundEffect: {fileID: 8300000, guid: 63b744be26d540d42993d044f658e613, type: 3}
   _selectedTextColor: {r: 0, g: 0, b: 0, a: 1}
   _normalTextColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &6910447241123965263

@@ -12,12 +12,13 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
     [SerializeField] Transform _giftSpawnSocket;
 
     // runtime
+    static AudioClip s_deathSound = null;
     Rigidbody2D _rgBody = null;
     List<WagonPart> _parts = new List<WagonPart>();
     Transform _partParent = null;
 
     PlayerController _ctrl;
-
+    
     Inventory _giftInventory = new Inventory();
 
     /*  
@@ -179,6 +180,11 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
         _ctrl = GetComponent<PlayerController>();
         _rgBody = gameObject.AddComponent<Rigidbody2D>();
 
+        if (s_deathSound == null)
+        {
+            s_deathSound = Resources.Load<AudioClip>(GameConsts.k_ResourcesPlayerDeathSoundPath);
+        }
+
         foreach (var desc in _config.PartDescs)
         {
             for (int i = 0; i < desc.count; ++i)
@@ -244,6 +250,7 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
 
                 GameObject effectIns = Instantiate(_config.DeathEffectPrefab.gameObject, _parts[0].transform.position, Quaternion.identity);
                 Animator animator = effectIns.GetComponent<Animator>();
+                GameConsts.audioMgr.PlayEffect(s_deathSound);
 
                 while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1 || animator.IsInTransition(0))
                 {
@@ -279,6 +286,7 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
             Debug.Assert(gift != null, this);
             
             GameConsts.gameManager.AddScore(gift.GiftType.GetScore());
+            GameConsts.audioMgr.PlayEffect(gift.GiftType.GetSound());
         }
         else if (inflictor.IsInLayer(GameConsts.k_NPCLayerName))
         {
@@ -290,9 +298,11 @@ public class Wagon : MonoBehaviour, IBuffStateHandler
                 Debug.Assert(npc != null, this);
 
                 // if not a bomb only NPC
-                if(!npc.Owner.AlwaysBomb)
+                if (!npc.Owner.AlwaysBomb)
+                {
                     GameConsts.gameManager.AddScore(npc.Owner.NpcType.GiftType.GetScore());
-                
+                }
+
                 npc.Owner.Die(true);
             }
             else
